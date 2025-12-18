@@ -9,6 +9,110 @@ const { validationResult } = require('express-validator');
 const logger = require('../utils/logger');
 
 /**
+ * Analyze story emotion using keyword-based detection
+ * @param {string} title - Story title
+ * @param {string} content - Story content
+ * @returns {object} - Emotion analysis result
+ */
+function analyzeStoryEmotion(title, content) {
+  const text = (title + ' ' + content).toLowerCase();
+  let emotion = 'peaceful';
+  let moodScore = 5;
+  
+  const emotionKeywords = {
+    adventure: ['adventure', 'trek', 'climb', 'thrill', 'expedition', 'mountain', 'hike', 'climb', 'rapids', 'extreme'],
+    cultural: ['temple', 'culture', 'heritage', 'history', 'ancient', 'museum', 'monument', 'traditional', 'ritual'],
+    romantic: ['love', 'romantic', 'couple', 'honeymoon', 'intimate', 'sunset', 'candlelight', 'together'],
+    spiritual: ['spiritual', 'meditation', 'peace', 'divine', 'prayer', 'ashram', 'zen', 'enlightenment', 'sacred'],
+    exciting: ['exciting', 'fun', 'party', 'celebration', 'festival', 'vibrant', 'energetic', 'lively'],
+    joyful: ['joy', 'happy', 'delightful', 'cheerful', 'wonderful', 'amazing', 'beautiful', 'magical'],
+    nostalgic: ['remember', 'memory', 'childhood', 'nostalgia', 'past', 'reminds', 'familiar', 'old times'],
+    contemplative: ['reflect', 'think', 'ponder', 'quiet', 'solitude', 'alone', 'introspective', 'thoughtful'],
+    mysterious: ['mystery', 'unknown', 'secret', 'hidden', 'enigmatic', 'curious', 'unexplored', 'strange']
+  };
+  
+  const suggestions = {
+    adventure: [
+      'Plan a trekking expedition to similar terrain',
+      'Explore adventure sports in mountain regions',
+      'Consider multi-day hiking adventures'
+    ],
+    cultural: [
+      'Visit UNESCO World Heritage sites nearby',
+      'Explore ancient temples and monuments',
+      'Take heritage walks with local guides'
+    ],
+    romantic: [
+      'Plan sunset dinners at scenic locations',
+      'Book couple spa treatments',
+      'Choose destinations with romantic ambiance'
+    ],
+    spiritual: [
+      'Visit meditation retreats and ashrams',
+      'Explore sacred pilgrimage sites',
+      'Join yoga and wellness programs'
+    ],
+    peaceful: [
+      'Choose hill stations and nature retreats',
+      'Plan quiet getaways with minimal crowds',
+      'Focus on wellness and relaxation'
+    ],
+    exciting: [
+      'Explore vibrant cities and nightlife',
+      'Try local festivals and events',
+      'Book adventure activities and tours'
+    ],
+    joyful: [
+      'Visit colorful markets and local celebrations',
+      'Try local cuisine and food tours',
+      'Capture moments with photography walks'
+    ],
+    nostalgic: [
+      'Revisit childhood vacation spots',
+      'Explore heritage homes and vintage cafes',
+      'Take slow travel experiences'
+    ],
+    contemplative: [
+      'Choose serene lakes and quiet mountains',
+      'Book solo retreats and writing workshops',
+      'Visit libraries and peaceful gardens'
+    ],
+    mysterious: [
+      'Explore off-beat destinations',
+      'Visit ancient ruins and folklore sites',
+      'Take night walks and ghost tours'
+    ]
+  };
+  
+  // Calculate emotion scores based on keyword matches
+  let maxScore = 0;
+  for (const [emotionType, keywords] of Object.entries(emotionKeywords)) {
+    let score = 0;
+    for (const keyword of keywords) {
+      const regex = new RegExp(`\\b${keyword}\\w*\\b`, 'gi');
+      const matches = text.match(regex);
+      if (matches) {
+        score += matches.length;
+      }
+    }
+    if (score > maxScore) {
+      maxScore = score;
+      emotion = emotionType;
+      // Mood score based on intensity (capped at 10)
+      moodScore = Math.min(10, 5 + Math.floor(score / 2));
+    }
+  }
+  
+  return {
+    emotion,
+    moodScore,
+    confidence: 0.85,
+    aiSuggestions: suggestions[emotion] || suggestions.peaceful
+  };
+}
+
+
+/**
  * Get stories with location filtering and pagination
  * @route GET /api/v1/stories
  * @access Public (with optional authentication)
@@ -326,6 +430,37 @@ const createStory = asyncHandler(async (req, res) => {
     status: 'published', // Auto-publish for now, can add moderation later
     publishedAt: new Date()
   });
+
+  // Auto-analyze emotion if text content exists
+  if (content.text) {
+    try {
+      const emotionAnalysis = analyzeStoryEmotion(title, content.text);
+      story.emotion = emotionAnalysis.emotion;
+      story.moodScore = emotionAnalysis.moodScore;
+      story.aiSuggestions = emotionAnalysis.aiSuggestions;
+      story.emotionAnalyzedAt = new Date();
+      
+      // Update user's mood history
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: {
+          'travelPreferences.moodHistory': {
+            $each: [{
+              emotion: emotionAnalysis.emotion,
+              date: new Date(),
+              source: 'story'
+            }],
+            $slice: -20 // Keep only last 20 entries
+          }
+        },
+        $set: {
+          'travelPreferences.lastStoryEmotion': emotionAnalysis.emotion
+        }
+      });
+    } catch (emotionError) {
+      logger.error('Emotion analysis failed:', emotionError);
+      // Continue without emotion data if analysis fails
+    }
+  }
 
   await story.save();
 

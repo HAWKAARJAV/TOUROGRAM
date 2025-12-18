@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, Bot, MapPin, Heart, Calendar, User, Loader2, MessageCircle, Send } from 'lucide-react';
+import { Sparkles, Bot, MapPin, Heart, Calendar, User, Loader2, MessageCircle, Send, Share2, Save, Check } from 'lucide-react';
 import { agentXService, type ChatResponse } from '@/lib/agentx';
+import { useToast } from '@/hooks/use-toast';
 
 interface TripPlan {
   destination: string;
@@ -32,7 +33,8 @@ interface ChatMessage {
 }
 
 const TravelPlanner = () => {
-  const { user } = useAuth();
+  const { user, setRecentTripPlan } = useAuth();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [currentMood, setCurrentMood] = useState('');
@@ -47,6 +49,8 @@ const TravelPlanner = () => {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     // Initialize AgentX service
@@ -135,6 +139,83 @@ const TravelPlanner = () => {
       console.error('Error generating trip plan:', error);
     }
     setIsLoading(false);
+  };
+
+  const saveTripPlan = async () => {
+    if (!tripPlan) return;
+    
+    setIsSaving(true);
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/travel/save-plan`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(tripPlan)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setRecentTripPlan(result.data);
+        setIsSaved(true);
+        toast({
+          title: "Trip Plan Saved!",
+          description: "Your travel plan has been saved successfully.",
+          duration: 3000,
+        });
+        setTimeout(() => setIsSaved(false), 3000);
+      } else {
+        throw new Error('Failed to save plan');
+      }
+    } catch (error) {
+      console.error('Error saving trip plan:', error);
+      toast({
+        title: "Save Failed",
+        description: "Could not save your trip plan. Please try again.",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+    setIsSaving(false);
+  };
+
+  const shareTripPlan = async () => {
+    if (!tripPlan) return;
+    
+    const shareText = `🌍 ${tripPlan.destination}\n\n"${tripPlan.quote}"\n\n📍 Itinerary:\n${tripPlan.itinerary.map((item, i) => `${i + 1}. ${item}`).join('\n')}\n\n⏰ Duration: ${tripPlan.estimatedDuration}\n🌤️ Best Season: ${tripPlan.bestSeason}\n\nPlanned with StorySwap AI Travel Planner`;
+    
+    try {
+      if (navigator.share) {
+        // Use native share on mobile
+        await navigator.share({
+          title: `Trip to ${tripPlan.destination}`,
+          text: shareText
+        });
+        toast({
+          title: "Shared!",
+          description: "Trip plan shared successfully.",
+          duration: 3000,
+        });
+      } else {
+        // Fallback to clipboard
+        await navigator.clipboard.writeText(shareText);
+        toast({
+          title: "Copied to Clipboard!",
+          description: "Trip plan copied. Paste it anywhere to share.",
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.error('Error sharing trip plan:', error);
+      toast({
+        title: "Share Failed",
+        description: "Could not share your trip plan.",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
   };
 
   const sendChatMessage = async () => {
@@ -366,10 +447,30 @@ const TravelPlanner = () => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-3">
-                      <Button className="flex-1" variant="outline">
-                        Save Plan
+                      <Button 
+                        className="flex-1" 
+                        variant="outline"
+                        onClick={saveTripPlan}
+                        disabled={isSaving || isSaved}
+                      >
+                        {isSaved ? (
+                          <>
+                            <Check className="h-4 w-4 mr-2" />
+                            Saved
+                          </>
+                        ) : (
+                          <>
+                            <Save className="h-4 w-4 mr-2" />
+                            {isSaving ? 'Saving...' : 'Save Plan'}
+                          </>
+                        )}
                       </Button>
-                      <Button className="flex-1" variant="outline">
+                      <Button 
+                        className="flex-1" 
+                        variant="outline"
+                        onClick={shareTripPlan}
+                      >
+                        <Share2 className="h-4 w-4 mr-2" />
                         Share Plan
                       </Button>
                     </div>
@@ -399,10 +500,15 @@ const TravelPlanner = () => {
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   {/* Chat Messages */}
-                  <div className="flex-1 overflow-y-auto space-y-4 mb-4">
+                  <div 
+                    className="flex-1 overflow-y-auto space-y-4 mb-4"
+                    role="log"
+                    aria-label="Chat conversation"
+                    aria-live="polite"
+                  >
                     {chatMessages.length === 0 && (
                       <div className="text-center text-gray-500 py-8">
-                        <Bot className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                        <Bot className="h-8 w-8 mx-auto mb-2 opacity-50" aria-hidden="true" />
                         <p>Start a conversation about your travel dreams!</p>
                       </div>
                     )}
@@ -410,6 +516,8 @@ const TravelPlanner = () => {
                       <div
                         key={message.id}
                         className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                        role="article"
+                        aria-label={`${message.role === 'user' ? 'You' : 'Assistant'} message`}
                       >
                         <div
                           className={`max-w-[80%] p-3 rounded-lg ${
@@ -423,29 +531,31 @@ const TravelPlanner = () => {
                       </div>
                     ))}
                     {chatLoading && (
-                      <div className="flex justify-start">
+                      <div className="flex justify-start" role="status" aria-live="polite">
                         <div className="bg-gray-100 p-3 rounded-lg">
-                          <Loader2 className="h-4 w-4 animate-spin" />
+                          <Loader2 className="h-4 w-4 animate-spin" aria-label="Assistant is typing" />
                         </div>
                       </div>
                     )}
                   </div>
 
                   {/* Chat Input */}
-                  <div className="flex gap-2">
+                  <div className="flex gap-2" role="form" aria-label="Send message">
                     <Input
                       placeholder="Ask about destinations, activities, or get travel advice..."
                       value={chatInput}
                       onChange={(e) => setChatInput(e.target.value)}
                       onKeyPress={handleKeyPress}
                       className="flex-1"
+                      aria-label="Chat message input"
                     />
                     <Button
                       onClick={sendChatMessage}
                       disabled={!chatInput.trim() || chatLoading}
                       size="sm"
+                      aria-label="Send message"
                     >
-                      <Send className="h-4 w-4" />
+                      <Send className="h-4 w-4" aria-hidden="true" />
                     </Button>
                   </div>
                 </CardContent>

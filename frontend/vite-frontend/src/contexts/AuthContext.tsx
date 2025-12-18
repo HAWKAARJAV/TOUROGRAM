@@ -9,6 +9,24 @@ interface User {
   avatar?: string;
 }
 
+interface TripPlan {
+  _id: string;
+  destination: string;
+  itinerary: string[];
+  vibe: string;
+  quote: string;
+  estimatedDuration: string;
+  bestSeason: string;
+  emotionalTone?: string;
+  generatedAt: Date;
+}
+
+interface MoodHistoryEntry {
+  emotion: string;
+  date: Date;
+  source: 'story' | 'planner' | 'manual';
+}
+
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
@@ -17,6 +35,13 @@ interface AuthContextType {
   logout: () => void;
   showLogoutConfirmation: boolean;
   setShowLogoutConfirmation: (show: boolean) => void;
+  // AI Travel Planner features
+  userMood: string;
+  setUserMood: (mood: string) => void;
+  recentTripPlan: TripPlan | null;
+  setRecentTripPlan: (plan: TripPlan | null) => void;
+  moodHistory: MoodHistoryEntry[];
+  addMoodToHistory: (emotion: string, source: 'story' | 'planner' | 'manual') => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -76,7 +101,62 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
+  
+  // AI Travel Planner state
+  const [userMood, setUserMood] = useState<string>('peaceful');
+  const [recentTripPlan, setRecentTripPlan] = useState<TripPlan | null>(null);
+  const [moodHistory, setMoodHistory] = useState<MoodHistoryEntry[]>([]);
+  
   const navigate = useNavigate();
+
+  // Load mood state from localStorage
+  React.useEffect(() => {
+    const savedMood = localStorage.getItem('userMood');
+    const savedPlan = localStorage.getItem('recentTripPlan');
+    const savedMoodHistory = localStorage.getItem('moodHistory');
+    
+    if (savedMood) setUserMood(savedMood);
+    if (savedPlan) {
+      try {
+        setRecentTripPlan(JSON.parse(savedPlan));
+      } catch (e) {
+        console.error('Failed to parse saved trip plan', e);
+      }
+    }
+    if (savedMoodHistory) {
+      try {
+        setMoodHistory(JSON.parse(savedMoodHistory));
+      } catch (e) {
+        console.error('Failed to parse mood history', e);
+      }
+    }
+  }, []);
+
+  // Save mood state to localStorage
+  React.useEffect(() => {
+    localStorage.setItem('userMood', userMood);
+  }, [userMood]);
+
+  React.useEffect(() => {
+    if (recentTripPlan) {
+      localStorage.setItem('recentTripPlan', JSON.stringify(recentTripPlan));
+    }
+  }, [recentTripPlan]);
+
+  React.useEffect(() => {
+    localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+  }, [moodHistory]);
+
+  // Function to add mood to history
+  const addMoodToHistory = (emotion: string, source: 'story' | 'planner' | 'manual') => {
+    const newEntry: MoodHistoryEntry = {
+      emotion,
+      date: new Date(),
+      source
+    };
+    setMoodHistory(prev => [...prev.slice(-19), newEntry]); // Keep last 20 entries
+    setUserMood(emotion);
+  };
 
   // Check for existing session on component mount
   React.useEffect(() => {
@@ -112,7 +192,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-      if (email && password) {
+    if (email && password) {
       // Check if email matches existing dummy user
       const existingUser = dummyUsers[email.toLowerCase()];
       
@@ -143,7 +223,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       navigate('/explore');
     } else {
       throw new Error('Invalid credentials');
-    }    setIsLoading(false);
+    }
+    
+    setIsLoading(false);
   };
 
   // Logout function
@@ -166,6 +248,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     logout,
     showLogoutConfirmation,
     setShowLogoutConfirmation,
+    // AI Travel Planner features
+    userMood,
+    setUserMood,
+    recentTripPlan,
+    setRecentTripPlan,
+    moodHistory,
+    addMoodToHistory,
   };
 
   return (

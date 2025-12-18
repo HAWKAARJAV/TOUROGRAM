@@ -20,6 +20,8 @@ import MyStories from '@/pages/MyStories';
 import EditStory from '@/pages/EditStory';
 import MapView from '@/pages/MapView';
 import About from '@/pages/About';
+import Pricing from '@/pages/Pricing';
+import ContactUs from '@/pages/ContactUs';
 import NotFound from '@/pages/NotFound';
 import TravelPlanner from '@/pages/TravelPlanner';
 import StoryDetail from '@/pages/StoryDetail';
@@ -130,6 +132,8 @@ const App = () => {
                       }
                     />
                     <Route path="/about" element={<About />} />
+                    <Route path="/pricing" element={<Pricing />} />
+                    <Route path="/contact-us" element={<ContactUs />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </ErrorBoundary>

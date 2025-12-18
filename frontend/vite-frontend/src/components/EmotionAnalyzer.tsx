@@ -48,17 +48,23 @@ const EmotionAnalyzer: React.FC<EmotionAnalyzerProps> = ({ title, content, onAna
   };
 
   return (
-    <div className={`rounded-xl border border-white/15 bg-white/5 backdrop-blur-md p-4 text-sm text-white/90 ${className}`}>      
+    <div 
+      className={`rounded-xl border border-white/15 bg-white/5 backdrop-blur-md p-4 text-sm text-white/90 ${className}`}
+      role="region"
+      aria-label="Emotion Analysis Tool"
+    >      
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2 font-medium">
-          <Sparkles className="h-4 w-4 text-purple-300" />
-          <span>Emotion Insight</span>
+          <Sparkles className="h-4 w-4 text-purple-300" aria-hidden="true" />
+          <span id="emotion-insight-label">Emotion Insight</span>
         </div>
         <button
           type="button"
           disabled={isAnalyzing || !content}
           onClick={handleAnalyze}
           className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs font-medium disabled:opacity-50 hover:from-blue-600 hover:to-purple-700 transition-colors"
+          aria-label="Analyze story emotion"
+          aria-busy={isAnalyzing}
         >
           {isAnalyzing ? (
             <span className="inline-flex items-center gap-1"><Loader2 className="h-3 w-3 animate-spin" />Analyzing</span>
@@ -68,10 +74,10 @@ const EmotionAnalyzer: React.FC<EmotionAnalyzerProps> = ({ title, content, onAna
         </button>
       </div>
       {error && (
-        <div className="text-red-300 text-xs mb-2">{error}</div>
+        <div className="text-red-300 text-xs mb-2" role="alert" aria-live="assertive">{error}</div>
       )}
       {result ? (
-        <div className="space-y-3">
+        <div className="space-y-3" role="status" aria-live="polite">
           <div className="flex items-center gap-3">
             <div className="px-2 py-1 rounded-md bg-white/10 text-xs uppercase tracking-wide">
               {result.emotion}

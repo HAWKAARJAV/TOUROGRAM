@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { authenticate } = require('../middleware/auth');
+const { authenticate, rateLimitByUser } = require('../middleware/auth');
+const TripPlan = require('../../database/models/TripPlan');
 
 // AI Travel Planner endpoint
 router.post('/plan', authenticate, async (req, res) => {
@@ -265,21 +266,43 @@ router.get('/user-context', authenticate, async (req, res) => {
 // Save trip plan
 router.post('/save-plan', authenticate, async (req, res) => {
   try {
-    const { tripPlan } = req.body;
-    const userId = req.user.id;
+    const { 
+      destination, 
+      itinerary, 
+      vibe, 
+      quote, 
+      estimatedDuration, 
+      bestSeason, 
+      emotionalTone,
+      source,
+      context,
+      notes
+    } = req.body;
+    
+    const userId = req.user._id || req.user.id;
 
-    // In a real app, save to database
-    const savedPlan = {
-      id: Date.now().toString(),
+    // Create new trip plan
+    const tripPlan = new TripPlan({
       userId,
-      ...tripPlan,
-      savedAt: new Date(),
-      status: 'saved'
-    };
+      destination,
+      itinerary: Array.isArray(itinerary) ? itinerary : [],
+      vibe,
+      quote,
+      estimatedDuration,
+      bestSeason,
+      emotionalTone,
+      source: source || 'ai',
+      context: context || {},
+      notes,
+      status: 'saved',
+      generatedAt: new Date()
+    });
+
+    await tripPlan.save();
 
     res.json({
       success: true,
-      data: savedPlan,
+      data: tripPlan,
       message: "Trip plan saved successfully"
     });
 
@@ -288,6 +311,141 @@ router.post('/save-plan', authenticate, async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error saving trip plan',
+      error: error.message
+    });
+  }
+});
+
+// Get user's saved trip plans
+router.get('/plans', authenticate, async (req, res) => {
+  try {
+    const userId = req.user._id || req.user.id;
+    const { limit = 10, status } = req.query;
+
+    const query = { userId };
+    if (status && status !== 'all') {
+      query.status = status;
+    }
+
+    const plans = await TripPlan.find(query)
+      .sort({ createdAt: -1 })
+      .limit(parseInt(limit));
+
+    res.json({
+      success: true,
+      data: plans,
+      count: plans.length,
+      message: "Trip plans retrieved successfully"
+    });
+
+  } catch (error) {
+    console.error('Error fetching trip plans:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching trip plans',
+      error: error.message
+    });
+  }
+});
+
+// Get specific trip plan by ID
+router.get('/plans/:planId', authenticate, async (req, res) => {
+  try {
+    const { planId } = req.params;
+    const userId = req.user._id || req.user.id;
+
+    const plan = await TripPlan.findOne({ _id: planId, userId });
+
+    if (!plan) {
+      return res.status(404).json({
+        success: false,
+        message: 'Trip plan not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: plan,
+      message: "Trip plan retrieved successfully"
+    });
+
+  } catch (error) {
+    console.error('Error fetching trip plan:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching trip plan',
+      error: error.message
+    });
+  }
+});
+
+// Update trip plan
+router.put('/plans/:planId', authenticate, async (req, res) => {
+  try {
+    const { planId } = req.params;
+    const userId = req.user._id || req.user.id;
+    const updates = req.body;
+
+    const plan = await TripPlan.findOne({ _id: planId, userId });
+
+    if (!plan) {
+      return res.status(404).json({
+        success: false,
+        message: 'Trip plan not found'
+      });
+    }
+
+    // Update allowed fields
+    const allowedFields = ['notes', 'status', 'actualTripDate', 'linkedStory'];
+    allowedFields.forEach(field => {
+      if (updates[field] !== undefined) {
+        plan[field] = updates[field];
+      }
+    });
+
+    await plan.save();
+
+    res.json({
+      success: true,
+      data: plan,
+      message: "Trip plan updated successfully"
+    });
+
+  } catch (error) {
+    console.error('Error updating trip plan:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating trip plan',
+      error: error.message
+    });
+  }
+});
+
+// Delete trip plan
+router.delete('/plans/:planId', authenticate, async (req, res) => {
+  try {
+    const { planId } = req.params;
+    const userId = req.user._id || req.user.id;
+
+    const plan = await TripPlan.findOneAndDelete({ _id: planId, userId });
+
+    if (!plan) {
+      return res.status(404).json({
+        success: false,
+        message: 'Trip plan not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Trip plan deleted successfully"
+    });
+
+  } catch (error) {
+    console.error('Error deleting trip plan:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting trip plan',
       error: error.message
     });
   }

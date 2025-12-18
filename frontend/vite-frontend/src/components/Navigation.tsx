@@ -275,6 +275,26 @@ const Navigation: React.FC = () => {
                   <span className="hidden lg:block">Explore</span>
                 </Link>
 
+                <Link 
+                  to="/pricing" 
+                  className="nav-island-item"
+                  onMouseEnter={() => setHoveredItem('pricing')}
+                  onMouseLeave={() => setHoveredItem(null)}
+                >
+                  <Zap className="h-4 w-4" />
+                  <span className="hidden lg:block">Pricing</span>
+                </Link>
+
+                <Link 
+                  to="/contact-us" 
+                  className="nav-island-item"
+                  onMouseEnter={() => setHoveredItem('contact')}
+                  onMouseLeave={() => setHoveredItem(null)}
+                >
+                  <Share2 className="h-4 w-4" />
+                  <span className="hidden lg:block">Contact</span>
+                </Link>
+
                 {isSignedIn && (
                   <>
                     <Link 
