@@ -91,24 +91,25 @@ const getAllowedOrigins = () => {
   const origins = [
     process.env.FRONTEND_URL || 'http://localhost:8080',
     process.env.FRONTEND_URL_NETWORK,
+    'https://tourogram.netlify.app',  // Production frontend
     'http://localhost:8080',
     'http://localhost:8081',
     'http://localhost:8082',
     'http://localhost:3000',
     'http://localhost:5173'
   ].filter(Boolean);
-  
+
   // Get network IP dynamically
   const os = require('os');
   const networkInterfaces = os.networkInterfaces();
   const networkIP = Object.values(networkInterfaces)
     .flat()
     .find(iface => iface?.family === 'IPv4' && !iface.internal)?.address;
-  
+
   if (networkIP) {
-  origins.push(`http://${networkIP}:8080`, `http://${networkIP}:8081`, `http://${networkIP}:8082`);
+    origins.push(`http://${networkIP}:8080`, `http://${networkIP}:8081`, `http://${networkIP}:8082`);
   }
-  
+
   return origins;
 };
 
@@ -118,12 +119,12 @@ app.use(cors({
     // Allow requests with no origin (mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
-    
+
     // Allow any local network IP on ports 8080/8081
     if (/^http:\/\/(localhost|127\.0\.0\.1|\d+\.\d+\.\d+\.\d+):(808[0-2]|3000|5173)$/.test(origin)) {
       return callback(null, true);
     }
-    
+
     callback(new Error('Not allowed by CORS'));
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
