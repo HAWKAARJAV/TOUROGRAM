@@ -1,316 +1,316 @@
-# 🌍 Story Swap - Hyperlocal Travel Stories Platform
+<div align="center">
 
-> **A premium travel storytelling platform where users share location-based stories and discover hidden gems through authentic local experiences.**
+# 🌍 Tourogram
 
-![Story Swap Banner](https://img.shields.io/badge/Story%20Swap-Premium%20Travel%20Platform-blue?style=for-the-badge&logo=react)
+### *Discover the World Through Local Stories*
 
-## 🚀 Live Deployments
+A hyperlocal travel storytelling platform where travelers and locals share authentic, location-based experiences and discover hidden gems through the lens of real people.
 
-- **Frontend (Netlify):** [https://tourogram.netlify.app](https://tourogram.netlify.app)
-- **Backend API (Render):** [https://tourogram-tdp7.onrender.com](https://tourogram-tdp7.onrender.com)
-- **API Documentation:** [https://tourogram-tdp7.onrender.com/api/docs](https://tourogram-tdp7.onrender.com/api/docs)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Tourogram-00C7B7?style=for-the-badge)](https://tourogram.netlify.app)
+[![API Docs](https://img.shields.io/badge/📚_API-Documentation-FF6B6B?style=for-the-badge)](https://tourogram-tdp7.onrender.com/api/docs)
 
-## 📖 Project Overview
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=flat&logo=node.js)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat&logo=mongodb)](https://www.mongodb.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 
-Story Swap is a sophisticated full-stack web application that enables travelers and locals to share location-specific stories, creating an authentic travel discovery platform. Users can upload stories tied to specific geographical locations, explore stories from others, and build a community around travel experiences.
+[Features](#-features) • [Tech Stack](#-tech-stack) • [Quick Start](#-quick-start) • [Demo](#-demo-credentials) • [Deployment](#-deployment)
 
-### 🎯 Key Features
+</div>
 
-- **📍 Location-Based Storytelling** - Stories are geotagged to specific locations
-- **🔐 User Authentication** - Secure login/registration with persistent sessions
-- **📱 Dynamic Island Navigation** - Premium iOS-inspired navigation with glassmorphism effects
-- **👤 Personalized User Experience** - User-specific story management and profiles
-- **🗺️ Interactive Story Discovery** - Explore stories by location and user
-- **📝 Rich Text Editor** - Advanced story creation with media support
-- **🌟 Modern UI/UX** - Travel-inspired design with smooth animations
+---
 
-## 🛠️ Technology Stack
+## 🌟 Live Deployments
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| **Frontend** | [tourogram.netlify.app](https://tourogram.netlify.app) | Production React App (Netlify) |
+| **Backend API** | [tourogram-tdp7.onrender.com](https://tourogram-tdp7.onrender.com) | RESTful API Server (Render) |
+| **API Docs** | [API Documentation](https://tourogram-tdp7.onrender.com/api/docs) | Interactive Swagger Docs |
+
+---
+
+## ✨ Features
+
+### 🎯 Core Functionality
+- **📍 Location-Based Stories** - Geotagged storytelling tied to specific places
+- **🗺️ Interactive Map** - Explore stories visually with MapTiler integration
+- **🔐 Secure Authentication** - JWT-based auth with persistent sessions
+- **📱 Responsive Design** - Seamless experience across all devices
+- **🎨 Modern UI/UX** - Premium design with glassmorphism and smooth animations
+
+### 💎 User Experience
+- **👤 User Profiles** - Personalized dashboards and story management
+- **📝 Rich Story Editor** - Create engaging stories with text and media
+- **🔍 Smart Discovery** - Browse by location, tags, and trends
+- **💬 Social Engagement** - Likes, views, and community interaction
+- **🏆 Trending Stories** - Discover popular content in real-time
+
+### 🛠️ Technical Highlights
+- **Dynamic Island Navigation** - iOS-inspired premium navbar
+- **Optimistic UI Updates** - Lightning-fast interactions
+- **Advanced Caching** - TanStack Query for optimal performance
+- **Error Recovery** - Graceful fallbacks and error boundaries
+- **SEO Optimized** - Server-side rendering ready
+
+---
+
+## 🚀 Tech Stack
 
 ### Frontend
-- **React 18** with TypeScript
-- **Vite** for fast development and building
-- **Tailwind CSS** for styling
-- **Shadcn/UI** components
-- **React Router** for navigation
-- **TanStack Query** for data fetching
-- **Custom Authentication Context**
+```
+React 18.3         TypeScript 5.0      Vite 5.0
+Tailwind CSS       Shadcn/UI           React Router v6
+TanStack Query     MapTiler SDK        Lucide Icons
+```
 
 ### Backend
-- **Node.js** with Express.js
-- **MongoDB** database with Mongoose ODM
-- **JWT** authentication
-- **CORS** configuration
-- **RESTful API** architecture
-- **Swagger** API documentation
+```
+Node.js 20         Express.js          MongoDB Atlas
+Mongoose ODM       JWT Auth            Bcrypt
+Swagger/OpenAPI    Helmet Security     Rate Limiting
+```
 
-### Database
-- **MongoDB** with collections for:
-  - Users (with authentication)
-  - Stories (location-based content)
-  - Comments and engagement data
-  - Geographic location data
+### DevOps & Deployment
+```
+Netlify (Frontend)    Render (Backend)     MongoDB Atlas
+GitHub Actions        Environment Vars     CORS Config
+```
 
-### Development Tools
-- **TypeScript** for type safety
-- **ESLint** for code quality
-- **PostCSS** for CSS processing
-- **Git** version control
+---
 
-## 🚀 Quick Start
+## 🎬 Quick Start
 
 ### Prerequisites
-- Node.js (v18+ recommended)
-- MongoDB (v7.0+ recommended)
-- npm or yarn
+- Node.js 18+ and npm
+- MongoDB (local or Atlas account)
+- Git
 
-### One-Command Setup
+### One-Command Setup 🚀
 ```bash
+# Clone and setup everything
+git clone https://github.com/HAWKAARJAV/TOUROGRAM.git
+cd TOUROGRAM
 ./setup.sh
 ```
 
-### Start Application
+### Start Development
 ```bash
 # Start both frontend and backend
 ./start-all.sh
 
-# Or start individually
-./start-backend.sh    # Backend only
-./start-frontend.sh   # Frontend only
+# Or individually
+./start-backend.sh     # Backend → http://localhost:3001
+./start-frontend.sh    # Frontend → http://localhost:8080
 ```
 
-## 🌟 Features
+### Access the Application
+- **Frontend:** http://localhost:8080
+- **Backend API:** http://localhost:3001
+- **API Docs:** http://localhost:3001/api/docs
 
-### � Security & Secrets (Important)
-Recent cleanup removed hardcoded API / widget keys. To keep the project secure:
+---
 
-| Area | Action |
-|------|--------|
-| Frontend AgentX key | Provide via `frontend/vite-frontend/.env.local` as `VITE_AGENTX_KEY=your_key` |
-| Backend JWT | Set `JWT_SECRET` and `REFRESH_TOKEN_SECRET` in `backend/.env` (never commit) |
-| Map / external APIs | Store in env vars, not source files |
-| Rotation | If a key was exposed, generate a new one → update env → redeploy → revoke old |
+## 📋 Demo Credentials
 
-Steps:
-1. Copy `backend/.env.example` to `backend/.env` and fill values.
-2. Copy `frontend/vite-frontend/.env.example` to `.env.local` and add keys.
-3. Add any deployment secrets via your hosting provider’s secret manager.
-4. Never push real credentials – only `*.example` templates.
-
-Fallback behavior: If `VITE_AGENTX_KEY` is absent, AI chat returns a safe placeholder message and logs a console warning.
-
-To scrub an already committed secret (history rewrite example):
-```bash
-git filter-repo --invert-paths --path path/to/file-with-secret
-git push --force origin main
+**Admin Account**
+```
+Email: admin@example.com
+Password: test1234
 ```
 
-> Treat any key you pasted into a public place as compromised—rotate it.
+**User Accounts**
+```
+Email: rita@example.com  |  sam@example.com
+Password: test1234       |  test1234
+```
 
-### �🗺️ Enhanced Map Integration
-- **MapTiler Integration** with API key `NSO8JuqWXOqh8UZs5tpY`
-- **Interactive Map Toggle** in Explore page
-- **Story Location Markers** with clickable popups
-- **Auto-centering** and smart zoom calculation
-- **Professional Styling** with MapTiler Streets
+*Or create your own account in seconds!*
 
-### 🖼️ Enhanced UI/UX
-- **Rotating Story Images** with error fallbacks
-- **Enhanced Story Cards** with hover effects
-- **Better Engagement Display** (likes, views, comments)
-- **Professional Design** with gradients and animations
-- **Responsive Layout** for all devices
+---
 
-### 🔐 Authentication
-- **Demo Credentials** for easy testing
-- **One-click Login** buttons
-- **Role-based Access** (Admin/User)
-
-### 📱 Pages & Features
-- **🏠 Home** - Hero section with call-to-action
-- **🔍 Explore** - Browse stories with interactive map
-- **🗺️ Map View** - Full-screen map experience
-- **📝 My Stories** - Story management dashboard
-- **✏️ Edit Story** - Rich story editing interface
-- **➕ Submit Story** - Create new stories
-- **👤 Profile** - User profile management
-
-## 🏗️ Project Structure
+## 📁 Project Structure
 
 ```
-story-swap-locale/
-├── frontend/
-│   └── vite-frontend/
-│       ├── src/
-│       │   ├── components/        # Reusable UI components
-│       │   │   ├── Navigation.tsx # Dynamic Island navbar
-│       │   │   ├── StoryCard.tsx  # Story display cards
-│       │   │   └── ui/            # Shadcn/UI components
-│       │   ├── pages/             # Route components
-│       │   │   ├── Index.tsx      # Landing page
-│       │   │   ├── Explore.tsx    # Story discovery
-│       │   │   ├── MyStories.tsx  # User's stories
-│       │   │   └── SubmitStory.tsx# Story creation
-│       │   ├── contexts/          # React contexts
-│       │   │   └── AuthContext.tsx# Authentication state
-│       │   ├── lib/               # Utilities and API
-│       │   └── types/             # TypeScript definitions
-│       ├── package.json
-│       └── vite.config.ts
+tourogram/
+├── frontend/vite-frontend/
+│   ├── src/
+│   │   ├── components/       # Reusable UI components
+│   │   │   ├── Navigation.tsx
+│   │   │   ├── StoryCard.tsx
+│   │   │   └── ui/           # Shadcn components
+│   │   ├── pages/            # Route pages
+│   │   │   ├── Index.tsx     # Landing page
+│   │   │   ├── Explore.tsx   # Story discovery
+│   │   │   └── SubmitStory.tsx
+│   │   ├── contexts/         # React contexts
+│   │   ├── lib/              # API client & utils
+│   │   └── types/            # TypeScript types
+│   └── package.json
+│
 ├── backend/
-│   ├── server.js                  # Express server entry
-│   ├── controllers/               # Route handlers
-│   │   ├── authController.js      # Authentication logic
-│   │   ├── storyController.js     # Story CRUD operations
-│   │   └── userController.js      # User management
-│   ├── routes/                    # API routes
-│   ├── middleware/                # Custom middleware
-│   └── config/                    # Database & app config
-├── database/
-│   ├── models/                    # Mongoose schemas
-│   │   ├── User.js               # User model
-│   │   ├── Story.js              # Story model
-│   │   └── Location.js           # Location model
-│   └── seedData.js               # Sample data
-└── docs/                         # Documentation
+│   ├── server.js             # Express entry point
+│   ├── controllers/          # Business logic
+│   ├── routes/               # API routes
+│   ├── models/               # Mongoose schemas
+│   ├── middleware/           # Auth & error handling
+│   └── config/               # App configuration
+│
+└── docs/                     # Documentation
 ```
+
+---
 
 ## 🔧 Configuration
 
-### Environment Variables
-
-**Backend (.env)**
+### Backend Environment (.env)
 ```bash
-NODE_ENV=development
+NODE_ENV=production
 PORT=3001
-MONGODB_URI=mongodb://localhost:27017/hyperlocal-story-swap
-JWT_SECRET=your-jwt-secret
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/tourogram
+JWT_SECRET=your-secret-key
+JWT_EXPIRES_IN=15m
+REFRESH_TOKEN_SECRET=your-refresh-secret
 ```
 
-**Frontend (.env)**
+### Frontend Environment (.env.local)
 ```bash
-VITE_MAPTILER_API_KEY=NSO8JuqWXOqh8UZs5tpY
-VITE_API_URL=http://localhost:3001
-VITE_APP_NAME=Story Swap
+VITE_API_URL=https://tourogram-tdp7.onrender.com
+VITE_MAPTILER_API_KEY=your-maptiler-key
+VITE_APP_NAME=Tourogram
 ```
 
-### Database Setup
-The application uses MongoDB. The setup script will:
-1. Start MongoDB automatically (if using Homebrew)
-2. Create the database on first connection
-3. Seed with demo data using admin credentials
+---
 
-## 🎯 Demo Credentials
+## 🌐 Deployment
 
-**Admin Account:**
-- Email: `admin@example.com`
-- Password: `test1234`
-
-**User Account:**
-- Email: `rita@example.com`
-- Password: `test1234`
-
-**Additional User:**
-- Email: `sam@example.com`
-- Password: `test1234`
-
-## 🌐 Access URLs
-
-After starting the application:
-
-- **Frontend:** http://localhost:8080 or http://localhost:8081
-- **Backend API:** http://localhost:3001
-- **API Documentation:** http://localhost:3001/api/docs
-
-## 📋 Manual Setup (Alternative)
-
-If you prefer manual setup:
-
-### 1. Install Dependencies
+### Frontend (Netlify)
 ```bash
-# Backend
-cd backend && npm install
+# Build command
+npm run build
 
+# Publish directory
+dist
+
+# Environment variables
+VITE_API_URL=https://tourogram-tdp7.onrender.com
+```
+
+### Backend (Render)
+```bash
+# Build command
+npm install
+
+# Start command
+node server.js
+
+# Environment variables
+MONGODB_URI=[your-mongodb-atlas-uri]
+NODE_ENV=production
+```
+
+---
+
+## 🎨 Key Features Explained
+
+### 📍 Location-Based Storytelling
+Every story is tied to a specific geographical location with coordinates, enabling map-based discovery and hyperlocal content exploration.
+
+### 🗺️ Interactive Map Integration
+Built with MapTiler, users can:
+- View stories as markers on an interactive map
+- Click markers to preview stories
+- Auto-center and smart zoom based on story locations
+- Toggle between list and map views
+
+### 🔐 JWT Authentication
+Secure, stateless authentication with:
+- Access tokens (15 min expiry)
+- Refresh tokens (30 day expiry)
+- Role-based access control (Admin/User)
+- Protected routes and API endpoints
+
+### 📱 Premium UI/UX
+- **Dynamic Island Navigation** - iOS-inspired floating navbar
+- **Glassmorphism Effects** - Modern frosted glass aesthetics
+- **Smooth Animations** - Framer Motion powered transitions
+- **Responsive Design** - Mobile-first approach
+
+---
+
+## 🛠️ Development
+
+### Available Scripts
+
+```bash
 # Frontend
-cd frontend/vite-frontend && npm install
+npm run dev          # Start dev server
+npm run build        # Production build
+npm run preview      # Preview production build
 
-# Database (if needed)
-cd database && npm install
+# Backend
+npm start            # Start server
+npm run dev          # Start with nodemon
+npm test             # Run tests
 ```
 
-### 2. Start MongoDB
+### Tech Decisions
+
+| Technology | Why We Chose It |
+|------------|----------------|
+| **React 18** | Concurrent features, improved performance |
+| **TypeScript** | Type safety, better developer experience |
+| **Vite** | Lightning-fast HMR, optimal build times |
+| **Tailwind CSS** | Rapid UI development, consistent design |
+| **MongoDB** | Flexible schema, geospatial queries |
+| **Express.js** | Minimal, flexible, industry standard |
+
+---
+
+## 🐛 Troubleshooting
+
+### MongoDB Connection Issues
 ```bash
-# Using Homebrew
-brew services start mongodb-community@7.0
-
-# Or manually
-mongod --config /usr/local/etc/mongod.conf
+# Check connection string includes database name
+mongodb+srv://user:pass@cluster.mongodb.net/tourogram
+                                                ^^^^^^^^
 ```
 
-### 3. Start Backend
+### CORS Errors
+Verify `FRONTEND_URL` in backend `.env` matches your frontend domain:
 ```bash
-cd backend && node server.js
+FRONTEND_URL=https://tourogram.netlify.app
 ```
 
-### 4. Start Frontend
-```bash
-cd frontend/vite-frontend && npm run dev
+### Port Conflicts
+Frontend auto-switches to port 8081 if 8080 is busy. Backend requires port 3001 to be available.
+
+---
+
+## 📚 API Documentation
+
+Visit [https://tourogram-tdp7.onrender.com/api/docs](https://tourogram-tdp7.onrender.com/api/docs) for interactive Swagger documentation.
+
+### Key Endpoints
+
+```
+GET    /api/v1/stories              # Get all stories
+GET    /api/v1/stories/:id          # Get story by ID
+POST   /api/v1/stories              # Create story (auth)
+PUT    /api/v1/stories/:id          # Update story (auth)
+DELETE /api/v1/stories/:id          # Delete story (auth)
+
+GET    /api/v1/stories/trending     # Get trending stories
+POST   /api/v1/auth/register        # Register user
+POST   /api/v1/auth/login           # Login user
 ```
 
-## 🗺️ MapTiler Setup
-
-The application comes pre-configured with MapTiler API key. To use your own:
-
-1. Get API key from [MapTiler Cloud](https://cloud.maptiler.com/)
-2. Update `VITE_MAPTILER_API_KEY` in `frontend/vite-frontend/.env`
-3. Restart frontend server
-
-See `docs/MAPTILER_SETUP.md` for detailed instructions.
-
-## 🚫 Troubleshooting
-
-### Common Issues
-
-**MongoDB Connection Failed:**
-```bash
-brew services start mongodb-community@7.0
-```
-
-**Port Already in Use:**
-- Frontend will automatically try port 8081 if 8080 is busy
-- For backend, stop other services using port 3001
-
-**Missing Dependencies:**
-```bash
-./setup.sh  # Re-run setup script
-```
-
-**Map Not Loading:**
-- Check console for MapTiler API errors
-- Verify `VITE_MAPTILER_API_KEY` in `.env`
-- Restart frontend after env changes
-
-### Reset Database
-```bash
-cd backend && node scripts/seedData.js
-```
-
-## 🤝 Development
-
-### Key Technologies
-- **Frontend:** React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui
-- **Backend:** Node.js, Express.js, MongoDB, Mongoose
-- **Maps:** MapTiler SDK, Google Maps (fallback)
-- **Authentication:** JWT, bcrypt
-
-### Development Workflow
-1. Start backend: `./start-backend.sh`
-2. Start frontend: `./start-frontend.sh`
-3. Access frontend at http://localhost:8080
-4. API available at http://localhost:3001
-
-
+---
 
 ## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -318,27 +318,39 @@ cd backend && node scripts/seedData.js
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## � License
+---
+
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
 
 ## 👨‍💻 Author
 
 **Aarjav Jain**
-- GitHub: [@HAWKAARJAV](https://github.com/HAWKAARJAV)
-- Repository: [story-swap-locale](https://github.com/HAWKAARJAV/story-swap-locale)
 
-## 🙏 Acknowledgments
-
-- **Shadcn/UI** for beautiful component library
-- **Tailwind CSS** for utility-first styling
-- **React community** for excellent documentation
-- **Vite** for lightning-fast development experience
+[![GitHub](https://img.shields.io/badge/GitHub-HAWKAARJAV-181717?style=flat&logo=github)](https://github.com/HAWKAARJAV)
+[![Repository](https://img.shields.io/badge/Repo-TOUROGRAM-00C7B7?style=flat&logo=github)](https://github.com/HAWKAARJAV/TOUROGRAM)
 
 ---
 
-## 📞 Support
+## 🙏 Acknowledgments
 
-For support, questions, or feature requests, please open an issue on GitHub or contact the development team.
+- [Shadcn/UI](https://ui.shadcn.com/) - Beautiful component library
+- [MapTiler](https://www.maptiler.com/) - Mapping infrastructure
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [React Community](https://react.dev/) - Excellent documentation and ecosystem
+- [Vite](https://vitejs.dev/) - Next generation frontend tooling
 
-**Happy Storytelling! 🌍✨**
+---
+
+<div align="center">
+
+### 🌍 Start Sharing Your Travel Stories Today!
+
+[![Visit Tourogram](https://img.shields.io/badge/Visit-Tourogram-00C7B7?style=for-the-badge&logo=safari)](https://tourogram.netlify.app)
+
+**Made with ❤️ for travelers and storytellers worldwide**
+
+</div>
