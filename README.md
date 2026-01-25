@@ -4,6 +4,12 @@
 
 ![Story Swap Banner](https://img.shields.io/badge/Story%20Swap-Premium%20Travel%20Platform-blue?style=for-the-badge&logo=react)
 
+## 🚀 Live Deployments
+
+- **Frontend (Netlify):** [https://tourogram.netlify.app](https://tourogram.netlify.app)
+- **Backend API (Render):** [https://tourogram-tdp7.onrender.com](https://tourogram-tdp7.onrender.com)
+- **API Documentation:** [https://tourogram-tdp7.onrender.com/api/docs](https://tourogram-tdp7.onrender.com/api/docs)
+
 ## 📖 Project Overview
 
 Story Swap is a sophisticated full-stack web application that enables travelers and locals to share location-specific stories, creating an authentic travel discovery platform. Users can upload stories tied to specific geographical locations, explore stories from others, and build a community around travel experiences.
