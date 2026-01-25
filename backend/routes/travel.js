@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate, rateLimitByUser } = require('../middleware/auth');
-const TripPlan = require('../../database/models/TripPlan');
+const TripPlan = require('../models/TripPlan');
 
 // AI Travel Planner endpoint
 router.post('/plan', authenticate, async (req, res) => {
