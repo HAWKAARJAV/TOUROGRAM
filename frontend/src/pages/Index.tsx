@@ -13,13 +13,13 @@ const Index = () => {
   return (
     <main className="pt-16">
       <HeroSection />
-      
+
       {/* Popular Destinations Section */}
       <PopularDestinations />
-      
+
       <HowItWorks />
       <FeaturedStories />
-      
+
       {/* Inspire Me Section */}
       <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
@@ -38,7 +38,7 @@ const Index = () => {
               className="relative"
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
-                <img 
+                <img
                   src="https://mma.prnewswire.com/media/2401528/1_MindtripProduct.jpg?p=facebook"
                   alt="How StorySwap Works"
                   className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-500"
@@ -75,7 +75,7 @@ const Index = () => {
               </h2>
 
               <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-                Our AI-powered trip planner helps you discover hidden gems, create personalized itineraries, 
+                Our AI-powered trip planner helps you discover hidden gems, create personalized itineraries,
                 and connect with local experiences based on your mood and preferences.
               </p>
 
@@ -122,9 +122,9 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
+
       {/* CTA Section */}
-      <section 
+      <section
         className="py-32 relative overflow-hidden"
         style={{
           backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80')`
@@ -134,17 +134,17 @@ const Index = () => {
           <div className="inline-block px-6 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-white/20 text-secondary text-sm font-semibold mb-8">
             <span className="font-heading tracking-wider">JOIN OUR COMMUNITY</span>
           </div>
-          
+
           <h2 className="font-heading text-5xl md:text-6xl font-bold mb-8 leading-tight text-white">
-            Ready to Share 
+            Ready to Share
             <span className="text-primary"> Your Story?</span>
           </h2>
-          
+
           <p className="font-body text-xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of storytellers building the world's most authentic travel and local discovery platform. 
+            Join thousands of storytellers building the world's most authentic travel and local discovery platform.
             Connect with travelers and locals around the globe.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
             <button className="btn-magnetic bg-gradient-to-r from-primary via-primary-glow to-accent text-white font-bold text-xl py-5 px-14 rounded-2xl shadow-2xl hover:shadow-primary/40 transition-all duration-500 group">
               <span className="flex items-center">
@@ -163,7 +163,7 @@ const Index = () => {
       </section>
 
       {/* Enhanced Footer with Animations */}
-      <footer className="text-white py-20 relative overflow-hidden" style={{ 
+      <footer className="text-white py-20 relative overflow-hidden" style={{
         background: 'linear-gradient(135deg, hsl(215, 28%, 10%) 0%, hsl(215, 28%, 15%) 100%)'
       }}>
         {/* Animated Background Elements */}
@@ -176,42 +176,42 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             {/* Company Info */}
-            <motion.div 
+            <motion.div
               className="col-span-1 md:col-span-2"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <motion.h3 
+              <motion.h3
                 className="text-3xl font-bold mb-4 bg-gradient-to-r from-white via-primary-glow to-white bg-clip-text text-transparent"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                Story Swap
+                Tourogram
               </motion.h3>
               <p className="text-white/80 mb-6 text-lg leading-relaxed">
-                Connecting the world through authentic local stories and shared experiences. 
+                Connecting the world through authentic local stories and shared experiences.
                 Discover hidden gems and create meaningful connections through storytelling.
               </p>
-              
+
               {/* Contact Info */}
               <div className="space-y-3 mb-6">
-                <motion.div 
+                <motion.div
                   className="flex items-center text-white/70 hover:text-primary transition-colors duration-300"
                   whileHover={{ x: 5 }}
                 >
                   <MapPin className="h-5 w-5 mr-3" />
                   <span>San Francisco, CA</span>
                 </motion.div>
-                <motion.div 
+                <motion.div
                   className="flex items-center text-white/70 hover:text-primary transition-colors duration-300"
                   whileHover={{ x: 5 }}
                 >
                   <Mail className="h-5 w-5 mr-3" />
-                  <span>hello@storyswap.com</span>
+                  <span>hello@tourogram.com</span>
                 </motion.div>
-                <motion.div 
+                <motion.div
                   className="flex items-center text-white/70 hover:text-primary transition-colors duration-300"
                   whileHover={{ x: 5 }}
                 >
@@ -222,22 +222,22 @@ const Index = () => {
 
               <div className="flex items-center space-x-4">
                 <span className="text-white/60 font-semibold">Follow us:</span>
-                <motion.a 
-                  href="#" 
+                <motion.a
+                  href="#"
                   className="text-white/80 hover:text-primary transition-all duration-300 hover:scale-110 inline-block"
                   whileHover={{ y: -3 }}
                 >
                   Twitter
                 </motion.a>
-                <motion.a 
-                  href="#" 
+                <motion.a
+                  href="#"
                   className="text-white/80 hover:text-primary transition-all duration-300 hover:scale-110 inline-block"
                   whileHover={{ y: -3 }}
                 >
                   Instagram
                 </motion.a>
-                <motion.a 
-                  href="#" 
+                <motion.a
+                  href="#"
                   className="text-white/80 hover:text-primary transition-all duration-300 hover:scale-110 inline-block"
                   whileHover={{ y: -3 }}
                 >
@@ -320,7 +320,7 @@ const Index = () => {
           </div>
 
           {/* Bottom Section */}
-          <motion.div 
+          <motion.div
             className="border-t border-white/10 mt-16 pt-8"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -330,7 +330,7 @@ const Index = () => {
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="flex items-center text-white/60">
                 <p className="flex items-center">
-                  Made with 
+                  Made with
                   <motion.span
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ repeat: Infinity, duration: 1.5 }}
@@ -338,10 +338,10 @@ const Index = () => {
                   >
                     <Heart className="h-4 w-4 text-red-500 fill-current" />
                   </motion.span>
-                  by Story Swap Team
+                  by Tourogram Team
                 </p>
               </div>
-              <p className="text-white/60">&copy; 2025 Story Swap. Building community through shared stories.</p>
+              <p className="text-white/60">&copy; 2025 Tourogram. Building community through shared stories.</p>
             </div>
           </motion.div>
         </div>

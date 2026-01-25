@@ -1,7 +1,7 @@
 {
-  "name": "hyperlocal-story-swap-backend",
+  "name": "tourogram-backend",
   "version": "1.0.0",
-  "description": "Backend API for Hyperlocal Story Swap - A location-based storytelling platform",
+  "description": "Backend API for Tourogram - A location-based storytelling platform",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

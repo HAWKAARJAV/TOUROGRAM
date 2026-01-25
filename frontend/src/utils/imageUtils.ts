@@ -1,4 +1,4 @@
-// Image utilities and constants for the Story Swap application
+// Image utilities and constants for the Tourogram application
 
 // Local asset imports
 import jazzClubImage from "@/assets/jazz-club.jpg";
@@ -54,9 +54,9 @@ export const getOptimizedImageUrl = (url: string, options: {
     format: 'webp' as const,
     quality: 85,
   };
-  
+
   const opts = { ...defaults, ...options };
-  
+
   // If it's a local asset, return as-is
   if (url.startsWith('/') || url.startsWith('data:')) {
     return url;

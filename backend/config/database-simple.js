@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const logger = require('../utils/logger');
 
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/hyperlocal-story-swap';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tourogram';
 
 const connect = async () => {
   if (process.env.SKIP_DB === '1') {

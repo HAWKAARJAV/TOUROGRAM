@@ -14,12 +14,12 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-    
+
     try {
       setError('');
       // For demo purposes, we'll just log them in after "registration"
@@ -38,13 +38,13 @@ const Register: React.FC = () => {
               <MapPin className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Story Swap
+              Tourogram
             </h1>
           </div>
           <h2 className="text-2xl font-semibold text-gray-900">Join our community</h2>
           <p className="mt-2 text-gray-600">Create your account to start sharing stories</p>
         </div>
-        
+
         <div className="bg-white p-8 rounded-2xl shadow-xl">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
@@ -52,7 +52,7 @@ const Register: React.FC = () => {
                 {error}
               </div>
             )}
-            
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Email address
@@ -67,7 +67,7 @@ const Register: React.FC = () => {
                 className="w-full"
               />
             </div>
-            
+
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Password

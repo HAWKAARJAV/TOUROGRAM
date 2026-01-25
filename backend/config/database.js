@@ -6,7 +6,7 @@ mongoose.set('bufferCommands', false);
 
 class Database {
   constructor() {
-    this.mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/hyperlocal-story-swap';
+    this.mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tourogram';
     this._connection = null;
   }
 

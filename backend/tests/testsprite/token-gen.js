@@ -14,8 +14,8 @@ const token = jwt.sign(
   },
   ACCESS_SECRET,
   {
-    issuer: 'hyperlocal-story-swap',
-    audience: 'story-swap-users',
+    issuer: 'tourogram',
+    audience: 'tourogram-users',
     expiresIn: '30m'
   }
 );

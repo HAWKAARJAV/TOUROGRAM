@@ -5,12 +5,12 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Hyperlocal Story Swap API',
+      title: 'Tourogram API',
       version: '1.0.0',
       description: 'A location-based storytelling platform where users share and discover local stories through a swap mechanism.',
       contact: {
         name: 'API Support',
-        email: 'support@storyswap.local'
+        email: 'support@tourogram.com'
       },
       license: {
         name: 'MIT',
@@ -19,8 +19,8 @@ const options = {
     },
     servers: [
       {
-        url: process.env.NODE_ENV === 'production' 
-          ? 'https://api.storyswap.local' 
+        url: process.env.NODE_ENV === 'production'
+          ? 'https://api.tourogram.com'
           : `http://localhost:${process.env.PORT || 5000}`,
         description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Development server'
       }
@@ -340,7 +340,7 @@ const setupSwagger = (app) => {
       .swagger-ui .topbar { display: none; }
       .swagger-ui .info .title { color: #FF7A59; }
     `,
-    customSiteTitle: 'Hyperlocal Story Swap API Documentation',
+    customSiteTitle: 'Tourogram API Documentation',
     customfavIcon: '/assets/favicon.ico',
     swaggerOptions: {
       persistAuthorization: true,

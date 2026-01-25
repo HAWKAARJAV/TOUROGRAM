@@ -34,7 +34,7 @@ const Navigation: React.FC = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  
+
   const notificationCount = 3; // Mock notification count
 
   const handleLogoutClick = () => {
@@ -230,10 +230,9 @@ const Navigation: React.FC = () => {
 
       <nav className="fixed top-0 left-0 right-0 z-[9000]">
         {/* Dynamic Island Container */}
-        <div 
-          className={`dynamic-island-complete transition-all duration-500 ease-in-out ${
-            isExpanded ? 'expanded' : 'collapsed'
-          }`}
+        <div
+          className={`dynamic-island-complete transition-all duration-500 ease-in-out ${isExpanded ? 'expanded' : 'collapsed'
+            }`}
           style={{ overflow: 'visible' }}
           onMouseEnter={() => setIsExpanded(true)}
           onMouseLeave={() => {
@@ -243,10 +242,10 @@ const Navigation: React.FC = () => {
         >
           {/* Core Island Content */}
           <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
-            
+
             {/* Logo Section */}
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="flex items-center space-x-3 group flex-shrink-0"
             >
               <div className="relative p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
@@ -254,19 +253,18 @@ const Navigation: React.FC = () => {
                 <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               </div>
               <span className="text-lg font-bold text-white group-hover:scale-105 transition-transform duration-300 hidden sm:block">
-                Story Swap
+                Tourogram
               </span>
             </Link>
 
             {/* Navigation Items */}
-            <div className={`flex items-center space-x-1 transition-all duration-500 ${
-              isExpanded ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
-            }`}>
-              
+            <div className={`flex items-center space-x-1 transition-all duration-500 ${isExpanded ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+              }`}>
+
               {/* Core Navigation */}
               <div className="flex items-center space-x-1">
-                <Link 
-                  to="/explore" 
+                <Link
+                  to="/explore"
                   className="nav-island-item"
                   onMouseEnter={() => setHoveredItem('explore')}
                   onMouseLeave={() => setHoveredItem(null)}
@@ -275,8 +273,8 @@ const Navigation: React.FC = () => {
                   <span className="hidden lg:block">Explore</span>
                 </Link>
 
-                <Link 
-                  to="/pricing" 
+                <Link
+                  to="/pricing"
                   className="nav-island-item"
                   onMouseEnter={() => setHoveredItem('pricing')}
                   onMouseLeave={() => setHoveredItem(null)}
@@ -285,8 +283,8 @@ const Navigation: React.FC = () => {
                   <span className="hidden lg:block">Pricing</span>
                 </Link>
 
-                <Link 
-                  to="/contact-us" 
+                <Link
+                  to="/contact-us"
                   className="nav-island-item"
                   onMouseEnter={() => setHoveredItem('contact')}
                   onMouseLeave={() => setHoveredItem(null)}
@@ -297,8 +295,8 @@ const Navigation: React.FC = () => {
 
                 {isSignedIn && (
                   <>
-                    <Link 
-                      to="/submit" 
+                    <Link
+                      to="/submit"
                       className="nav-island-item"
                       onMouseEnter={() => setHoveredItem('add')}
                       onMouseLeave={() => setHoveredItem(null)}
@@ -306,9 +304,9 @@ const Navigation: React.FC = () => {
                       <PenTool className="h-4 w-4" />
                       <span className="hidden lg:block">Add</span>
                     </Link>
-                    
-                    <Link 
-                      to="/my-stories" 
+
+                    <Link
+                      to="/my-stories"
                       className="nav-island-item"
                       onMouseEnter={() => setHoveredItem('stories')}
                       onMouseLeave={() => setHoveredItem(null)}
@@ -316,9 +314,9 @@ const Navigation: React.FC = () => {
                       <BookOpen className="h-4 w-4" />
                       <span className="hidden lg:block">Stories</span>
                     </Link>
-                    
-                    <Link 
-                      to="/plan" 
+
+                    <Link
+                      to="/plan"
                       className="nav-island-item special-glow"
                       onMouseEnter={() => setHoveredItem('plan')}
                       onMouseLeave={() => setHoveredItem(null)}
@@ -331,7 +329,7 @@ const Navigation: React.FC = () => {
 
                 {/* Quick Actions Trigger */}
                 {isSignedIn && (
-                  <button 
+                  <button
                     className="nav-island-item"
                     onMouseEnter={() => {
                       setHoveredItem('quick');
@@ -380,7 +378,7 @@ const Navigation: React.FC = () => {
 
                   {/* Notifications Dropdown */}
                   {showNotifications && (
-                    <div 
+                    <div
                       className="absolute top-full right-20 mt-2 w-80 bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl z-[9999]"
                       onMouseLeave={() => setShowNotifications(false)}
                     >
@@ -415,7 +413,7 @@ const Navigation: React.FC = () => {
 
                   {/* User Dropdown Menu */}
                   {showUserMenu && (
-                    <div 
+                    <div
                       className="absolute top-full right-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl z-[9999]"
                       onMouseLeave={() => setShowUserMenu(false)}
                     >
@@ -430,37 +428,37 @@ const Navigation: React.FC = () => {
                           <p className="text-white/70 text-sm">Thank you for joining!</p>
                           <p className="text-white/60 text-xs mt-1">Here you go, start exploring...</p>
                         </div>
-                        
+
                         <div className="space-y-2">
-                          <Link 
-                            to="/my-stories" 
+                          <Link
+                            to="/my-stories"
                             className="flex items-center space-x-2 w-full px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
                             onClick={() => setShowUserMenu(false)}
                           >
                             <BookOpen className="h-4 w-4" />
                             <span>My Stories</span>
                           </Link>
-                          
-                          <Link 
-                            to="/submit" 
+
+                          <Link
+                            to="/submit"
                             className="flex items-center space-x-2 w-full px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
                             onClick={() => setShowUserMenu(false)}
                           >
                             <PenTool className="h-4 w-4" />
                             <span>Add Story</span>
                           </Link>
-                          
-                          <Link 
-                            to="/profile" 
+
+                          <Link
+                            to="/profile"
                             className="flex items-center space-x-2 w-full px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
                             onClick={() => setShowUserMenu(false)}
                           >
                             <User className="h-4 w-4" />
                             <span>Profile</span>
                           </Link>
-                          
+
                           <hr className="border-white/20 my-2" />
-                          
+
                           <button
                             onClick={() => {
                               setShowUserMenu(false);
@@ -499,35 +497,35 @@ const Navigation: React.FC = () => {
 
         {/* Quick Actions Island */}
         {isSignedIn && (
-          <div 
+          <div
             className={`quick-actions-island ${showQuickActions ? 'visible' : 'hidden'}`}
             onMouseEnter={() => setShowQuickActions(true)}
             onMouseLeave={() => setShowQuickActions(false)}
           >
             <div className="flex items-center space-x-2">
-              <button 
+              <button
                 className="quick-action-btn p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
                 onClick={() => setShowQuickActions(!showQuickActions)}
               >
                 <Zap className="h-4 w-4 text-white" />
               </button>
-              
+
               <div className={`quick-actions-menu ${showQuickActions ? 'expanded' : 'collapsed'}`}>
                 <Link to="/submit" className="quick-action-item">
                   <Plus className="h-4 w-4" />
                   <span>New Story</span>
                 </Link>
-                
+
                 <Link to="/plan" className="quick-action-item">
                   <Bot className="h-4 w-4" />
                   <span>AI Planner</span>
                 </Link>
-                
+
                 <Link to="/favorites" className="quick-action-item">
                   <Heart className="h-4 w-4" />
                   <span>Favorites</span>
                 </Link>
-                
+
                 <button className="quick-action-item">
                   <Share2 className="h-4 w-4" />
                   <span>Share</span>

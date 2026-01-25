@@ -8,7 +8,7 @@ class JWTService {
     this.refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
     this.accessTokenExpiry = process.env.JWT_EXPIRES_IN || '15m';
     this.refreshTokenExpiry = process.env.REFRESH_TOKEN_EXPIRES_IN || '30d';
-    
+
     if (!this.accessTokenSecret || !this.refreshTokenSecret) {
       throw new Error('JWT secrets are required. Please check your environment variables.');
     }
@@ -35,8 +35,8 @@ class JWTService {
 
       return jwt.sign(tokenPayload, this.accessTokenSecret, {
         expiresIn: this.accessTokenExpiry,
-        issuer: 'hyperlocal-story-swap',
-        audience: 'story-swap-users'
+        issuer: 'tourogram',
+        audience: 'tourogram-users'
       });
     } catch (error) {
       logger.error('Error generating access token:', error);
@@ -61,8 +61,8 @@ class JWTService {
 
       return jwt.sign(tokenPayload, this.refreshTokenSecret, {
         expiresIn: this.refreshTokenExpiry,
-        issuer: 'hyperlocal-story-swap',
-        audience: 'story-swap-users'
+        issuer: 'tourogram',
+        audience: 'tourogram-users'
       });
     } catch (error) {
       logger.error('Error generating refresh token:', error);
@@ -101,8 +101,8 @@ class JWTService {
   verifyAccessToken(token) {
     try {
       const decoded = jwt.verify(token, this.accessTokenSecret, {
-        issuer: 'hyperlocal-story-swap',
-        audience: 'story-swap-users'
+        issuer: 'tourogram',
+        audience: 'tourogram-users'
       });
 
       if (decoded.type !== 'access') {
@@ -118,7 +118,7 @@ class JWTService {
       } else if (error.name === 'NotBeforeError') {
         throw new Error('Access token not active yet');
       }
-      
+
       logger.error('Error verifying access token:', error);
       throw new Error('Token verification failed');
     }
@@ -132,8 +132,8 @@ class JWTService {
   verifyRefreshToken(token) {
     try {
       const decoded = jwt.verify(token, this.refreshTokenSecret, {
-        issuer: 'hyperlocal-story-swap',
-        audience: 'story-swap-users'
+        issuer: 'tourogram',
+        audience: 'tourogram-users'
       });
 
       if (decoded.type !== 'refresh') {
@@ -147,7 +147,7 @@ class JWTService {
       } else if (error.name === 'JsonWebTokenError') {
         throw new Error('Invalid refresh token');
       }
-      
+
       logger.error('Error verifying refresh token:', error);
       throw new Error('Token verification failed');
     }
@@ -174,12 +174,12 @@ class JWTService {
    */
   extractTokenFromHeader(authHeader) {
     if (!authHeader) return null;
-    
+
     const parts = authHeader.split(' ');
     if (parts.length !== 2 || parts[0] !== 'Bearer') {
       return null;
     }
-    
+
     return parts[1];
   }
 
@@ -192,7 +192,7 @@ class JWTService {
     try {
       const decoded = this.decodeToken(token);
       if (!decoded || !decoded.exp) return true;
-      
+
       return Date.now() >= decoded.exp * 1000;
     } catch (error) {
       return true;
@@ -208,7 +208,7 @@ class JWTService {
     try {
       const decoded = this.decodeToken(token);
       if (!decoded || !decoded.exp) return null;
-      
+
       return new Date(decoded.exp * 1000);
     } catch (error) {
       return null;
@@ -223,7 +223,7 @@ class JWTService {
   getTimeUntilExpiration(token) {
     const expiration = this.getTokenExpiration(token);
     if (!expiration) return null;
-    
+
     return expiration.getTime() - Date.now();
   }
 
@@ -244,8 +244,8 @@ class JWTService {
 
       return jwt.sign(tokenPayload, this.accessTokenSecret, {
         expiresIn: '24h',
-        issuer: 'hyperlocal-story-swap',
-        audience: 'story-swap-users'
+        issuer: 'tourogram',
+        audience: 'tourogram-users'
       });
     } catch (error) {
       logger.error('Error generating email verification token:', error);
@@ -270,8 +270,8 @@ class JWTService {
 
       return jwt.sign(tokenPayload, this.accessTokenSecret, {
         expiresIn: '1h',
-        issuer: 'hyperlocal-story-swap',
-        audience: 'story-swap-users'
+        issuer: 'tourogram',
+        audience: 'tourogram-users'
       });
     } catch (error) {
       logger.error('Error generating password reset token:', error);
@@ -287,8 +287,8 @@ class JWTService {
   verifyEmailVerificationToken(token) {
     try {
       const decoded = jwt.verify(token, this.accessTokenSecret, {
-        issuer: 'hyperlocal-story-swap',
-        audience: 'story-swap-users'
+        issuer: 'tourogram',
+        audience: 'tourogram-users'
       });
 
       if (decoded.type !== 'email_verification') {
@@ -310,8 +310,8 @@ class JWTService {
   verifyPasswordResetToken(token) {
     try {
       const decoded = jwt.verify(token, this.accessTokenSecret, {
-        issuer: 'hyperlocal-story-swap',
-        audience: 'story-swap-users'
+        issuer: 'tourogram',
+        audience: 'tourogram-users'
       });
 
       if (decoded.type !== 'password_reset') {

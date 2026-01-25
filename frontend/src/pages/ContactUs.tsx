@@ -41,7 +41,7 @@ const ContactUs = () => {
     <main className="pt-24 pb-20 min-h-screen bg-gradient-to-b from-blue-50 via-white to-purple-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -50,11 +50,11 @@ const ContactUs = () => {
           <div className="inline-block px-6 py-2 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
             GET IN TOUCH
           </div>
-          
+
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-primary to-gray-900 bg-clip-text text-transparent">
             Contact Us
           </h1>
-          
+
           <p className="text-gray-600 text-xl max-w-3xl mx-auto leading-relaxed">
             Have a question or feedback? We'd love to hear from you. Our team is here to help!
           </p>
@@ -74,7 +74,7 @@ const ContactUs = () => {
             <h3 className="text-xl font-bold mb-2">Email Us</h3>
             <p className="text-gray-600 mb-4">Our team typically responds within 24 hours</p>
             <a href="mailto:hello@storyswap.com" className="text-primary hover:text-primary-glow font-semibold">
-              hello@storyswap.com
+              hello@tourogram.com
             </a>
           </motion.div>
 
@@ -119,7 +119,7 @@ const ContactUs = () => {
           >
             <div className="bg-white p-8 rounded-2xl shadow-xl">
               <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -253,7 +253,7 @@ const ContactUs = () => {
         </div>
 
         {/* Social Links */}
-        <motion.div 
+        <motion.div
           className="mt-16 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

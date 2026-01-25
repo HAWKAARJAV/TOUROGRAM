@@ -4,14 +4,14 @@
 export const config = {
   // MapTiler Configuration
   maptilerApiKey: import.meta.env.VITE_MAPTILER_API_KEY || '',
-  
+
   // API Configuration
   apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:3001',
-  
+
   // App Configuration
-  appName: import.meta.env.VITE_APP_NAME || 'Story Swap',
+  appName: import.meta.env.VITE_APP_NAME || 'Tourogram',
   appVersion: import.meta.env.VITE_APP_VERSION || '1.0.0',
-  
+
   // Development flags
   isDevelopment: import.meta.env.DEV,
   isProduction: import.meta.env.PROD,

@@ -1,5 +1,5 @@
 {
-  "name": "StorySwap AI Core Flow",
+  "name": "Tourogram AI Core Flow",
   "description": "Validate chat, travel plan generation, and emotion analysis endpoints.",
   "env": {
     "BASE_URL": "http://localhost:3001",
@@ -11,10 +11,16 @@
       "request": {
         "method": "POST",
         "url": "${BASE_URL}/api/${API_VERSION}/agentx/chat",
-        "headers": { "Content-Type": "application/json" },
-        "body": { "message": "Hello" }
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "message": "Hello"
+        }
       },
-      "assert": { "status": 401 }
+      "assert": {
+        "status": 401
+      }
     },
     {
       "name": "AI Chat Valid",
@@ -25,7 +31,9 @@
           "Content-Type": "application/json",
           "Authorization": "Bearer ${TOKEN}"
         },
-        "body": { "message": "Plan a mountain trek with heritage stops" }
+        "body": {
+          "message": "Plan a mountain trek with heritage stops"
+        }
       },
       "assert": {
         "status": 200,
@@ -42,7 +50,11 @@
           "Content-Type": "application/json",
           "Authorization": "Bearer ${TOKEN}"
         },
-        "body": { "currentMood": "adventure thrill", "userInput": "Need rugged terrain", "userId": "u1" }
+        "body": {
+          "currentMood": "adventure thrill",
+          "userInput": "Need rugged terrain",
+          "userId": "u1"
+        }
       },
       "assert": {
         "status": 200,
@@ -59,7 +71,10 @@
           "Content-Type": "application/json",
           "Authorization": "Bearer ${TOKEN}"
         },
-        "body": { "storyTitle": "Temple Walk", "storyContent": "Ancient temple heritage culture history carvings" }
+        "body": {
+          "storyTitle": "Temple Walk",
+          "storyContent": "Ancient temple heritage culture history carvings"
+        }
       },
       "assert": {
         "status": 200,
@@ -76,9 +91,13 @@
           "Content-Type": "application/json",
           "Authorization": "Bearer ${TOKEN}"
         },
-        "body": { "storyTitle": "Only title" }
+        "body": {
+          "storyTitle": "Only title"
+        }
       },
-      "assert": { "status": 400 }
+      "assert": {
+        "status": 400
+      }
     }
   ]
 }

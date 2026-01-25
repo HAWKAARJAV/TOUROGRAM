@@ -1,6 +1,6 @@
 # TestSprite Integration
 
-This document describes how to exercise the StorySwap backend AI endpoints using the TestSprite MCP server.
+This document describes how to exercise the Tourogram backend AI endpoints using the TestSprite MCP server.
 
 ## Prerequisites
 - Backend running locally (port 3001) — can use `SKIP_DB=1` for speed.

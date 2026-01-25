@@ -1,8 +1,8 @@
-# StorySwap Locale - Investment Proposal
+# Tourogram - Investment Proposal
 
 ## Executive Summary
 
-StorySwap Locale is a location-based storytelling platform that connects travelers and locals through authentic stories tied to specific locations around the world. Our platform enables users to discover hidden gems, local insights, and personal experiences that traditional travel guides miss, creating a global community of storytellers and explorers.
+Tourogram is a location-based storytelling platform that connects travelers and locals through authentic stories tied to specific locations around the world. Our platform enables users to discover hidden gems, local insights, and personal experiences that traditional travel guides miss, creating a global community of storytellers and explorers.
 
 **Investment Opportunity:** $1.5M seed round to accelerate growth, enhance platform capabilities, and expand our user base globally.
 
@@ -15,7 +15,7 @@ StorySwap Locale is a location-based storytelling platform that connects travele
 
 ## Our Solution
 
-StorySwap Locale provides a unique platform where:
+Tourogram provides a unique platform where:
 
 1. **Travelers** can discover authentic, location-specific stories and experiences
 2. **Locals** can share their knowledge and perspectives about their communities
@@ -91,7 +91,7 @@ Our team combines expertise in travel technology, content platforms, and scalabl
 
 ## Exit Strategy
 
-StorySwap Locale presents multiple attractive exit opportunities:
+Tourogram presents multiple attractive exit opportunities:
 
 1. **Strategic Acquisition:** Natural acquisition target for larger travel platforms seeking authentic content and engaged communities
 2. **Technology Acquisition:** Our location-based content algorithm and database have standalone value
@@ -101,7 +101,7 @@ StorySwap Locale presents multiple attractive exit opportunities:
 
 For more information or to discuss this investment opportunity, please contact:
 
-- Email: invest@storyswaplocale.com
+- Email: invest@tourogram.com
 - Phone: (555) 123-4567
 
 ---

@@ -1,4 +1,4 @@
-# Story Swap - Reliable Startup Guide
+# Tourogram - Reliable Startup Guide
 
 ## 🚀 Quick Start (Recommended)
 
@@ -132,4 +132,4 @@ API endpoints:
 3. Access from any device: `http://NETWORK_IP:8080`
 4. Everything will work automatically!
 
-This setup ensures your Story Swap application will start reliably every time without CORS or configuration issues! 🎉
+This setup ensures your Tourogram application will start reliably every time without CORS or configuration issues! 🎉

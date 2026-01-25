@@ -96,7 +96,7 @@ const TravelPlanner = () => {
     try {
       // Simulate API call with demo response
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       const demoPlans = {
         'adventure': {
           destination: "Spiti Valley, Himachal Pradesh",
@@ -126,14 +126,14 @@ const TravelPlanner = () => {
           emotionalTone: "mystical exploration"
         }
       };
-      
+
       let selectedPlan = demoPlans.peaceful;
       if (currentMood.toLowerCase().includes('adventure')) {
         selectedPlan = demoPlans.adventure;
       } else if (currentMood.toLowerCase().includes('culture') || currentMood.toLowerCase().includes('history')) {
         selectedPlan = demoPlans.cultural;
       }
-      
+
       setTripPlan(selectedPlan);
     } catch (error) {
       console.error('Error generating trip plan:', error);
@@ -143,7 +143,7 @@ const TravelPlanner = () => {
 
   const saveTripPlan = async () => {
     if (!tripPlan) return;
-    
+
     setIsSaving(true);
     try {
       const token = localStorage.getItem('authToken');
@@ -183,9 +183,9 @@ const TravelPlanner = () => {
 
   const shareTripPlan = async () => {
     if (!tripPlan) return;
-    
-    const shareText = `🌍 ${tripPlan.destination}\n\n"${tripPlan.quote}"\n\n📍 Itinerary:\n${tripPlan.itinerary.map((item, i) => `${i + 1}. ${item}`).join('\n')}\n\n⏰ Duration: ${tripPlan.estimatedDuration}\n🌤️ Best Season: ${tripPlan.bestSeason}\n\nPlanned with StorySwap AI Travel Planner`;
-    
+
+    const shareText = `🌍 ${tripPlan.destination}\n\n"${tripPlan.quote}"\n\n📍 Itinerary:\n${tripPlan.itinerary.map((item, i) => `${i + 1}. ${item}`).join('\n')}\n\n⏰ Duration: ${tripPlan.estimatedDuration}\n🌤️ Best Season: ${tripPlan.bestSeason}\n\nPlanned with Tourogram AI Travel Planner`;
+
     try {
       if (navigator.share) {
         // Use native share on mobile
@@ -235,9 +235,9 @@ const TravelPlanner = () => {
     try {
       // Add context about user's mood and stories
       const contextualMessage = `${chatInput}\n\nContext: I'm interested in ${currentMood} experiences. My previous travel stories include: ${userMood.previousStories.join(', ')}. My travel preferences are: ${userMood.preferences.join(', ')}.`;
-      
+
       const response = await agentXService.sendMessage(contextualMessage);
-      
+
       if (response) {
         const assistantMessage: ChatMessage = {
           id: response.id,
@@ -278,12 +278,12 @@ const TravelPlanner = () => {
             <Sparkles className="h-5 w-5" />
             <span className="font-semibold">AI Travel Planner</span>
           </div>
-          
+
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Plan Your Next Story, {user?.displayName || 'Explorer'}
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            From the stories you've shared to the adventures yet to come. 
+            From the stories you've shared to the adventures yet to come.
             Let AI help you discover your next meaningful journey.
           </p>
         </div>
@@ -351,7 +351,7 @@ const TravelPlanner = () => {
                     className="w-full"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium mb-2">Additional Context</label>
                   <Textarea
@@ -364,7 +364,7 @@ const TravelPlanner = () => {
                 </div>
 
                 <div className="flex gap-3">
-                  <Button 
+                  <Button
                     onClick={generateTripPlan}
                     disabled={isLoading || !currentMood}
                     className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
@@ -375,9 +375,9 @@ const TravelPlanner = () => {
                       <><Sparkles className="h-4 w-4 mr-2" />Generate Plan</>
                     )}
                   </Button>
-                  
+
                   {agentXReady && (
-                    <Button 
+                    <Button
                       onClick={() => setShowChat(!showChat)}
                       variant="outline"
                       className="px-4"
@@ -447,8 +447,8 @@ const TravelPlanner = () => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-3">
-                      <Button 
-                        className="flex-1" 
+                      <Button
+                        className="flex-1"
                         variant="outline"
                         onClick={saveTripPlan}
                         disabled={isSaving || isSaved}
@@ -465,8 +465,8 @@ const TravelPlanner = () => {
                           </>
                         )}
                       </Button>
-                      <Button 
-                        className="flex-1" 
+                      <Button
+                        className="flex-1"
                         variant="outline"
                         onClick={shareTripPlan}
                       >
@@ -500,7 +500,7 @@ const TravelPlanner = () => {
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   {/* Chat Messages */}
-                  <div 
+                  <div
                     className="flex-1 overflow-y-auto space-y-4 mb-4"
                     role="log"
                     aria-label="Chat conversation"
@@ -520,11 +520,10 @@ const TravelPlanner = () => {
                         aria-label={`${message.role === 'user' ? 'You' : 'Assistant'} message`}
                       >
                         <div
-                          className={`max-w-[80%] p-3 rounded-lg ${
-                            message.role === 'user'
+                          className={`max-w-[80%] p-3 rounded-lg ${message.role === 'user'
                               ? 'bg-blue-500 text-white'
                               : 'bg-gray-100 text-gray-800'
-                          }`}
+                            }`}
                         >
                           <p className="text-sm">{message.content}</p>
                         </div>

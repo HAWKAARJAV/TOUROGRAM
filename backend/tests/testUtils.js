@@ -17,8 +17,8 @@ function buildTestToken(overrides = {}) {
   };
   return jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: '30m',
-    issuer: 'hyperlocal-story-swap',
-    audience: 'story-swap-users'
+    issuer: 'tourogram',
+    audience: 'tourogram-users'
   });
 }
 

@@ -8,8 +8,8 @@ const About: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>About StorySwap Locale | Share Stories from Around the World</title>
-        <meta name="description" content="Learn about StorySwap Locale, the platform connecting travelers and locals through authentic stories tied to specific locations around the world." />
+        <title>About Tourogram | Share Stories from Around the World</title>
+        <meta name="description" content="Learn about Tourogram, the platform connecting travelers and locals through authentic stories tied to specific locations around the world." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
@@ -17,7 +17,7 @@ const About: React.FC = () => {
         <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 z-0"></div>
           <div className="max-w-7xl mx-auto relative z-10">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -45,11 +45,11 @@ const About: React.FC = () => {
               >
                 <h2 className="text-3xl font-bold text-slate-900 mb-6">Our Mission</h2>
                 <p className="text-lg text-slate-700 mb-6">
-                  StorySwap Locale was born from a simple idea: every place has a story, and every story has a place. 
+                  Tourogram was born from a simple idea: every place has a story, and every story has a place.
                   We believe that the most authentic way to experience a location is through the stories of those who've been there.
                 </p>
                 <p className="text-lg text-slate-700">
-                  Our platform enables travelers to discover hidden gems, local insights, and personal experiences tied to specific 
+                  Our platform enables travelers to discover hidden gems, local insights, and personal experiences tied to specific
                   locations around the world, creating a global community of storytellers and explorers.
                 </p>
               </motion.div>
@@ -104,7 +104,7 @@ const About: React.FC = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">How StorySwap Locale Works</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">How Tourogram Works</h2>
               <p className="text-lg text-slate-700 max-w-3xl mx-auto">
                 Our platform makes it easy to discover and share location-based stories from around the world.
               </p>
@@ -174,7 +174,7 @@ const About: React.FC = () => {
             >
               <h2 className="text-3xl font-bold mb-4">For Investors</h2>
               <p className="text-lg max-w-3xl mx-auto opacity-90">
-                StorySwap Locale represents a unique opportunity in the travel tech and social media space.
+                Tourogram represents a unique opportunity in the travel tech and social media space.
               </p>
             </motion.div>
 
@@ -235,8 +235,8 @@ const About: React.FC = () => {
               viewport={{ once: true }}
               className="mt-12 text-center"
             >
-              <a 
-                href="/contact" 
+              <a
+                href="/contact"
                 className="inline-block bg-white text-indigo-600 font-medium px-6 py-3 rounded-lg shadow-lg hover:bg-indigo-50 transition-all duration-200"
               >
                 Connect With Our Team

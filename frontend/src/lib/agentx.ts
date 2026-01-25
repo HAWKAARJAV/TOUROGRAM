@@ -24,7 +24,7 @@ export class AgentXService {
       if (!this.apiKey) {
         console.warn('[AgentX] No widget key provided (VITE_AGENTX_KEY). Running in fallback mode.');
       }
-      
+
       if (!document.getElementById('chatBubbleRoot')) {
         const div = document.createElement('div');
         div.setAttribute('id', 'chatBubbleRoot');
@@ -35,7 +35,7 @@ export class AgentXService {
         (window as any).agx = this.apiKey;
         await this.loadAgentXScript();
       }
-      
+
       this.isInitialized = true;
       return true;
     } catch (error) {
@@ -68,7 +68,7 @@ export class AgentXService {
     try {
       const response = await axios.post('/api/v1/agentx/chat', {
         message,
-        context: { source: 'StorySwap2.0' }
+        context: { source: 'Tourogram' }
       });
 
       if (response.data) {
