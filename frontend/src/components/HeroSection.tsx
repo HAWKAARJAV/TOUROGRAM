@@ -266,7 +266,7 @@ const HeroSection = () => {
                 }}>
                   {swappersCount.toLocaleString()}
                 </div>
-                <div className="text-white font-semibold text-lg mb-1">Tourogram Travelers</div>
+                <div className="text-white font-semibold text-lg mb-1">LocaleLens Travelers</div>
                 <div className="text-white/70 text-sm">Active community members</div>
                 <div className="mt-3 w-12 h-1 bg-gradient-to-r from-primary to-accent rounded-full mx-auto"></div>
               </div>

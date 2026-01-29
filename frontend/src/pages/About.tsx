@@ -8,8 +8,8 @@ const About: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>About Tourogram | Share Stories from Around the World</title>
-        <meta name="description" content="Learn about Tourogram, the platform connecting travelers and locals through authentic stories tied to specific locations around the world." />
+        <title>About LocaleLens | Share Stories from Around the World</title>
+        <meta name="description" content="Learn about LocaleLens, the platform connecting travelers and locals through authentic stories tied to specific locations around the world." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
@@ -45,7 +45,7 @@ const About: React.FC = () => {
               >
                 <h2 className="text-3xl font-bold text-slate-900 mb-6">Our Mission</h2>
                 <p className="text-lg text-slate-700 mb-6">
-                  Tourogram was born from a simple idea: every place has a story, and every story has a place.
+                  LocaleLens was born from a simple idea: every place has a story, and every story has a place.
                   We believe that the most authentic way to experience a location is through the stories of those who've been there.
                 </p>
                 <p className="text-lg text-slate-700">
@@ -104,7 +104,7 @@ const About: React.FC = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">How Tourogram Works</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">How LocaleLens Works</h2>
               <p className="text-lg text-slate-700 max-w-3xl mx-auto">
                 Our platform makes it easy to discover and share location-based stories from around the world.
               </p>
@@ -174,7 +174,7 @@ const About: React.FC = () => {
             >
               <h2 className="text-3xl font-bold mb-4">For Investors</h2>
               <p className="text-lg max-w-3xl mx-auto opacity-90">
-                Tourogram represents a unique opportunity in the travel tech and social media space.
+                LocaleLens represents a unique opportunity in the travel tech and social media space.
               </p>
             </motion.div>
 

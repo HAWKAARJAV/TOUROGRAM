@@ -1,4 +1,4 @@
-# Tourogram - Reliable Startup Guide
+# LocaleLens - Reliable Startup Guide
 
 ## 🚀 Quick Start (Recommended)
 

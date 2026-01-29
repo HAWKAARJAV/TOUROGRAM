@@ -16,7 +16,7 @@ MapTiler provides reliable maps with a generous free tier and better performance
    - Create a new key or use your default key
    - Copy the API key
 
-3. **Configure in Tourogram**
+3. **Configure in LocaleLens**
    ```bash
    # In /frontend/vite-frontend/.env
    VITE_MAPTILER_API_KEY=your_maptiler_api_key_here

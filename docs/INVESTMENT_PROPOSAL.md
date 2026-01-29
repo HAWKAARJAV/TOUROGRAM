@@ -1,8 +1,8 @@
-# Tourogram - Investment Proposal
+# LocaleLens - Investment Proposal
 
 ## Executive Summary
 
-Tourogram is a location-based storytelling platform that connects travelers and locals through authentic stories tied to specific locations around the world. Our platform enables users to discover hidden gems, local insights, and personal experiences that traditional travel guides miss, creating a global community of storytellers and explorers.
+LocaleLens is a location-based storytelling platform that connects travelers and locals through authentic stories tied to specific locations around the world. Our platform enables users to discover hidden gems, local insights, and personal experiences that traditional travel guides miss, creating a global community of storytellers and explorers.
 
 **Investment Opportunity:** $1.5M seed round to accelerate growth, enhance platform capabilities, and expand our user base globally.
 
@@ -15,7 +15,7 @@ Tourogram is a location-based storytelling platform that connects travelers and 
 
 ## Our Solution
 
-Tourogram provides a unique platform where:
+LocaleLens provides a unique platform where:
 
 1. **Travelers** can discover authentic, location-specific stories and experiences
 2. **Locals** can share their knowledge and perspectives about their communities
@@ -91,7 +91,7 @@ Our team combines expertise in travel technology, content platforms, and scalabl
 
 ## Exit Strategy
 
-Tourogram presents multiple attractive exit opportunities:
+LocaleLens presents multiple attractive exit opportunities:
 
 1. **Strategic Acquisition:** Natural acquisition target for larger travel platforms seeking authentic content and engaged communities
 2. **Technology Acquisition:** Our location-based content algorithm and database have standalone value
@@ -101,7 +101,7 @@ Tourogram presents multiple attractive exit opportunities:
 
 For more information or to discuss this investment opportunity, please contact:
 
-- Email: invest@tourogram.com
+- Email: invest@localelens.com
 - Phone: (555) 123-4567
 
 ---

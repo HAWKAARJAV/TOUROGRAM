@@ -184,7 +184,7 @@ const TravelPlanner = () => {
   const shareTripPlan = async () => {
     if (!tripPlan) return;
 
-    const shareText = `🌍 ${tripPlan.destination}\n\n"${tripPlan.quote}"\n\n📍 Itinerary:\n${tripPlan.itinerary.map((item, i) => `${i + 1}. ${item}`).join('\n')}\n\n⏰ Duration: ${tripPlan.estimatedDuration}\n🌤️ Best Season: ${tripPlan.bestSeason}\n\nPlanned with Tourogram AI Travel Planner`;
+    const shareText = `🌍 ${tripPlan.destination}\n\n"${tripPlan.quote}"\n\n📍 Itinerary:\n${tripPlan.itinerary.map((item, i) => `${i + 1}. ${item}`).join('\n')}\n\n⏰ Duration: ${tripPlan.estimatedDuration}\n🌤️ Best Season: ${tripPlan.bestSeason}\n\nPlanned with LocaleLens AI Travel Planner`;
 
     try {
       if (navigator.share) {

@@ -253,7 +253,7 @@ const Navigation: React.FC = () => {
                 <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               </div>
               <span className="text-lg font-bold text-white group-hover:scale-105 transition-transform duration-300 hidden sm:block">
-                Tourogram
+                LocaleLens
               </span>
             </Link>
 

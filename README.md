@@ -1,13 +1,13 @@
 <div align="center">
 
-# 🌍 Tourogram
+# 🌍 LocaleLens
 ### *Travel Stories by Real People, for Real People*
 
 Share your travel experiences, discover hidden gems, and explore the world through authentic stories from locals and travelers.
 
 ---
 
-### 🚀 **[Visit Live Website →](https://tourogram.netlify.app)**
+### 🚀 **[Visit Live Website →](https://localelens.netlify.app)**
 
 ---
 
@@ -19,9 +19,9 @@ Share your travel experiences, discover hidden gems, and explore the world throu
 
 ---
 
-## 📱 What is Tourogram?
+## 📱 What is LocaleLens?
 
-Tourogram is a **travel storytelling website** where:
+LocaleLens is a **travel storytelling website** where:
 - 📝 **Travelers share** their experiences at specific locations
 - 🗺️ **Others discover** these stories on an interactive map
 - 💬 **Everyone connects** through authentic local experiences
@@ -34,9 +34,9 @@ Tourogram is a **travel storytelling website** where:
 
 | What | Where | What It Does |
 |------|-------|--------------|
-| **Website** | [tourogram.netlify.app](https://tourogram.netlify.app) | Main website where users visit |
-| **API Server** | [tourogram-tdp7.onrender.com](https://tourogram-tdp7.onrender.com) | Backend that stores data |
-| **API Docs** | [API Documentation](https://tourogram-tdp7.onrender.com/api/docs) | Technical documentation |
+| **Website** | [localelens.netlify.app](https://localelens.netlify.app) | Main website where users visit |
+| **API Server** | [localelens-api.onrender.com](https://localelens-api.onrender.com) | Backend that stores data |
+| **API Docs** | [API Documentation](https://localelens-api.onrender.com/api/docs) | Technical documentation |
 
 ---
 
@@ -70,7 +70,7 @@ When traveling, people often miss **authentic local experiences** because:
 - Friends' recommendations get lost in chat history
 
 ### The Solution
-Tourogram provides:
+LocaleLens provides:
 - **Real stories** from real people
 - **Location-specific** recommendations
 - **Easy discovery** through interactive maps
@@ -131,8 +131,8 @@ Story Saved in Database
 
 ### Step 1: Download the Code
 ```bash
-git clone https://github.com/HAWKAARJAV/TOUROGRAM.git
-cd TOUROGRAM
+git clone https://github.com/HAWKAARJAV/LocaleLens.git
+cd LocaleLens
 ```
 
 ### Step 2: Setup Everything (One Command!)
@@ -179,7 +179,7 @@ Password: test1234
 ## 📂 Project Structure (What's What)
 
 ```
-tourogram/
+localelens/
 │
 ├── frontend/               ← Website code (what you see)
 │   └── vite-frontend/
@@ -235,7 +235,7 @@ NODE_ENV=development
 PORT=3001
 
 # Database (Get from MongoDB Atlas)
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/tourogram
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/localelens
 
 # Security Keys (Generate random strings)
 JWT_SECRET=your-secret-key-here
@@ -253,7 +253,7 @@ VITE_API_URL=http://localhost:3001
 VITE_MAPTILER_API_KEY=your-maptiler-key
 
 # App Name
-VITE_APP_NAME=Tourogram
+VITE_APP_NAME=LocaleLens
 ```
 
 ---
@@ -264,7 +264,7 @@ VITE_APP_NAME=Tourogram
 1. Connect GitHub repository to Netlify
 2. Set build command: `npm run build`
 3. Set publish directory: `dist`
-4. Add environment variable: `VITE_API_URL=https://tourogram-tdp7.onrender.com`
+4. Add environment variable: `VITE_API_URL=https://localelens-api.onrender.com`
 5. Deploy!
 
 ### Deploy Backend (Render)
@@ -287,14 +287,14 @@ VITE_APP_NAME=Tourogram
 ### Problem: "Cannot connect to database"
 **Solution:** Check if `MONGODB_URI` in `.env` includes the database name:
 ```
-mongodb+srv://user:pass@cluster.mongodb.net/tourogram
+mongodb+srv://user:pass@cluster.mongodb.net/localelens
                                                 ^^^^^^^^ (should have database name)
 ```
 
 ### Problem: "CORS Error" in browser
 **Solution:** Make sure backend `.env` has:
 ```
-FRONTEND_URL=https://tourogram.netlify.app
+FRONTEND_URL=https://localelens.netlify.app
 ```
 
 ### Problem: "Port already in use"
@@ -331,7 +331,7 @@ GET    /api/v1/users/me             → Get my profile
 PUT    /api/v1/users/me             → Update my profile
 ```
 
-Full documentation: [https://tourogram-tdp7.onrender.com/api/docs](https://tourogram-tdp7.onrender.com/api/docs)
+Full documentation: [https://localelens-api.onrender.com/api/docs](https://localelens-api.onrender.com/api/docs)
 
 ---
 
@@ -351,7 +351,7 @@ Full documentation: [https://tourogram-tdp7.onrender.com/api/docs](https://touro
 **Aarjav Jain**
 
 - GitHub: [@HAWKAARJAV](https://github.com/HAWKAARJAV)
-- Project: [Tourogram](https://github.com/HAWKAARJAV/TOUROGRAM)
+- Project: [LocaleLens](https://github.com/HAWKAARJAV/LocaleLens)
 
 ---
 
@@ -377,7 +377,7 @@ Free to use under MIT License - do whatever you want with it!
 
 ### 🌍 Start Your Travel Story Today!
 
-[![Visit Website](https://img.shields.io/badge/Visit-Tourogram-00C7B7?style=for-the-badge)](https://tourogram.netlify.app)
+[![Visit Website](https://img.shields.io/badge/Visit-LocaleLens-00C7B7?style=for-the-badge)](https://localelens.netlify.app)
 
 **Made with ❤️ for travelers everywhere**
 

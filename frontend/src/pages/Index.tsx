@@ -209,7 +209,7 @@ const Index = () => {
                   whileHover={{ x: 5 }}
                 >
                   <Mail className="h-5 w-5 mr-3" />
-                  <span>hello@tourogram.com</span>
+                  <span>hello@localelens.com</span>
                 </motion.div>
                 <motion.div
                   className="flex items-center text-white/70 hover:text-primary transition-colors duration-300"
@@ -338,10 +338,10 @@ const Index = () => {
                   >
                     <Heart className="h-4 w-4 text-red-500 fill-current" />
                   </motion.span>
-                  by Tourogram Team
+                  by LocaleLens Team
                 </p>
               </div>
-              <p className="text-white/60">&copy; 2025 Tourogram. Building community through shared stories.</p>
+              <p className="text-white/60">&copy; 2025 LocaleLens. Building community through shared stories.</p>
             </div>
           </motion.div>
         </div>
