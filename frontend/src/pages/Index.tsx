@@ -188,7 +188,7 @@ const Index = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                Tourogram
+                LocaleLens
               </motion.h3>
               <p className="text-white/80 mb-6 text-lg leading-relaxed">
                 Connecting the world through authentic local stories and shared experiences.

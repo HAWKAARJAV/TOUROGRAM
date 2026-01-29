@@ -12,7 +12,6 @@ import {
   Heart,
   Menu,
   ChevronDown,
-  Bell,
   Settings,
   Zap,
   Plus,
@@ -30,12 +29,9 @@ const Navigation: React.FC = () => {
 
   // State management
   const [isExpanded, setIsExpanded] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
-  const notificationCount = 3; // Mock notification count
 
   const handleLogoutClick = () => {
     setShowLogoutConfirmation(true);
@@ -248,7 +244,7 @@ const Navigation: React.FC = () => {
               to="/"
               className="flex items-center space-x-3 group flex-shrink-0"
             >
-              <div className="relative p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+              <div className="relative p-2 bg-blue-600 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
                 <MapPin className="h-5 w-5 text-white" />
                 <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               </div>
@@ -348,26 +344,13 @@ const Navigation: React.FC = () => {
             <div className="flex items-center space-x-3 flex-shrink-0">
               {isSignedIn ? (
                 <div className="relative flex items-center space-x-3">
-                  {/* Notifications */}
-                  <button
-                    className="relative p-2.5 rounded-xl bg-white/20 hover:bg-white/30 transition-all duration-300 border border-white/20"
-                    onClick={() => setShowNotifications(!showNotifications)}
-                  >
-                    <Bell className="h-5 w-5 text-white" />
-                    {notificationCount > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold shadow-lg">
-                        {notificationCount}
-                      </span>
-                    )}
-                  </button>
-
                   {/* User Menu Button - Always Visible */}
                   <button
                     className="flex items-center space-x-3 px-4 py-2.5 rounded-xl bg-gradient-to-r from-white/20 to-white/10 hover:from-white/30 hover:to-white/20 transition-all duration-300 border border-white/30 hover:border-white/50 shadow-lg"
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     onMouseEnter={() => setShowUserMenu(true)}
                   >
-                    <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                    <div className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
                       <User className="h-5 w-5 text-white" />
                     </div>
                     <span className="text-white font-semibold text-sm">
@@ -375,41 +358,6 @@ const Navigation: React.FC = () => {
                     </span>
                     <ChevronDown className="h-4 w-4 text-white" />
                   </button>
-
-                  {/* Notifications Dropdown */}
-                  {showNotifications && (
-                    <div
-                      className="absolute top-full right-20 mt-2 w-80 bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl z-[9999]"
-                      onMouseLeave={() => setShowNotifications(false)}
-                    >
-                      <div className="p-4">
-                        <h3 className="text-white font-semibold mb-3">Notifications</h3>
-                        <div className="space-y-3">
-                          <div className="flex items-start space-x-3 p-3 bg-white/5 rounded-lg">
-                            <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                            <div>
-                              <p className="text-white/90 text-sm">New story from Tokyo adventure</p>
-                              <p className="text-white/60 text-xs">2 hours ago</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start space-x-3 p-3 bg-white/5 rounded-lg">
-                            <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                            <div>
-                              <p className="text-white/90 text-sm">Your story got 5 new likes</p>
-                              <p className="text-white/60 text-xs">1 day ago</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start space-x-3 p-3 bg-white/5 rounded-lg">
-                            <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
-                            <div>
-                              <p className="text-white/90 text-sm">AI suggested a new trip plan</p>
-                              <p className="text-white/60 text-xs">2 days ago</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
 
                   {/* User Dropdown Menu */}
                   {showUserMenu && (
@@ -419,7 +367,7 @@ const Navigation: React.FC = () => {
                     >
                       <div className="p-4">
                         <div className="text-center mb-4">
-                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-2">
+                          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-2">
                             <User className="h-6 w-6 text-white" />
                           </div>
                           <h3 className="text-white font-semibold">
@@ -482,7 +430,7 @@ const Navigation: React.FC = () => {
                     </button>
                   </Link>
                   <Link to="/register">
-                    <button className="px-5 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-500/50">
+                    <button className="px-5 py-2.5 rounded-xl font-semibold text-sm bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-600/50">
                       Sign Up
                     </button>
                   </Link>
