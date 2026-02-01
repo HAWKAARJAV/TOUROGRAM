@@ -29,7 +29,7 @@ const Explore = () => {
     // Force fresh fetch on component mount
     fetchStories();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  
+
   // Add a separate effect to refetch when page becomes visible
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -37,7 +37,7 @@ const Explore = () => {
         fetchStories();
       }
     };
-    
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
@@ -45,16 +45,16 @@ const Explore = () => {
   const fetchStories = async () => {
     setLoading(true);
     setError(null);
-    
+
     const response = await apiService.getStories({ limit: 20 });
-    
+
     if (response.error) {
       setError(response.error);
     } else if (response.data) {
       setStories(response.data.stories);
       updateMapData(response.data.stories);
     }
-    
+
     setLoading(false);
   };
 
@@ -69,11 +69,12 @@ const Explore = () => {
     storyList.forEach((story, index) => {
       // Try to get coordinates from story location
       let coordinates = null;
-      
-      if (story.location?.coordinates) {
+
+      // API returns: { coordinates: { type: "Point", coordinates: [lng, lat] } }
+      if (story.location?.coordinates?.coordinates) {
         coordinates = {
-          lat: story.location.coordinates[1], // GeoJSON format: [lng, lat]
-          lng: story.location.coordinates[0]
+          lat: story.location.coordinates.coordinates[1], // GeoJSON format: [lng, lat]
+          lng: story.location.coordinates.coordinates[0]
         };
       } else if (story.location?.address?.formatted) {
         coordinates = getLocationCoordinates(story.location.address.formatted);
@@ -111,7 +112,7 @@ const Explore = () => {
 
   const filteredStories = stories.filter(story => {
     const matchesSearch = story.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         story.location.address.formatted.toLowerCase().includes(searchTerm.toLowerCase());
+      story.location.address.formatted.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filter === "all" || story.tags.some(tag => tag.toLowerCase() === filter.toLowerCase());
     return matchesSearch && matchesFilter;
   });
@@ -129,9 +130,9 @@ const Explore = () => {
               </p>
             </div>
             <div className="flex gap-3">
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="border-white/30 text-white hover:bg-white/20 hover:text-white shadow-lg transition-all"
                 onClick={() => fetchStories()}
                 disabled={loading}
@@ -139,9 +140,9 @@ const Explore = () => {
                 <Search className="mr-2 h-5 w-5" />
                 {loading ? 'Refreshing...' : 'Refresh Stories'}
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="border-white/30 text-white hover:bg-white/20 hover:text-white shadow-lg transition-all"
                 onClick={() => setShowMap(!showMap)}
               >
@@ -219,13 +220,13 @@ const Explore = () => {
             {filteredStories.map((story, index) => {
               // Get a demo image for the story - rotate through available images
               const storyImage = Object.values(storyImages)[index % Object.values(storyImages).length];
-              
+
               return (
                 <Card key={story._id} className="overflow-hidden h-full flex flex-col group hover:shadow-xl transition-all duration-300 border-border/50 hover:border-primary/30">
                   <div className="relative h-48 overflow-hidden">
-                    <img 
-                      src={storyImage} 
-                      alt={story.title} 
+                    <img
+                      src={storyImage}
+                      alt={story.title}
                       className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500"
                       onError={handleImageError}
                     />
@@ -243,7 +244,7 @@ const Explore = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <CardHeader className="pb-2 group-hover:bg-muted/30 transition-colors">
                     <div className="flex justify-between items-start">
                       <CardTitle className="text-xl font-semibold line-clamp-2 group-hover:text-primary transition-colors">{story.title}</CardTitle>
@@ -261,17 +262,17 @@ const Explore = () => {
                       </div>
                     </div>
                   </CardHeader>
-                  
+
                   <CardContent className="pb-4 flex-grow flex flex-col group-hover:bg-muted/30 transition-colors">
                     <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
                       {story.content.snippet}
                     </p>
-                    
+
                     <div className="mt-auto flex items-center justify-between pt-3 border-t border-border/30">
                       <div className="flex items-center space-x-2">
                         <div className="w-8 h-8 rounded-full overflow-hidden bg-muted ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
-                          <img 
-                            src={story.author.avatar?.url || avatarPlaceholder} 
+                          <img
+                            src={story.author.avatar?.url || avatarPlaceholder}
                             alt={story.author.displayName}
                             className="w-full h-full object-cover"
                             onError={handleImageError}
@@ -279,7 +280,7 @@ const Explore = () => {
                         </div>
                         <span className="text-sm font-medium">{story.author.displayName}</span>
                       </div>
-                      
+
                       <div className="flex items-center space-x-1 text-muted-foreground">
                         <Button variant="ghost" size="icon" className="h-8 w-8 hover:text-primary hover:bg-primary/10">
                           <Heart className="h-4 w-4" />
