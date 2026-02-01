@@ -15,46 +15,46 @@ const PopularDestinations = () => {
 
   const destinations: Destination[] = [
     {
-      name: 'Paris',
-      country: 'France',
-      description: 'Explore the City of Lights – Eiffel Tower, Louvre & more',
-      image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2600&auto=format&fit=crop',
-      storiesCount: 342
-    },
-    {
-      name: 'Tokyo',
-      country: 'Japan',
-      description: 'Discover Tokyo – Shibuya, Cherry Blossoms, Temples',
-      image: 'https://images.unsplash.com/photo-1522547902298-51566e4fb383?q=80&w=735&auto=format&fit=crop',
-      storiesCount: 287
-    },
-    {
-      name: 'New York',
-      country: 'USA',
-      description: 'Experience NYC – Times Square, Central Park, Broadway',
-      image: 'https://plus.unsplash.com/premium_photo-1661954654458-c673671d4a08?q=80&w=1170&auto=format&fit=crop',
-      storiesCount: 456
-    },
-    {
-      name: 'Rome',
-      country: 'Italy',
-      description: 'Walk through History – Colosseum, Vatican, Roman Forum',
-      image: 'https://plus.unsplash.com/premium_photo-1675975678457-d70708bf77c8?q=80&w=1170&auto=format&fit=crop',
-      storiesCount: 298
-    },
-    {
-      name: 'Dubai',
-      country: 'UAE',
-      description: 'Luxury and Innovation – Burj Khalifa, Desert Safari',
-      image: 'https://images.unsplash.com/photo-1526495124232-a04e1849168c?q=80&w=687&auto=format&fit=crop',
-      storiesCount: 213
+      name: 'Delhi',
+      country: 'India',
+      description: 'Explore hidden gems – Old Delhi food lanes, secret monuments & artisan workshops',
+      image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=2340&auto=format&fit=crop',
+      storiesCount: 35
     },
     {
       name: 'Mumbai',
       country: 'India',
-      description: 'Vibrant Culture – Gateway of India, Marine Drive & Street Food',
-      image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1171&auto=format&fit=crop',
-      storiesCount: 378
+      description: 'Vibrant Culture – Gateway of India, Marine Drive & Street Food trails',
+      image: 'https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?q=80&w=2340&auto=format&fit=crop',
+      storiesCount: 28
+    },
+    {
+      name: 'Jaipur',
+      country: 'India',
+      description: 'Pink City treasures – Hawa Mahal, Amber Fort & royal heritage walks',
+      image: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?q=80&w=2340&auto=format&fit=crop',
+      storiesCount: 22
+    },
+    {
+      name: 'Varanasi',
+      country: 'India',
+      description: 'Spiritual heart of India – Ghats, morning aarti & ancient silk weavers',
+      image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?q=80&w=2340&auto=format&fit=crop',
+      storiesCount: 19
+    },
+    {
+      name: 'Kerala',
+      country: 'India',
+      description: 'God\'s Own Country – Backwaters, spice plantations & Kathakali artists',
+      image: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=2340&auto=format&fit=crop',
+      storiesCount: 24
+    },
+    {
+      name: 'Kolkata',
+      country: 'India',
+      description: 'City of Joy – Colonial architecture, Bengali culture & literary cafés',
+      image: 'https://images.unsplash.com/photo-1558431382-27e303142255?q=80&w=2340&auto=format&fit=crop',
+      storiesCount: 17
     }
   ];
 
@@ -88,7 +88,7 @@ const PopularDestinations = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -98,21 +98,21 @@ const PopularDestinations = () => {
           <div className="inline-block px-6 py-2 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
             <span className="flex items-center">
               <MapPin className="w-4 h-4 mr-2" />
-              EXPLORE THE WORLD
+              EXPLORE INDIA'S HIDDEN GEMS
             </span>
           </div>
-          
+
           <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-primary to-gray-900 bg-clip-text text-transparent">
-            Popular Destination to Visit
+            Discover India's Secret Spots
           </h2>
-          
+
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Discover the world's most loved destinations through authentic local stories and experiences
+            Explore authentic local stories from India's most fascinating cities – from hidden food lanes to secret heritage sites
           </p>
         </motion.div>
 
         {/* Destinations Grid */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
@@ -135,10 +135,10 @@ const PopularDestinations = () => {
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
                   />
-                  
+
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                  
+
                   {/* Stories Count Badge */}
                   <div className="absolute top-4 right-4 px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full text-sm font-semibold text-gray-900 shadow-lg">
                     {destination.storiesCount} stories
@@ -151,15 +151,15 @@ const PopularDestinations = () => {
                     <MapPin className="w-4 h-4 mr-2 text-primary" />
                     <span className="text-sm font-medium text-white/90">{destination.country}</span>
                   </div>
-                  
+
                   <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">
                     {destination.name}
                   </h3>
-                  
+
                   <p className="text-white/80 text-sm mb-4 line-clamp-2">
                     {destination.description}
                   </p>
-                  
+
                   <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform duration-300">
                     Explore Stories
                     <ArrowRight className="w-4 h-4 ml-2" />
@@ -171,7 +171,7 @@ const PopularDestinations = () => {
         </motion.div>
 
         {/* View All Button */}
-        <motion.div 
+        <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

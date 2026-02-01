@@ -18,7 +18,7 @@ function analyzeStoryEmotion(title, content) {
   const text = (title + ' ' + content).toLowerCase();
   let emotion = 'peaceful';
   let moodScore = 5;
-  
+
   const emotionKeywords = {
     adventure: ['adventure', 'trek', 'climb', 'thrill', 'expedition', 'mountain', 'hike', 'climb', 'rapids', 'extreme'],
     cultural: ['temple', 'culture', 'heritage', 'history', 'ancient', 'museum', 'monument', 'traditional', 'ritual'],
@@ -30,7 +30,7 @@ function analyzeStoryEmotion(title, content) {
     contemplative: ['reflect', 'think', 'ponder', 'quiet', 'solitude', 'alone', 'introspective', 'thoughtful'],
     mysterious: ['mystery', 'unknown', 'secret', 'hidden', 'enigmatic', 'curious', 'unexplored', 'strange']
   };
-  
+
   const suggestions = {
     adventure: [
       'Plan a trekking expedition to similar terrain',
@@ -83,7 +83,7 @@ function analyzeStoryEmotion(title, content) {
       'Take night walks and ghost tours'
     ]
   };
-  
+
   // Calculate emotion scores based on keyword matches
   let maxScore = 0;
   for (const [emotionType, keywords] of Object.entries(emotionKeywords)) {
@@ -102,7 +102,7 @@ function analyzeStoryEmotion(title, content) {
       moodScore = Math.min(10, 5 + Math.floor(score / 2));
     }
   }
-  
+
   return {
     emotion,
     moodScore,
@@ -136,7 +136,7 @@ const getStories = asyncHandler(async (req, res) => {
     // Validate pagination parameters
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);
-    
+
     if (isNaN(pageNum) || pageNum < 1) {
       return res.status(400).json({
         success: false,
@@ -146,7 +146,7 @@ const getStories = asyncHandler(async (req, res) => {
         }
       });
     }
-    
+
     if (isNaN(limitNum) || limitNum < 1 || limitNum > 100) {
       return res.status(400).json({
         success: false,
@@ -164,7 +164,7 @@ const getStories = asyncHandler(async (req, res) => {
     if (lat && lng) {
       const longitude = parseFloat(lng);
       const latitude = parseFloat(lat);
-      
+
       if (isNaN(longitude) || isNaN(latitude)) {
         return res.status(400).json({
           success: false,
@@ -174,7 +174,7 @@ const getStories = asyncHandler(async (req, res) => {
           }
         });
       }
-      
+
       // Find nearby locations first
       const nearbyLocations = await Location.find({
         coordinates: {
@@ -187,128 +187,128 @@ const getStories = asyncHandler(async (req, res) => {
           }
         }
       }).select('_id');
-      
+
       query.location = { $in: nearbyLocations.map(loc => loc._id) };
     } else if (city) {
-    // Filter by city name
-    const cityLocations = await Location.find({
-      'address.city': new RegExp(city, 'i')
-    }).select('_id');
-    
-    query.location = { $in: cityLocations.map(loc => loc._id) };
-  }
+      // Filter by city name
+      const cityLocations = await Location.find({
+        'address.city': new RegExp(city, 'i')
+      }).select('_id');
 
-  // Tag filtering
-  if (tags) {
-    const tagList = Array.isArray(tags) ? tags : tags.split(',');
-    query.tags = { $in: tagList };
-  }
-
-  // Author filtering
-  if (author) {
-    query.author = author;
-  } else if (authorEmail) {
-    // Find user by email and filter by their ID
-    const user = await User.findOne({ email: authorEmail }).select('_id');
-    if (user) {
-      query.author = user._id;
-    } else {
-      // If no user found, return empty results
-      query.author = null;
+      query.location = { $in: cityLocations.map(loc => loc._id) };
     }
-  }
 
-  // Search filtering
-  if (search) {
-    query.$text = { $search: search };
-  }
+    // Tag filtering
+    if (tags) {
+      const tagList = Array.isArray(tags) ? tags : tags.split(',');
+      query.tags = { $in: tagList };
+    }
 
-  // Sorting
-  let sortOptions = {};
-  switch (sortBy) {
-    case 'popular':
-      sortOptions = { 'analytics.popularityScore': -1 };
-      break;
-    case 'likes':
-      sortOptions = { 'engagement.likes': -1 };
-      break;
-    case 'views':
-      sortOptions = { 'engagement.views': -1 };
-      break;
-    default:
-      sortOptions = { publishedAt: -1 };
-  }
+    // Author filtering
+    if (author) {
+      query.author = author;
+    } else if (authorEmail) {
+      // Find user by email and filter by their ID
+      const user = await User.findOne({ email: authorEmail }).select('_id');
+      if (user) {
+        query.author = user._id;
+      } else {
+        // If no user found, return empty results
+        query.author = null;
+      }
+    }
 
-  // Execute query with pagination (add debug + granular error capture)
-  let stories = [];
-  let total = 0;
-  try {
-    const qLimit = parseInt(limit);
-    const qSkip = (parseInt(page) - 1) * qLimit;
-    // Removed verbose debug logging after stabilization.
-    stories = await Story.find(query)
-      .populate('author', 'username displayName avatar homeCity stats')
-      .populate('location', 'coordinates address')
-      .populate('tags', 'name displayName color')
-      .sort(sortOptions)
-      .limit(qLimit)
-      .skip(qSkip)
-      .lean();
-    total = await Story.countDocuments(query);
-  } catch (innerErr) {
-    // Log full error details
-    logger.error('Story query failed', {
-      name: innerErr?.name,
-      message: innerErr?.message,
-      stack: innerErr?.stack,
-      code: innerErr?.code,
-      query
-    });
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'STORY_QUERY_FAILED',
-        message: 'Failed running story query',
-        details: innerErr?.message || 'Unknown error'
+    // Search filtering
+    if (search) {
+      query.$text = { $search: search };
+    }
+
+    // Sorting
+    let sortOptions = {};
+    switch (sortBy) {
+      case 'popular':
+        sortOptions = { 'analytics.popularityScore': -1 };
+        break;
+      case 'likes':
+        sortOptions = { 'engagement.likes': -1 };
+        break;
+      case 'views':
+        sortOptions = { 'engagement.views': -1 };
+        break;
+      default:
+        sortOptions = { publishedAt: -1 };
+    }
+
+    // Execute query with pagination (add debug + granular error capture)
+    let stories = [];
+    let total = 0;
+    try {
+      const qLimit = parseInt(limit);
+      const qSkip = (parseInt(page) - 1) * qLimit;
+      // Removed verbose debug logging after stabilization.
+      stories = await Story.find(query)
+        .populate('author', 'username displayName avatar homeCity stats')
+        .populate('location', 'coordinates address description')
+        .populate('tags', 'name displayName color')
+        .sort(sortOptions)
+        .limit(qLimit)
+        .skip(qSkip)
+        .lean();
+      total = await Story.countDocuments(query);
+    } catch (innerErr) {
+      // Log full error details
+      logger.error('Story query failed', {
+        name: innerErr?.name,
+        message: innerErr?.message,
+        stack: innerErr?.stack,
+        code: innerErr?.code,
+        query
+      });
+      return res.status(500).json({
+        success: false,
+        error: {
+          code: 'STORY_QUERY_FAILED',
+          message: 'Failed running story query',
+          details: innerErr?.message || 'Unknown error'
+        }
+      });
+    }
+
+    // Removed verbose debug logging.
+    const pages = Math.ceil(total / parseInt(limit));
+
+    // Process stories for response (check if unlocked for current user)
+    const processedStories = await Promise.all(stories.map(async (story) => {
+      const isUnlocked = await checkStoryUnlocked(story._id, req.user?._id);
+
+      return {
+        ...story,
+        isUnlocked,
+        content: isUnlocked ? story.content : {
+          ...story.content,
+          text: story.content.snippet ? { body: story.content.snippet } : undefined,
+          media: undefined // Hide media if locked
+        }
+      };
+    }));
+
+    res.json({
+      stories: processedStories,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages,
+        hasNext: parseInt(page) < pages,
+        hasPrev: parseInt(page) > 1
+      },
+      filters: {
+        location: lat && lng ? { lat: parseFloat(lat), lng: parseFloat(lng), radius: parseInt(radius) } : null,
+        city: city || null,
+        tags: tags || null,
+        search: search || null
       }
     });
-  }
-
-  // Removed verbose debug logging.
-  const pages = Math.ceil(total / parseInt(limit));
-
-  // Process stories for response (check if unlocked for current user)
-  const processedStories = await Promise.all(stories.map(async (story) => {
-    const isUnlocked = await checkStoryUnlocked(story._id, req.user?._id);
-    
-    return {
-      ...story,
-      isUnlocked,
-      content: isUnlocked ? story.content : {
-        ...story.content,
-        text: story.content.snippet ? { body: story.content.snippet } : undefined,
-        media: undefined // Hide media if locked
-      }
-    };
-  }));
-
-  res.json({
-    stories: processedStories,
-    pagination: {
-      page: parseInt(page),
-      limit: parseInt(limit),
-      total,
-      pages,
-      hasNext: parseInt(page) < pages,
-      hasPrev: parseInt(page) > 1
-    },
-    filters: {
-      location: lat && lng ? { lat: parseFloat(lat), lng: parseFloat(lng), radius: parseInt(radius) } : null,
-      city: city || null,
-      tags: tags || null,
-      search: search || null
-    }
-  });
   } catch (error) {
     logger.error('Error fetching stories:', error);
     res.status(500).json({
@@ -329,10 +329,10 @@ const getStories = asyncHandler(async (req, res) => {
  */
 const getStoryById = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  
+
   const story = await Story.findById(id)
     .populate('author', 'username displayName avatar homeCity stats')
-    .populate('location', 'coordinates address')
+    .populate('location', 'coordinates address description')
     .populate('tags', 'name displayName color');
 
   if (!story) {
@@ -341,7 +341,7 @@ const getStoryById = asyncHandler(async (req, res) => {
 
   // Check if story is unlocked for current user
   const isUnlocked = await checkStoryUnlocked(story._id, req.user?._id);
-  
+
   // Track view if story is unlocked
   if (isUnlocked) {
     await story.addView(req.user?._id, 'direct');
@@ -439,7 +439,7 @@ const createStory = asyncHandler(async (req, res) => {
       story.moodScore = emotionAnalysis.moodScore;
       story.aiSuggestions = emotionAnalysis.aiSuggestions;
       story.emotionAnalyzedAt = new Date();
-      
+
       // Update user's mood history
       await User.findByIdAndUpdate(req.user._id, {
         $push: {
@@ -483,7 +483,7 @@ const createStory = asyncHandler(async (req, res) => {
   // Populate and return the created story
   const populatedStory = await Story.findById(story._id)
     .populate('author', 'username displayName avatar')
-    .populate('location', 'coordinates address')
+    .populate('location', 'coordinates address description')
     .populate('tags', 'name displayName color');
 
   logger.info('Story created successfully', {
@@ -506,9 +506,9 @@ const createStory = asyncHandler(async (req, res) => {
 const updateStory = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title, content, tags, visibility } = req.body;
-  
+
   const story = await Story.findById(id);
-  
+
   if (!story) {
     throw notFoundError('Story');
   }
@@ -542,7 +542,7 @@ const updateStory = asyncHandler(async (req, res) => {
 
   const updatedStory = await Story.findById(story._id)
     .populate('author', 'username displayName avatar')
-    .populate('location', 'coordinates address')
+    .populate('location', 'coordinates address description')
     .populate('tags', 'name displayName color');
 
   res.json({
@@ -558,9 +558,9 @@ const updateStory = asyncHandler(async (req, res) => {
  */
 const deleteStory = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  
+
   const story = await Story.findById(id);
-  
+
   if (!story) {
     throw notFoundError('Story');
   }
@@ -584,7 +584,7 @@ const deleteStory = asyncHandler(async (req, res) => {
  */
 const toggleLike = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  
+
   const story = await Story.findById(id);
   if (!story) {
     throw notFoundError('Story');
@@ -593,7 +593,7 @@ const toggleLike = asyncHandler(async (req, res) => {
   // Check if user has already liked this story
   // This would typically be stored in a separate collection for better performance
   const user = await User.findById(req.user._id);
-  
+
   // For simplicity, we'll just increment/decrement the like count
   // In a production app, you'd have a separate Likes collection
   await story.incrementEngagement('likes', 1);
@@ -611,9 +611,9 @@ const toggleLike = asyncHandler(async (req, res) => {
  */
 const getTrendingStories = asyncHandler(async (req, res) => {
   const { limit = 10, timeframe = '7d' } = req.query;
-  
+
   const stories = await Story.findTrending(parseInt(limit), timeframe);
-  
+
   res.json({
     stories,
     timeframe,
