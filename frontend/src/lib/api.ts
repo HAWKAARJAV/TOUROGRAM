@@ -1,23 +1,31 @@
-// Smart API URL detection - works for localhost and network access
+// Smart API URL detection - works for localhost, network access, and production
 const getApiBaseUrl = () => {
   // If explicit URL is set, use it
   const envUrl = import.meta.env.VITE_API_URL;
   if (envUrl && envUrl.trim()) return `${envUrl}/api/v1`;
-  
+
   const hostname = window.location.hostname;
-  
+
+  // Production: If running on Netlify or any non-local domain, use Render backend
+  if (hostname.includes('netlify.app') || hostname.includes('tourogram') ||
+    hostname.includes('vercel.app') || hostname.includes('render.com') ||
+    (!hostname.includes('localhost') && !hostname.includes('127.0.0.1') &&
+      !hostname.match(/^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/))) {
+    return 'https://tourogram-tdp7.onrender.com/api/v1';
+  }
+
   // If accessing via network IP (10.x.x.x, 192.168.x.x, 172.16-31.x.x)
   if (hostname.match(/^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/)) {
     return `http://${hostname}:3001/api/v1`;
   }
-  
+
   // If accessing via localhost or 127.0.0.1
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
     return 'http://localhost:3001/api/v1';
   }
-  
-  // Default fallback
-  return 'http://localhost:3001/api/v1';
+
+  // Default fallback to production
+  return 'https://tourogram-tdp7.onrender.com/api/v1';
 };
 
 const API_BASE_URL = getApiBaseUrl();
@@ -183,7 +191,7 @@ class ApiService {
   private async request<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
     try {
       const url = `${API_BASE_URL}${endpoint}`;
-      
+
       // Attach auth token if present (dummy auth stores 'authToken')
       const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
       const mergedHeaders: Record<string, string> = {
@@ -226,7 +234,7 @@ class ApiService {
     tags?: string;
   }): Promise<ApiResponse<{ stories: Story[]; pagination: Pagination; filters: Filters }>> {
     const searchParams = new URLSearchParams();
-    
+
     if (params?.page) searchParams.append('page', params.page.toString());
     if (params?.limit) searchParams.append('limit', params.limit.toString());
     if (params?.location) searchParams.append('location', params.location);
@@ -235,7 +243,7 @@ class ApiService {
 
     const queryString = searchParams.toString();
     const endpoint = `/stories${queryString ? `?${queryString}` : ''}`;
-    
+
     return this.request<{ stories: Story[]; pagination: Pagination; filters: Filters }>(endpoint);
   }
 
@@ -244,14 +252,14 @@ class ApiService {
     limit?: number;
   }): Promise<ApiResponse<{ stories: Story[]; pagination: Pagination; filters: Filters }>> {
     const searchParams = new URLSearchParams();
-    
+
     if (params?.page) searchParams.append('page', params.page.toString());
     if (params?.limit) searchParams.append('limit', params.limit.toString());
-    
+
     // Add author filter for current user
     const currentUserId = localStorage.getItem('currentUserId');
     const currentUserEmail = localStorage.getItem('currentUserEmail');
-    
+
     if (currentUserId) {
       searchParams.append('author', currentUserId);
     } else if (currentUserEmail) {
@@ -261,7 +269,7 @@ class ApiService {
 
     const queryString = searchParams.toString();
     const endpoint = `/stories${queryString ? `?${queryString}` : ''}`;
-    
+
     return this.request<{ stories: Story[]; pagination: Pagination; filters: Filters }>(endpoint);
   }
 
@@ -372,11 +380,11 @@ class ApiService {
     });
   }
 
-  async register(userData: { 
-    email: string; 
-    password: string; 
-    username: string; 
-    displayName: string; 
+  async register(userData: {
+    email: string;
+    password: string;
+    username: string;
+    displayName: string;
   }): Promise<ApiResponse<AuthResponse>> {
     return this.request('/auth/register', {
       method: 'POST',
