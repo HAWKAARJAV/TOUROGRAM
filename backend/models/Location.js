@@ -21,6 +21,7 @@ const locationSchema = new mongoose.Schema({
     country: { type: String, required: true, trim: true, maxlength: 50 },
     postalCode: { type: String, trim: true, maxlength: 20 }
   },
+  description: { type: String, trim: true, maxlength: 500 },
   metadata: {
     placeId: String,
     type: { type: String, enum: ['poi', 'address', 'landmark', 'establishment', 'other'], default: 'address' },

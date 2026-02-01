@@ -76,40 +76,40 @@ const delhiUsers = [
 ];
 
 // ============================================
-// DELHI LOCATIONS WITH REAL GPS
+// DELHI LOCATIONS WITH REAL GPS AND DESCRIPTIONS
 // ============================================
 const delhiLocations = [
     // Street Food Areas
-    { coords: [77.2303, 28.6560], address: { formatted: 'Paranthe Wali Gali, Chandni Chowk, Delhi', neighborhood: 'Chandni Chowk', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' },
-    { coords: [77.2336, 28.6507], address: { formatted: 'Jama Masjid, Old Delhi', neighborhood: 'Jama Masjid', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark' },
-    { coords: [77.2340, 28.6500], address: { formatted: 'Karim\'s Restaurant Lane, Jama Masjid', neighborhood: 'Jama Masjid', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' },
-    { coords: [77.2297, 28.6563], address: { formatted: 'Natraj Dahi Bhalle Corner, Chandni Chowk', neighborhood: 'Chandni Chowk', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' },
-    { coords: [77.2310, 28.6575], address: { formatted: 'Old Famous Jalebi Wala, Dariba Kalan', neighborhood: 'Chandni Chowk', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' },
+    { coords: [77.2303, 28.6560], address: { formatted: 'Paranthe Wali Gali, Chandni Chowk, Delhi', neighborhood: 'Chandni Chowk', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'A narrow 150-year-old lane famous for stuffed paranthas. Over 20 varieties from rabri to dry fruits, served with spicy chole and sweet imli chutney. Best visited early morning.' },
+    { coords: [77.2336, 28.6507], address: { formatted: 'Jama Masjid, Old Delhi', neighborhood: 'Jama Masjid', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark', description: 'India\'s largest mosque built by Shah Jahan in 1656. The surrounding lanes hide legendary kebab shops and midnight food stalls known only to locals.' },
+    { coords: [77.2340, 28.6500], address: { formatted: 'Karim\'s Restaurant Lane, Jama Masjid', neighborhood: 'Jama Masjid', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'The lane behind Jama Masjid where Karim\'s has been serving Mughlai cuisine since 1913. Their underground kitchen uses recipes from the royal court.' },
+    { coords: [77.2297, 28.6563], address: { formatted: 'Natraj Dahi Bhalle Corner, Chandni Chowk', neighborhood: 'Chandni Chowk', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'Same family, same spot since 1940. Three generations serving the city\'s best curd-soaked lentil dumplings with secret family spices.' },
+    { coords: [77.2310, 28.6575], address: { formatted: 'Old Famous Jalebi Wala, Dariba Kalan', neighborhood: 'Chandni Chowk', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'Frying jalebis since 1884 – older than most countries. The morning batch (fermented overnight) is crispier and tangier than the evening tourist version.' },
 
     // Artisan Workshops
-    { coords: [77.2312, 28.6580], address: { formatted: 'Kinari Bazaar, Chandni Chowk', neighborhood: 'Chandni Chowk', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' },
-    { coords: [77.2167, 28.5667], address: { formatted: 'Shahpur Jat Village, South Delhi', neighborhood: 'Shahpur Jat', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi' },
-    { coords: [77.1945, 28.5731], address: { formatted: 'Sarojini Nagar Market, Delhi', neighborhood: 'Sarojini Nagar', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' },
-    { coords: [77.2280, 28.6545], address: { formatted: 'Chawri Bazaar, Old Delhi', neighborhood: 'Chawri Bazaar', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' },
-    { coords: [77.2089, 28.6127], address: { formatted: 'Dilli Haat, INA, Delhi', neighborhood: 'INA', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' },
+    { coords: [77.2312, 28.6580], address: { formatted: 'Kinari Bazaar, Chandni Chowk', neighborhood: 'Chandni Chowk', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'The wedding shopping heart of Delhi. Hidden above shops are 400-year-old zari workshops where real gold thread is still made by hand.' },
+    { coords: [77.2167, 28.5667], address: { formatted: 'Shahpur Jat Village, South Delhi', neighborhood: 'Shahpur Jat', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi', description: 'An urban village hiding Delhi\'s indie fashion scene. Behind crumbling Mughal walls and graffitied doors are designer studios that dress Bollywood.' },
+    { coords: [77.1945, 28.5731], address: { formatted: 'Sarojini Nagar Market, Delhi', neighborhood: 'Sarojini Nagar', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'India\'s most famous street fashion market. Look beyond the stalls for hidden master tailors who can replicate any design for a fraction of mall prices.' },
+    { coords: [77.2280, 28.6545], address: { formatted: 'Chawri Bazaar, Old Delhi', neighborhood: 'Chawri Bazaar', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'Delhi\'s paper district since Mughal times. Craftsmen still make handmade paper from cotton rags, restoring century-old documents and creating wedding invitations with gold dust.' },
+    { coords: [77.2089, 28.6127], address: { formatted: 'Dilli Haat, INA, Delhi', neighborhood: 'INA', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'A curated craft bazaar featuring artisans from every Indian state. Unlike Janpath, prices are fair and artists rotate bi-weekly – different crafts every visit.' },
 
     // Secret Hangouts
-    { coords: [77.2159, 28.5283], address: { formatted: 'Champa Gali, Saket, Delhi', neighborhood: 'Saket', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi' },
-    { coords: [77.2001, 28.5494], address: { formatted: 'Hauz Khas Village, Delhi', neighborhood: 'Hauz Khas', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi' },
-    { coords: [77.2284, 28.7041], address: { formatted: 'Majnu Ka Tila, North Delhi', neighborhood: 'Majnu Ka Tila', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi' },
-    { coords: [77.2248, 28.5931], address: { formatted: 'Lodhi Art District, Delhi', neighborhood: 'Lodhi Colony', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi' },
-    { coords: [77.2285, 28.6263], address: { formatted: 'Agrasen Ki Baoli, Connaught Place', neighborhood: 'Connaught Place', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark' },
+    { coords: [77.2159, 28.5283], address: { formatted: 'Champa Gali, Saket, Delhi', neighborhood: 'Saket', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi', description: 'Delhi\'s worst-kept secret – a jasmine-scented alley hidden between furniture warehouses. Quirky cafés, Bihari rooftop feasts, and Thursday night poetry readings.' },
+    { coords: [77.2001, 28.5494], address: { formatted: 'Hauz Khas Village, Delhi', neighborhood: 'Hauz Khas', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi', description: 'Built around a 13th-century reservoir and tomb. Behind the boutiques is an unofficial network of artist rooftops overlooking Mughal ruins.' },
+    { coords: [77.2284, 28.7041], address: { formatted: 'Majnu Ka Tila, North Delhi', neighborhood: 'Majnu Ka Tila', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi', description: 'Little Tibet in Delhi – a Tibetan refugee settlement with prayer flags, hand-pinched momos, monastery prayers open to visitors, and genuine community warmth.' },
+    { coords: [77.2248, 28.5931], address: { formatted: 'Lodhi Art District, Delhi', neighborhood: 'Lodhi Colony', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'poi', description: 'India\'s first open-air art district with 50+ murals on government housing. The hidden gems are off the main route – look for the disappearing elephant that only appears at 4 PM.' },
+    { coords: [77.2285, 28.6263], address: { formatted: 'Agrasen Ki Baoli, Connaught Place', neighborhood: 'Connaught Place', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark', description: 'A 14th-century stepwell with 108 steps. By day, an Instagram spot. After midnight, acoustic musicians gather for secret concerts in its natural amphitheater.' },
 
     // Heritage Sites
-    { coords: [77.2578, 28.5128], address: { formatted: 'Tughlaqabad Fort, Delhi', neighborhood: 'Tughlaqabad', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark' },
-    { coords: [77.2466, 28.6337], address: { formatted: 'Feroz Shah Kotla, Delhi', neighborhood: 'Feroz Shah Kotla', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark' },
-    { coords: [77.1816, 28.5192], address: { formatted: 'Mehrauli Archaeological Park, Delhi', neighborhood: 'Mehrauli', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark' },
-    { coords: [77.1425, 28.4892], address: { formatted: 'Sultan Ghari Tomb, Vasant Kunj', neighborhood: 'Vasant Kunj', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark' },
-    { coords: [77.1751, 28.5267], address: { formatted: 'Jahaz Mahal, Mehrauli', neighborhood: 'Mehrauli', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark' },
+    { coords: [77.2578, 28.5128], address: { formatted: 'Tughlaqabad Fort, Delhi', neighborhood: 'Tughlaqabad', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark', description: 'Delhi\'s most haunted, most ignored monument. 6 km of 14th-century ruins with secret tunnels, hidden temples, and a Sufi curse that has kept it desolate for 800 years.' },
+    { coords: [77.2466, 28.6337], address: { formatted: 'Feroz Shah Kotla, Delhi', neighborhood: 'Feroz Shah Kotla', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark', description: 'A ruined fortress where Delhiites come every Thursday to correspond with djinns. Letters tied to walls, incense lit, and an 800-year-old tradition that science cannot explain.' },
+    { coords: [77.1816, 28.5192], address: { formatted: 'Mehrauli Archaeological Park, Delhi', neighborhood: 'Mehrauli', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark', description: '1,000 years of history in 200 acres – pre-Mughal temples, Sultanate tombs, Mughal gardens, and British follies. Delhi\'s densest concentration of medieval ruins, ignored by most.' },
+    { coords: [77.1425, 28.4892], address: { formatted: 'Sultan Ghari Tomb, Vasant Kunj', neighborhood: 'Vasant Kunj', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark', description: 'India\'s first Islamic tomb (1231 AD), now surrounded by suburbs and forgotten. A stunning fusion of Hindu temple and Islamic architecture with almost no visitors.' },
+    { coords: [77.1751, 28.5267], address: { formatted: 'Jahaz Mahal, Mehrauli', neighborhood: 'Mehrauli', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'landmark', description: 'A 15th-century pleasure palace that floats like a ship when monsoon fills the reservoir. Rowboat rides at sunset, surrounded by motorcycle shops and vegetable vendors.' },
 
     // Underground Scenes
-    { coords: [77.2190, 28.6315], address: { formatted: 'The Piano Man Jazz Club, Safdarjung', neighborhood: 'Safdarjung', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' },
-    { coords: [77.2295, 28.6289], address: { formatted: 'Akshara Theatre, Baba Kharak Singh Marg', neighborhood: 'Connaught Place', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment' }
+    { coords: [77.2190, 28.6315], address: { formatted: 'The Piano Man Jazz Club, Safdarjung', neighborhood: 'Safdarjung', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'Delhi\'s jazz sanctuary since 2006, hidden in an office building basement. Grammy winners play for 100 people. No phones, no talking, no songs under 7 minutes.' },
+    { coords: [77.2295, 28.6289], address: { formatted: 'Akshara Theatre, Baba Kharak Singh Marg', neighborhood: 'Connaught Place', city: 'Delhi', state: 'Delhi', country: 'India' }, type: 'establishment', description: 'A 50-seat theatre hosting Delhi\'s rawest poetry nights since 2009. Pay-what-you-want, languages mixing mid-sentence, and strangers becoming family over chai outside.' }
 ];
 
 // ============================================
@@ -674,6 +674,7 @@ async function seedDelhiData() {
                     coordinates: locData.coords
                 },
                 address: locData.address,
+                description: locData.description,
                 metadata: {
                     type: locData.type,
                     source: 'manual',
@@ -695,7 +696,14 @@ async function seedDelhiData() {
                 location = await Location.create(locationDoc);
                 console.log(`   ✅ Created location: ${locData.address.neighborhood}`);
             } else {
-                console.log(`   ⏭️  Location exists: ${locData.address.neighborhood}`);
+                // Update existing location with description if missing
+                if (!location.description && locData.description) {
+                    location.description = locData.description;
+                    await location.save();
+                    console.log(`   📝 Updated description: ${locData.address.neighborhood}`);
+                } else {
+                    console.log(`   ⏭️  Location exists: ${locData.address.neighborhood}`);
+                }
             }
             createdLocations.push(location);
         }

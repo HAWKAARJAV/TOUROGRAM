@@ -9,27 +9,27 @@ const HeroSection = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Dynamic background images carousel
+  // Dynamic background images carousel - Indian locations
   const backgroundImages = [
     {
-      url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
-      title: "Mountain Adventures"
+      url: "https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      title: "Delhi's Hidden Monuments"
     },
     {
-      url: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
-      title: "City Explorations"
+      url: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      title: "Taj Mahal at Dawn"
     },
     {
-      url: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
-      title: "Coastal Journeys"
+      url: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      title: "Kerala Backwaters"
     },
     {
-      url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
-      title: "Forest Escapes"
+      url: "https://images.unsplash.com/photo-1477587458883-47145ed94245?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      title: "Rajasthan Forts"
     },
     {
-      url: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
-      title: "Desert Wonders"
+      url: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      title: "Varanasi Ghats"
     }
   ];
 
@@ -281,8 +281,8 @@ const HeroSection = () => {
           <button
             key={index}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentBgIndex
-                ? 'bg-white scale-125 shadow-lg'
-                : 'bg-white/40 hover:bg-white/60'
+              ? 'bg-white scale-125 shadow-lg'
+              : 'bg-white/40 hover:bg-white/60'
               }`}
             onClick={() => setCurrentBgIndex(index)}
           />

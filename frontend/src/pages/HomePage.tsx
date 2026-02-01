@@ -39,52 +39,52 @@ const HomePage: React.FC = () => {
   const [carouselPaused, setCarouselPaused] = useState(false);
   const autoSlideRef = useRef<number | null>(null);
 
-  // Mock data - replace with API calls
+  // Mock data - Indian Hidden Gems
   const mockFeaturedStories: Story[] = [
     {
       id: '1',
-      title: 'Journey Through the Himalayas',
-      excerpt: 'An epic adventure through the world\'s highest mountains, discovering hidden villages and ancient monasteries.',
-      location: 'Nepal, Himalayas',
-      author: { name: 'Adventure Andy', avatar: '/avatars/andy.jpg', badge: 'verified' },
-      tags: ['Adventure', 'Mountains', 'Culture'],
-      likes: 342,
-      comments: 89,
+      title: 'Midnight Kebabs in Old Delhi',
+      excerpt: 'Discover the secret kebab lanes of Jama Masjid that only locals know about. At 1 AM, when the famous restaurants close, the real magic begins.',
+      location: 'Jama Masjid, Delhi',
+      author: { name: 'Rahul Sharma', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100', badge: 'verified' },
+      tags: ['Street Food', 'Hidden Gem', 'Old Delhi'],
+      likes: 567,
+      comments: 134,
       isLocked: false,
       isLiked: false,
-      image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&h=600&fit=crop',
+      image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=800&h=600&fit=crop',
       emotion: 'adventure',
-      readTime: '8 min read'
-    },
-    {
-      id: '2',
-      title: 'Sunset Meditation in Bali',
-      excerpt: 'Finding inner peace through the spiritual landscapes of Bali, from rice terraces to sacred temples.',
-      location: 'Bali, Indonesia',
-      author: { name: 'Zen Sarah', avatar: '/avatars/sarah.jpg' },
-      tags: ['Spiritual', 'Nature', 'Wellness'],
-      likes: 278,
-      comments: 56,
-      isLocked: false,
-      isLiked: true,
-      image: 'https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=600&fit=crop',
-      emotion: 'peaceful',
       readTime: '6 min read'
     },
     {
-      id: '3',
-      title: 'Art and Architecture in Rome',
-      excerpt: 'Exploring the eternal city through its magnificent art, architecture, and culinary delights.',
-      location: 'Rome, Italy',
-      author: { name: 'Culture Mike', avatar: '/avatars/mike.jpg', badge: 'verified' },
-      tags: ['Culture', 'Art', 'Food'],
+      id: '2',
+      title: 'The Last Zari Masters of Kinari Bazaar',
+      excerpt: 'Meet Mohammad Iqbal, one of the last 12 people in India who can create real gold zari embroidery. A 400-year-old craft dying in the digital age.',
+      location: 'Chandni Chowk, Delhi',
+      author: { name: 'Amit Singh', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100' },
+      tags: ['Artisan', 'Heritage', 'Craft'],
       likes: 445,
-      comments: 123,
+      comments: 89,
+      isLocked: false,
+      isLiked: true,
+      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop',
+      emotion: 'cultural',
+      readTime: '8 min read'
+    },
+    {
+      id: '3',
+      title: 'Champa Gali: Delhi\'s Hidden Café Alley',
+      excerpt: 'Between furniture warehouses in Saket, a narrow gap leads to Champa Gali – Delhi\'s worst-kept secret that still feels like a secret.',
+      location: 'Saket, Delhi',
+      author: { name: 'Vikram Chauhan', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100', badge: 'verified' },
+      tags: ['Cafe', 'Hidden Spot', 'Community'],
+      likes: 789,
+      comments: 156,
       isLocked: false,
       isLiked: false,
-      image: 'https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=800&h=600&fit=crop',
-      emotion: 'cultural',
-      readTime: '12 min read'
+      image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&h=600&fit=crop',
+      emotion: 'cozy',
+      readTime: '5 min read'
     }
   ];
 
@@ -92,18 +92,48 @@ const HomePage: React.FC = () => {
     ...mockFeaturedStories,
     {
       id: '4',
-      title: 'Northern Lights in Iceland',
-      excerpt: 'Chasing the aurora borealis across Iceland\'s dramatic landscapes.',
-      location: 'Reykjavik, Iceland',
-      author: { name: 'Photo Emma', avatar: '/avatars/emma.jpg' },
-      tags: ['Photography', 'Nature', 'Aurora'],
-      likes: 567,
-      comments: 92,
+      title: 'Feroz Shah Kotla: Where Delhi Writes to Djinns',
+      excerpt: 'Every Thursday, hundreds come to this 14th-century fortress to leave letters for supernatural beings. An 800-year-old tradition.',
+      location: 'Feroz Shah Kotla, Delhi',
+      author: { name: 'Priya Verma', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
+      tags: ['Heritage', 'Spiritual', 'Tradition'],
+      likes: 678,
+      comments: 192,
       isLocked: false,
       isLiked: true,
-      image: 'https://images.unsplash.com/photo-1483347756197-71ef80e95f73?w=800&h=600&fit=crop',
-      emotion: 'exciting',
+      image: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&h=600&fit=crop',
+      emotion: 'mysterious',
       readTime: '10 min read'
+    },
+    {
+      id: '5',
+      title: 'The Secret Rooftops of Hauz Khas Village',
+      excerpt: 'Behind the boutiques and bars, there\'s an unofficial network of rooftop spaces that Delhi\'s artists have claimed over decades.',
+      location: 'Hauz Khas, Delhi',
+      author: { name: 'Neha Kapoor', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
+      tags: ['Art', 'Rooftop', 'Secret Spot'],
+      likes: 534,
+      comments: 87,
+      isLocked: false,
+      isLiked: false,
+      image: 'https://images.unsplash.com/photo-1515091943-9d5c0ad475af?w=800&h=600&fit=crop',
+      emotion: 'creative',
+      readTime: '7 min read'
+    },
+    {
+      id: '6',
+      title: 'Majnu Ka Tila: Little Tibet in North Delhi',
+      excerpt: 'Twenty minutes from central Delhi, a Tibetan settlement that feels like you\'ve crossed a border. Momos, monasteries, and magic.',
+      location: 'Majnu Ka Tila, Delhi',
+      author: { name: 'Vikram Chauhan', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' },
+      tags: ['Cultural', 'Tibetan', 'Community'],
+      likes: 412,
+      comments: 76,
+      isLocked: false,
+      isLiked: false,
+      image: 'https://images.unsplash.com/photo-1609766857041-ed402ea8069a?w=800&h=600&fit=crop',
+      emotion: 'peaceful',
+      readTime: '6 min read'
     }
   ];
 
@@ -168,9 +198,9 @@ const HomePage: React.FC = () => {
 
   const statsVariants = {
     hidden: { scale: 0 },
-    visible: { 
+    visible: {
       scale: 1,
-      transition: { 
+      transition: {
         type: "spring" as const,
         stiffness: 260,
         damping: 20,
@@ -229,7 +259,7 @@ const HomePage: React.FC = () => {
         )}
 
         {/* Stats Section */}
-        <motion.section 
+        <motion.section
           className="py-16 px-4"
           variants={itemVariants}
         >
@@ -269,7 +299,7 @@ const HomePage: React.FC = () => {
         </motion.section>
 
         {/* Featured Stories Carousel */}
-        <motion.section 
+        <motion.section
           className="py-16 px-4"
           variants={itemVariants}
         >
@@ -284,7 +314,7 @@ const HomePage: React.FC = () => {
                   <p className="text-white/70">Handpicked adventures from our community</p>
                 </div>
               </div>
-              
+
               <div className="flex space-x-3">
                 <motion.button
                   onClick={prevSlide}
@@ -308,7 +338,7 @@ const HomePage: React.FC = () => {
             </div>
 
             {/* Carousel */}
-            <div 
+            <div
               className="relative overflow-hidden rounded-3xl"
               onMouseEnter={() => setCarouselPaused(true)}
               onMouseLeave={() => setCarouselPaused(false)}
@@ -333,7 +363,7 @@ const HomePage: React.FC = () => {
                         className="w-full h-full object-cover select-none"
                       />
                       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-                      
+
                       {/* Content */}
                       <div className="absolute inset-0 flex items-center">
                         <div className="max-w-2xl mx-auto px-8 md:px-16">
@@ -348,15 +378,15 @@ const HomePage: React.FC = () => {
                               </span>
                               <span className="text-white/70 text-sm">{featuredStories[currentSlide].readTime}</span>
                             </div>
-                            
+
                             <h3 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
                               {featuredStories[currentSlide].title}
                             </h3>
-                            
+
                             <p className="text-white/80 text-lg mb-6 max-w-xl">
                               {featuredStories[currentSlide].excerpt}
                             </p>
-                            
+
                             <div className="flex items-center space-x-4 mb-8">
                               <div className="flex items-center space-x-2">
                                 <img
@@ -369,7 +399,7 @@ const HomePage: React.FC = () => {
                               <span className="text-white/70">•</span>
                               <span className="text-white/70">{featuredStories[currentSlide].location}</span>
                             </div>
-                            
+
                             <motion.button
                               className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-full hover:from-blue-600 hover:to-purple-600 transition-all duration-200"
                               whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
@@ -394,11 +424,10 @@ const HomePage: React.FC = () => {
                   <motion.button
                     key={index}
                     onClick={() => setCurrentSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                      index === currentSlide 
-                        ? 'bg-white scale-125' 
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${index === currentSlide
+                        ? 'bg-white scale-125'
                         : 'bg-white/50 hover:bg-white/70'
-                    }`}
+                      }`}
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                     role="tab"
@@ -412,7 +441,7 @@ const HomePage: React.FC = () => {
         </motion.section>
 
         {/* Trending Stories Grid */}
-        <motion.section 
+        <motion.section
           className="py-16 px-4"
           variants={itemVariants}
         >
@@ -427,7 +456,7 @@ const HomePage: React.FC = () => {
               </div>
             </div>
 
-            <motion.div 
+            <motion.div
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
               variants={containerVariants}
             >
@@ -437,8 +466,8 @@ const HomePage: React.FC = () => {
                   variants={itemVariants}
                   custom={index}
                 >
-                  <StoryCard 
-                    story={story} 
+                  <StoryCard
+                    story={story}
                     variant="trending"
                     className="h-full"
                   />
@@ -449,7 +478,7 @@ const HomePage: React.FC = () => {
             {/* Load More Button */}
             {LoadMoreButton && (
               <div className="flex justify-center mt-12">
-                <LoadMoreButton 
+                <LoadMoreButton
                   onClick={handleLoadMore}
                   loading={loadingMore}
                   text="Load More Stories"
