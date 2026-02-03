@@ -48,7 +48,8 @@ const MapTilerMap = ({ center, zoom, markers = [], className = "" }: MapTilerMap
         map.current = null;
       }
     };
-  }, [center.lat, center.lng, zoom]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Initialize map only once - position/zoom updates handled by flyTo effect
 
   // Add markers when map is loaded
   useEffect(() => {
@@ -109,9 +110,9 @@ const MapTilerMap = ({ center, zoom, markers = [], className = "" }: MapTilerMap
             MapTiler API key is configured and map should load.
           </p>
           <div className="text-xs text-blue-600 bg-blue-50 p-3 rounded-lg">
-            <strong>If map doesn't appear:</strong><br/>
-            1. Check browser console for errors<br/>
-            2. Verify API key is valid<br/>
+            <strong>If map doesn't appear:</strong><br />
+            1. Check browser console for errors<br />
+            2. Verify API key is valid<br />
             3. Check network connectivity
           </div>
         </div>
@@ -120,8 +121,8 @@ const MapTilerMap = ({ center, zoom, markers = [], className = "" }: MapTilerMap
   }
 
   return (
-    <div 
-      ref={mapContainer} 
+    <div
+      ref={mapContainer}
       className={`w-full h-full ${className}`}
       style={{ minHeight: '400px' }}
     />

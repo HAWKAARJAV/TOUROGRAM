@@ -111,9 +111,9 @@ const Explore = () => {
   };
 
   const filteredStories = stories.filter(story => {
-    const matchesSearch = story.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      story.location.address.formatted.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filter === "all" || story.tags.some(tag => tag.toLowerCase() === filter.toLowerCase());
+    const matchesSearch = (story.title?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (story.location?.address?.formatted?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+    const matchesFilter = filter === "all" || story.tags?.some(tag => tag.toLowerCase() === filter.toLowerCase());
     return matchesSearch && matchesFilter;
   });
 
@@ -133,7 +133,8 @@ const Explore = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/20 hover:text-white shadow-lg transition-all"
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white shadow-lg transition-all [&>*]:text-white"
+                style={{ color: 'white' }}
                 onClick={() => fetchStories()}
                 disabled={loading}
               >
@@ -143,7 +144,8 @@ const Explore = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/20 hover:text-white shadow-lg transition-all"
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white shadow-lg transition-all [&>*]:text-white"
+                style={{ color: 'white' }}
                 onClick={() => setShowMap(!showMap)}
               >
                 <MapIcon className="mr-2 h-5 w-5" />
@@ -226,7 +228,7 @@ const Explore = () => {
                   <div className="relative h-48 overflow-hidden">
                     <img
                       src={storyImage}
-                      alt={story.title}
+                      alt={story.title || 'Story image'}
                       className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500"
                       onError={handleImageError}
                     />
@@ -236,7 +238,7 @@ const Explore = () => {
                         <Badge variant="secondary" className="bg-primary text-white hover:bg-primary/90 shadow-sm">
                           {"Culture"}
                         </Badge>
-                        {story.tags.slice(0, 1).map(tag => (
+                        {story.tags?.slice(0, 1).map(tag => (
                           <Badge key={tag} variant="outline" className="bg-black/30 text-white border-white/20 backdrop-blur-sm">
                             {tag}
                           </Badge>
@@ -247,25 +249,25 @@ const Explore = () => {
 
                   <CardHeader className="pb-2 group-hover:bg-muted/30 transition-colors">
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-xl font-semibold line-clamp-2 group-hover:text-primary transition-colors">{story.title}</CardTitle>
+                      <CardTitle className="text-xl font-semibold line-clamp-2 group-hover:text-primary transition-colors">{story.title || 'Untitled Story'}</CardTitle>
                     </div>
                     <div className="flex items-center justify-between mt-2">
                       <CardDescription className="flex items-center">
                         <MapPin className="h-3.5 w-3.5 mr-1 text-primary" />
                         <span className="text-sm text-muted-foreground truncate">
-                          {story.location.address.formatted || "Global"}
+                          {story.location?.address?.formatted || "Unknown Location"}
                         </span>
                       </CardDescription>
                       <div className="flex items-center space-x-1 text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-full">
                         <span>by</span>
-                        <span className="font-semibold text-primary">{story.author.displayName}</span>
+                        <span className="font-semibold text-primary">{story.author?.displayName || 'Anonymous'}</span>
                       </div>
                     </div>
                   </CardHeader>
 
                   <CardContent className="pb-4 flex-grow flex flex-col group-hover:bg-muted/30 transition-colors">
                     <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
-                      {story.content.snippet}
+                      {story.content?.snippet || 'No description available'}
                     </p>
 
                     <div className="mt-auto flex items-center justify-between pt-3 border-t border-border/30">
