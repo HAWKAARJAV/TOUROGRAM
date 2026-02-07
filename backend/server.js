@@ -92,11 +92,13 @@ const getAllowedOrigins = () => {
     process.env.FRONTEND_URL || 'http://localhost:8080',
     process.env.FRONTEND_URL_NETWORK,
     'https://tourogram.netlify.app',  // Production frontend
+    'https://tourogram-staging.netlify.app',
     'http://localhost:8080',
     'http://localhost:8081',
     'http://localhost:8082',
     'http://localhost:3000',
-    'http://localhost:5173'
+    'http://localhost:5173',
+    'https://*.netlify.app'
   ].filter(Boolean);
 
   // Get network IP dynamically
@@ -119,6 +121,9 @@ app.use(cors({
     // Allow requests with no origin (mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
+    
+    // Check for Netlify wildcard match
+    if (origin && origin.includes('netlify.app')) return callback(null, true);
 
     // Allow any local network IP on ports 8080/8081
     if (/^http:\/\/(localhost|127\.0\.0\.1|\d+\.\d+\.\d+\.\d+):(808[0-2]|3000|5173)$/.test(origin)) {
@@ -133,7 +138,7 @@ app.use(cors({
   exposedHeaders: ['Content-Range', 'X-Content-Range'],
   credentials: true,
   preflightContinue: false,
-  optionsSuccessStatus: 204
+  optionsSuccessStatus: 200
 }));
 
 // Body parsing middleware
