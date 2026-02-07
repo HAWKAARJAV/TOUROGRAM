@@ -190,6 +190,24 @@ app.use(`/api/${API_VERSION}/admin`, adminRoutes);
 app.use(`/api/${API_VERSION}/trails`, trailRoutes);
 app.use(`/api/${API_VERSION}/agentx`, agentxRoutes);
 
+// Root endpoint - welcome message
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'running',
+    name: 'LocaleLens Travel Stories API',
+    description: 'Share and explore travel stories from around the world',
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
+    apiVersion: API_VERSION,
+    endpoints: {
+      health: '/health',
+      documentation: '/api/docs',
+      api: `/api/${API_VERSION}`
+    },
+    timestamp: new Date().toISOString()
+  });
+});
+
 // 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({
