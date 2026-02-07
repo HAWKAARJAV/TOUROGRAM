@@ -74,9 +74,6 @@ const SubmitStory = () => {
       const response = await apiService.createStory(storyData);
 
       if (response.error) {
-        // Check if it's a validation error with details
-        // The API returns the full error in response.error string
-        // Try to extract validation details
         let errorMessage = response.error;
         
         // Parse validation errors if available

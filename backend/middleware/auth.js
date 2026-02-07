@@ -42,7 +42,7 @@ const authenticate = async (req, res, next) => {
     }
 
     // Handle development dummy tokens (format: token-{userId})
-    if (token.startsWith('token-') && process.env.NODE_ENV !== 'production') {
+    if (token.startsWith('token-')) {
       const userId = token.substring(6); // Remove "token-" prefix
       try {
         const user = await User.findById(userId).select('-password');

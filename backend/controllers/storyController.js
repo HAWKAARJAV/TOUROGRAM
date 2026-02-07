@@ -445,8 +445,8 @@ const createStory = asyncHandler(async (req, res) => {
     location: location._id,
     tags: storyTags,
     visibility,
-    status: 'published', // Auto-publish stories immediately
-    publishedAt: new Date()  // Set publish date on creation
+    status: 'published', // Auto-publish immediately
+    publishedAt: new Date()
   });
 
   // Auto-analyze emotion if text content exists
@@ -654,13 +654,23 @@ const publishStory = asyncHandler(async (req, res) => {
   }
 
   // Check if user owns the story
-  if (story.author.toString() !== req.user._id.toString()) {
+  const storyAuthorId = story.author ? story.author.toString() : null;
+  const userId = req.user._id ? req.user._id.toString() : null;
+  
+  if (storyAuthorId !== userId) {
     throw authorizationError('You can only publish your own stories');
   }
 
   // Check if story is in draft status
   if (story.status !== 'draft') {
-    throw validationError('Only draft stories can be published', { currentStatus: story.status });
+    return res.status(400).json({
+      success: false,
+      error: {
+        code: 'INVALID_STATUS',
+        message: `Story is already ${story.status}. Only draft stories can be published.`,
+        currentStatus: story.status
+      }
+    });
   }
 
   // Update story status to published
@@ -668,15 +678,25 @@ const publishStory = asyncHandler(async (req, res) => {
   story.publishedAt = new Date();
   await story.save();
 
-  // Update user stats
-  await User.findByIdAndUpdate(req.user._id, {
-    $inc: { 'stats.storiesPublished': 1 }
-  });
+  // Update user stats - increment published stories count
+  try {
+    await User.findByIdAndUpdate(req.user._id, {
+      $inc: { 'stats.storiesPublished': 1 }
+    }, { new: true });
+  } catch (err) {
+    logger.error('Failed to update user stats:', { userId: req.user._id, error: err.message });
+    // Don't fail the publish if user stats update fails
+  }
 
+  // Populate and return the published story
   const publishedStory = await Story.findById(story._id)
-    .populate('author', 'username displayName avatar')
+    .populate('author', 'username displayName avatar homeCity stats')
     .populate('location', 'coordinates address description')
     .populate('tags', 'name displayName color');
+
+  if (!publishedStory) {
+    throw notFoundError('Story');
+  }
 
   logger.info('Story published successfully', {
     storyId: story._id,
@@ -685,6 +705,7 @@ const publishStory = asyncHandler(async (req, res) => {
   });
 
   res.json({
+    success: true,
     message: 'Story published successfully',
     story: publishedStory
   });
