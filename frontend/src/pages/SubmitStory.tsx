@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,7 +18,13 @@ const SubmitStory = () => {
     tags: [] as string[],
     newTag: ""
   });
+  const [selectedImage, setSelectedImage] = useState<{
+    file: File;
+    previewUrl: string;
+    dataUrl: string;
+  } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -45,6 +51,56 @@ const SubmitStory = () => {
     }
   };
 
+  const readFileAsDataUrl = (file: File) => new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(new Error('Failed to read image file'));
+    reader.readAsDataURL(file);
+  });
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid file",
+        description: "Please select an image file.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const maxSizeBytes = 4 * 1024 * 1024;
+    if (file.size > maxSizeBytes) {
+      toast({
+        title: "Image too large",
+        description: "Please choose an image under 4MB.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setSelectedImage({ file, previewUrl: dataUrl, dataUrl });
+    } catch (error) {
+      console.error('Error reading image:', error);
+      toast({
+        title: "Image upload failed",
+        description: "Could not read the selected image.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const clearSelectedImage = () => {
+    setSelectedImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -54,9 +110,17 @@ const SubmitStory = () => {
       const storyData = {
         title: formData.title.trim(),
         content: {
-          type: 'text',
+          type: selectedImage ? 'mixed' : 'text',
           text: formData.content.trim(),
-          media: []
+          media: selectedImage ? [{
+            type: 'image',
+            url: selectedImage.dataUrl,
+            metadata: {
+              filename: selectedImage.file.name,
+              size: selectedImage.file.size,
+              format: selectedImage.file.type
+            }
+          }] : []
         },
         location: {
           coordinates: [0, 0], // TODO: Get coordinates from geocoding
@@ -184,10 +248,45 @@ const SubmitStory = () => {
               <div className="space-y-2">
                 <Label>Add Media (Optional)</Label>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Button type="button" variant="outline" className="h-24 flex-col">
-                    <Camera className="h-6 w-6 mb-2" />
-                    <span className="text-sm">Add Photo</span>
-                  </Button>
+                  <div className="space-y-2">
+                    <input
+                      ref={fileInputRef}
+                      id="story-image"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageSelect}
+                      className="hidden"
+                    />
+                    <Button
+                      asChild
+                      type="button"
+                      variant="outline"
+                      className="h-24 w-full flex-col cursor-pointer"
+                    >
+                      <label htmlFor="story-image">
+                        <Camera className="h-6 w-6 mb-2" />
+                        <span className="text-sm">Add Photo</span>
+                      </label>
+                    </Button>
+                    {selectedImage && (
+                      <div className="relative rounded-lg overflow-hidden border border-border/50">
+                        <img
+                          src={selectedImage.previewUrl}
+                          alt="Selected story"
+                          className="w-full h-32 object-cover"
+                        />
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="secondary"
+                          className="absolute top-2 right-2"
+                          onClick={clearSelectedImage}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                   <Button type="button" variant="outline" className="h-24 flex-col">
                     <Mic className="h-6 w-6 mb-2" />
                     <span className="text-sm">Record Audio</span>

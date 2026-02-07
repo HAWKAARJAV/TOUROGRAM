@@ -221,8 +221,8 @@ const Explore = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredStories.map((story, index) => {
-              // Get a demo image for the story - rotate through available images
-              const storyImage = Object.values(storyImages)[index % Object.values(storyImages).length];
+              const storyImage = story.content?.media?.find(media => media.type === 'image')?.url
+                || Object.values(storyImages)[index % Object.values(storyImages).length];
 
               return (
                 <Card key={story._id} className="overflow-hidden h-full flex flex-col group hover:shadow-xl transition-all duration-300 border-border/50 hover:border-primary/30">

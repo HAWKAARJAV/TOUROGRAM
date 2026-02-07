@@ -46,6 +46,21 @@ export interface Story {
       body: string;
     };
     snippet: string;
+    media?: Array<{
+      _id?: string;
+      type: 'image' | 'audio' | 'video';
+      url: string;
+      thumbnailUrl?: string;
+      publicId?: string;
+      metadata?: {
+        filename?: string;
+        size?: number;
+        duration?: number;
+        dimensions?: { width: number; height: number };
+        format?: string;
+        transcription?: string;
+      };
+    }>;
   };
   author: {
     _id: string;

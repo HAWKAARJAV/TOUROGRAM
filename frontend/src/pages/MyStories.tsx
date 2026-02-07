@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import StoryDetailDialog from "@/components/StoryDetailDialog";
 import DeleteConfirmationDialog from "@/components/DeleteConfirmationDialog";
-import { storyImages, handleImageError } from "@/utils/imageUtils";
+import { handleImageError } from "@/utils/imageUtils";
 import { apiService, Story } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -253,10 +253,18 @@ const MyStories = () => {
             {stories.map((story) => (
               <Card key={story._id} className="story-card overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="relative">
-                  {/* Use a placeholder image since API stories might not have images */}
-                  <div className="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                    <MapPin className="h-12 w-12 text-blue-500 opacity-50" />
-                  </div>
+                  {story.content?.media?.find(media => media.type === 'image')?.url ? (
+                    <img
+                      src={story.content.media.find(media => media.type === 'image')?.url}
+                      alt={story.title}
+                      className="w-full h-48 object-cover"
+                      onError={handleImageError}
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
+                      <MapPin className="h-12 w-12 text-blue-500 opacity-50" />
+                    </div>
+                  )}
                   <div className="absolute top-4 right-4">
                     <Badge className={getStatusColor(story.status)}>
                       {story.status}
