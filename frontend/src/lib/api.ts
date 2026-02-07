@@ -11,7 +11,7 @@ const getApiBaseUrl = () => {
     hostname.includes('vercel.app') || hostname.includes('render.com') ||
     (!hostname.includes('localhost') && !hostname.includes('127.0.0.1') &&
       !hostname.match(/^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/))) {
-    return 'https://localelens-api.onrender.com/api/v1';
+    return 'https://tourogram-tdp7.onrender.com/api/v1';
   }
 
   // If accessing via network IP (10.x.x.x, 192.168.x.x, 172.16-31.x.x)
@@ -25,7 +25,7 @@ const getApiBaseUrl = () => {
   }
 
   // Default fallback to production
-  return 'https://localelens-api.onrender.com/api/v1';
+  return 'https://tourogram-tdp7.onrender.com/api/v1';
 };
 
 const API_BASE_URL = getApiBaseUrl();
