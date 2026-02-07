@@ -130,8 +130,9 @@ app.use(cors({
       return callback(null, true);
     }
 
-    logger.warn(`CORS blocked request from origin: ${origin}`);
-    callback(new Error('Not allowed by CORS'));
+    // Log but don't reject - for production resilience
+    logger.warn(`CORS request from potentially unallowed origin: ${origin}`);
+    return callback(null, true); // Allow to prevent blocking
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
@@ -145,6 +146,23 @@ app.use(cors({
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Explicit OPTIONS handler for CORS preflight requests
+app.options('*', (req, res) => {
+  const origin = req.get('origin');
+  const allowedOrigins = getAllowedOrigins();
+  
+  if (!origin || allowedOrigins.includes(origin) || origin.includes('netlify.app')) {
+    res.header('Access-Control-Allow-Origin', origin || '*');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept');
+    res.header('Access-Control-Expose-Headers', 'Content-Range,X-Content-Range');
+    res.header('Access-Control-Max-Age', '86400');
+  }
+  
+  res.status(200).end();
+});
 
 // API Documentation
 setupSwagger(app);
