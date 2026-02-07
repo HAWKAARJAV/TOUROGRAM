@@ -28,6 +28,26 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const HOST = process.env.HOST || '0.0.0.0';
 
+// ⚠️ CRITICAL: Apply CORS FIRST - before all other middleware
+app.use((req, res, next) => {
+  const origin = req.get('origin') || req.get('referer');
+  
+  // Always allow CORS for production domains and localhost
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-CSRF-Token');
+  res.header('Access-Control-Expose-Headers', 'Content-Range, X-Content-Range, Content-Length');
+  res.header('Access-Control-Max-Age', '86400');
+  
+  // Handle OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
+  next();
+});
+
 // Connect to MongoDB (skip when running isolated tests)
 async function initDatabase() {
   if (process.env.SKIP_DB === '1') {
@@ -86,83 +106,12 @@ const speedLimiter = slowDown({
 app.use(generalLimiter);
 app.use(speedLimiter);
 
-// Dynamic CORS configuration
-const getAllowedOrigins = () => {
-  const origins = [
-    process.env.FRONTEND_URL || 'http://localhost:8080',
-    process.env.FRONTEND_URL_NETWORK,
-    'https://tourogram.netlify.app',  // Production frontend
-    'https://tourogram-staging.netlify.app',
-    'http://localhost:8080',
-    'http://localhost:8081',
-    'http://localhost:8082',
-    'http://localhost:3000',
-    'http://localhost:5173',
-    'https://*.netlify.app'
-  ].filter(Boolean);
-
-  // Get network IP dynamically
-  const os = require('os');
-  const networkInterfaces = os.networkInterfaces();
-  const networkIP = Object.values(networkInterfaces)
-    .flat()
-    .find(iface => iface?.family === 'IPv4' && !iface.internal)?.address;
-
-  if (networkIP) {
-    origins.push(`http://${networkIP}:8080`, `http://${networkIP}:8081`, `http://${networkIP}:8082`);
-  }
-
-  return origins;
-};
-
-app.use(cors({
-  origin: function (origin, callback) {
-    const allowedOrigins = getAllowedOrigins();
-    // Allow requests with no origin (mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    
-    // Check for Netlify wildcard match
-    if (origin && origin.includes('netlify.app')) return callback(null, true);
-
-    // Allow any local network IP on ports 8080/8081
-    if (/^http:\/\/(localhost|127\.0\.0\.1|\d+\.\d+\.\d+\.\d+):(808[0-2]|3000|5173)$/.test(origin)) {
-      return callback(null, true);
-    }
-
-    // Log but don't reject - for production resilience
-    logger.warn(`CORS request from potentially unallowed origin: ${origin}`);
-    return callback(null, true); // Allow to prevent blocking
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  exposedHeaders: ['Content-Range', 'X-Content-Range'],
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 200
-}));
+// CORS is already handled in the first middleware above
 
 // Body parsing middleware
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// Explicit OPTIONS handler for CORS preflight requests
-app.options('*', (req, res) => {
-  const origin = req.get('origin');
-  const allowedOrigins = getAllowedOrigins();
-  
-  if (!origin || allowedOrigins.includes(origin) || origin.includes('netlify.app')) {
-    res.header('Access-Control-Allow-Origin', origin || '*');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept');
-    res.header('Access-Control-Expose-Headers', 'Content-Range,X-Content-Range');
-    res.header('Access-Control-Max-Age', '86400');
-  }
-  
-  res.status(200).end();
-});
 
 // API Documentation
 setupSwagger(app);
