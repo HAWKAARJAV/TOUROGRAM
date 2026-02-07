@@ -386,6 +386,12 @@ class ApiService {
     });
   }
 
+  async deleteStory(storyId: string): Promise<ApiResponse<void>> {
+    return this.request(`/stories/${storyId}`, {
+      method: 'DELETE',
+    });
+  }
+
   async login(credentials: { email: string; password: string }): Promise<ApiResponse<AuthResponse>> {
     return this.request('/auth/login', {
       method: 'POST',

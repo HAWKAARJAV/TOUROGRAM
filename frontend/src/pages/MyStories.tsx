@@ -77,14 +77,32 @@ const MyStories = () => {
     setShowDeleteDialog(true);
   };
 
-  const confirmDeleteStory = () => {
-    if (storyToDelete) {
+  const confirmDeleteStory = async () => {
+    if (!storyToDelete) return;
+
+    try {
+      const response = await apiService.deleteStory(storyToDelete._id);
+
+      if (response.error) {
+        throw new Error(response.error);
+      }
+
+      // Remove from local state
       setStories(stories.filter(story => story._id !== storyToDelete._id));
+      
       toast({
         title: "Story Deleted",
         description: `"${storyToDelete.title}" has been permanently deleted.`,
         variant: "destructive",
       });
+    } catch (error) {
+      console.error('Error deleting story:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : 'Failed to delete story',
+        variant: "destructive"
+      });
+    } finally {
       setShowDeleteDialog(false);
       setStoryToDelete(null);
     }
