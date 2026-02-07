@@ -9,7 +9,7 @@ const Pricing = () => {
   const plans = [
     {
       name: 'Free',
-      price: '$0',
+      price: '₹0',
       period: 'forever',
       description: 'Perfect for casual travelers and story enthusiasts',
       icon: Sparkles,
@@ -30,7 +30,7 @@ const Pricing = () => {
     },
     {
       name: 'Premium',
-      price: '$9.99',
+      price: '₹99',
       period: '/month',
       description: 'For passionate travelers who want more',
       icon: Zap,
@@ -51,7 +51,7 @@ const Pricing = () => {
     },
     {
       name: 'Pro',
-      price: '$19.99',
+      price: '₹199',
       period: '/month',
       description: 'For content creators and travel professionals',
       icon: Crown,
@@ -108,7 +108,7 @@ const Pricing = () => {
                 className={`relative ${plan.popular ? 'scale-105' : ''}`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-primary to-accent text-white text-sm font-bold rounded-full shadow-lg z-10">
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-cyan-400 to-cyan-500 text-white text-sm font-bold rounded-full shadow-lg z-10 border-2 border-white">
                     MOST POPULAR
                   </div>
                 )}
@@ -145,7 +145,7 @@ const Pricing = () => {
                     </ul>
 
                     <Button
-                      className={`w-full ${plan.popular ? 'bg-gradient-to-r from-primary to-accent hover:shadow-xl' : 'bg-gray-900 hover:bg-gray-800'} text-white font-semibold py-6 rounded-xl transition-all duration-300`}
+                      className={`w-full ${plan.popular ? 'bg-gradient-to-r from-primary to-primary-glow hover:shadow-xl' : 'bg-gray-900 hover:bg-gray-800'} text-white font-semibold py-6 rounded-xl transition-all duration-300`}
                       onClick={() => navigate('/register')}
                     >
                       {plan.cta}

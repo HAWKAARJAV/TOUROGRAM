@@ -143,16 +143,19 @@ const Navigation: React.FC = () => {
         }
 
         .quick-actions-island {
-          position: fixed;
-          top: 80px;
-          right: 20px;
-          background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9));
+          position: absolute;
+          top: 100%;
+          right: 0;
+          margin-top: 8px;
+          background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
           backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px;
-          padding: 8px;
+          border-radius: 12px;
+          padding: 6px;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 40;
+          z-index: 50;
+          width: auto;
+          min-width: 160px;
         }
 
         .quick-actions-island.hidden {
@@ -168,7 +171,8 @@ const Navigation: React.FC = () => {
 
         .quick-actions-menu {
           display: flex;
-          gap: 8px;
+          flex-direction: column;
+          gap: 0;
           transition: all 0.3s ease;
           overflow: hidden;
         }
@@ -188,7 +192,7 @@ const Navigation: React.FC = () => {
           align-items: center;
           gap: 6px;
           padding: 8px 12px;
-          border-radius: 10px;
+          border-radius: 8px;
           color: rgba(255, 255, 255, 0.8);
           text-decoration: none;
           font-size: 13px;
@@ -198,6 +202,9 @@ const Navigation: React.FC = () => {
           background: transparent;
           border: none;
           cursor: pointer;
+          width: 100%;
+          justify-content: flex-start;
+        }
         }
 
         .quick-action-item:hover {
@@ -317,17 +324,66 @@ const Navigation: React.FC = () => {
 
                 {/* Quick Actions Trigger */}
                 {isSignedIn && (
-                  <button
-                    className="nav-island-item"
-                    onMouseEnter={() => {
-                      setHoveredItem('quick');
-                      setShowQuickActions(true);
-                    }}
-                    onClick={() => setShowQuickActions(!showQuickActions)}
-                  >
-                    <Zap className="h-4 w-4" />
-                    <span className="hidden lg:block">Quick</span>
-                  </button>
+                  <div className="relative">
+                    <button
+                      className="nav-island-item"
+                      onMouseEnter={() => {
+                        setHoveredItem('quick');
+                        setShowQuickActions(true);
+                      }}
+                      onMouseLeave={() => setShowQuickActions(false)}
+                      onClick={() => setShowQuickActions(!showQuickActions)}
+                    >
+                      <Zap className="h-4 w-4" />
+                      <span className="hidden lg:block">Quick</span>
+                    </button>
+
+                    {/* Quick Actions Dropdown */}
+                    {showQuickActions && (
+                      <div
+                          className="absolute top-full left-0 mt-2 w-48 bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl z-[9999]"
+                        onMouseEnter={() => setShowQuickActions(true)}
+                        onMouseLeave={() => setShowQuickActions(false)}
+                      >
+                        <div className="p-2">
+                          <Link
+                            to="/submit"
+                            className="flex items-center space-x-2 w-full px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                            onClick={() => setShowQuickActions(false)}
+                          >
+                            <Plus className="h-4 w-4" />
+                            <span>New Story</span>
+                          </Link>
+
+                          <Link
+                            to="/plan"
+                            className="flex items-center space-x-2 w-full px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                            onClick={() => setShowQuickActions(false)}
+                          >
+                            <Bot className="h-4 w-4" />
+                            <span>AI Planner</span>
+                          </Link>
+
+                          <Link
+                            to="/favorites"
+                            className="flex items-center space-x-2 w-full px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                            onClick={() => setShowQuickActions(false)}
+                          >
+                            <Heart className="h-4 w-4" />
+                            <span>Favorites</span>
+                          </Link>
+
+                          <button
+                            className="flex items-center space-x-2 w-full px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                            onClick={() => setShowQuickActions(false)}
+                          >
+                            <Share2 className="h-4 w-4" />
+                            <span>Share</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             </div>
@@ -435,45 +491,7 @@ const Navigation: React.FC = () => {
           <div className={`expansion-indicator ${isExpanded ? 'expanded' : ''}`}></div>
         </div>
 
-        {/* Quick Actions Island */}
-        {isSignedIn && (
-          <div
-            className={`quick-actions-island ${showQuickActions ? 'visible' : 'hidden'}`}
-            onMouseEnter={() => setShowQuickActions(true)}
-            onMouseLeave={() => setShowQuickActions(false)}
-          >
-            <div className="flex items-center space-x-2">
-              <button
-                className="quick-action-btn p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
-                onClick={() => setShowQuickActions(!showQuickActions)}
-              >
-                <Zap className="h-4 w-4 text-white" />
-              </button>
-
-              <div className={`quick-actions-menu ${showQuickActions ? 'expanded' : 'collapsed'}`}>
-                <Link to="/submit" className="quick-action-item">
-                  <Plus className="h-4 w-4" />
-                  <span>New Story</span>
-                </Link>
-
-                <Link to="/plan" className="quick-action-item">
-                  <Bot className="h-4 w-4" />
-                  <span>AI Planner</span>
-                </Link>
-
-                <Link to="/favorites" className="quick-action-item">
-                  <Heart className="h-4 w-4" />
-                  <span>Favorites</span>
-                </Link>
-
-                <button className="quick-action-item">
-                  <Share2 className="h-4 w-4" />
-                  <span>Share</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Quick Actions Island - Old version, no longer used */}
       </nav>
     </>
   );

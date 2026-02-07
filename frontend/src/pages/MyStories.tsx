@@ -151,11 +151,11 @@ const MyStories = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/20 hover:text-white"
+                className="border-white/30 text-white bg-transparent hover:bg-white/20 hover:text-white"
                 onClick={() => fetchMyStories()}
                 disabled={loading}
               >
-                <Eye className="mr-2 h-5 w-5" />
+                <Eye className="mr-2 h-5 w-5 text-current" />
                 {loading ? 'Refreshing...' : 'Refresh'}
               </Button>
               <Button

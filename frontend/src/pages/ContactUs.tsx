@@ -187,7 +187,7 @@ const ContactUs = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-primary to-accent hover:shadow-xl text-white font-semibold py-6 rounded-xl transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-primary to-primary-glow hover:shadow-xl text-white font-semibold py-6 rounded-xl transition-all duration-300"
                 >
                   {isSubmitting ? (
                     <>Sending...</>
@@ -218,9 +218,7 @@ const ContactUs = () => {
                 <div>
                   <h3 className="text-xl font-bold mb-2">Visit Our Office</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    123 Story Avenue<br />
-                    San Francisco, CA 94102<br />
-                    United States
+                    NSUT IIF Incubation Center
                   </p>
                 </div>
               </div>
@@ -235,8 +233,8 @@ const ContactUs = () => {
                 <div>
                   <h3 className="text-xl font-bold mb-2">Call Us</h3>
                   <p className="text-gray-600 mb-2">For urgent inquiries</p>
-                  <a href="tel:+15551234567" className="text-primary hover:text-primary-glow font-semibold text-lg">
-                    +1 (555) 123-4567
+                  <a href="tel:+918130214306" className="text-primary hover:text-primary-glow font-semibold text-lg">
+                    +91 8130214306
                   </a>
                 </div>
               </div>
@@ -265,7 +263,7 @@ const ContactUs = () => {
               <a
                 key={social}
                 href={`#${social.toLowerCase()}`}
-                className="w-12 h-12 bg-gradient-to-r from-primary to-accent text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg"
+                className="w-12 h-12 bg-gradient-to-r from-primary to-primary-glow text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg"
               >
                 {social[0]}
               </a>
