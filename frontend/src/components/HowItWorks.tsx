@@ -1,111 +1,119 @@
-import { MapPin, BookOpen, Users, Trophy, Sparkles, ArrowRight } from "lucide-react";
+import { MapPin, BookOpen, Users, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const HowItWorks = () => {
   const steps = [
     {
       icon: MapPin,
-      title: "Share Your Adventure",
-      description: "Drop a pin on the map and share your unique story about that place. Every location has hidden gems waiting to be discovered.",
-      image: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      gradient: "from-primary to-primary/80"
+      number: "01",
+      title: "Share Your Journey",
+      description: "Create and share your authentic travel stories with photos and memories from your adventures.",
+      color: "from-blue-500 to-cyan-500"
     },
     {
       icon: BookOpen,
-      title: "Unlock Stories",
-      description: "Exchange your story to unlock others' experiences. Discover local secrets, hidden spots, and authentic travel tales from fellow explorers.",
-      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      gradient: "from-secondary to-secondary/80"
+      number: "02",
+      title: "Discover Hidden Gems",
+      description: "Explore stories from fellow travelers and locals to uncover secret spots and unique experiences.",
+      color: "from-purple-500 to-pink-500"
     },
     {
       icon: Users,
-      title: "Connect Globally",
-      description: "Join a vibrant community of travelers and locals. Share experiences, get recommendations, and build lasting connections worldwide.",
-      image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      gradient: "from-accent to-accent/80"
+      number: "03",
+      title: "Connect & Plan",
+      description: "Build connections with like-minded travelers and use AI to plan your next adventure based on shared experiences.",
+      color: "from-orange-500 to-red-500"
     }
   ];
 
   return (
-    <section className="py-24 bg-muted/30 relative overflow-hidden" style={{
-      backgroundImage: 'url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e")',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed'
-    }}>
-      {/* Semi-transparent overlay */}
-      <div className="absolute inset-0 bg-white/85" style={{ zIndex: 0 }} />
+    <section className="py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-20 right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
       
-      {/* Parallax animated elements - More visible */}
-      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-        <div className="floating absolute top-20 left-10 w-40 h-40 bg-gradient-to-br from-blue-400/40 to-cyan-400/40 rounded-full blur-2xl shadow-2xl" />
-        <div className="floating absolute top-40 right-20 w-56 h-56 bg-gradient-to-br from-purple-400/40 to-pink-400/40 rounded-full blur-3xl shadow-2xl" />
-        <div className="floating absolute bottom-32 left-1/4 w-48 h-48 bg-gradient-to-br from-orange-400/40 to-red-400/40 rounded-full blur-2xl shadow-2xl" />
-        <div className="floating absolute bottom-20 right-1/3 w-52 h-52 bg-gradient-to-br from-teal-400/40 to-green-400/40 rounded-full blur-3xl shadow-2xl" />
-        <div className="floating absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-br from-indigo-400/30 to-blue-400/30 rounded-full blur-3xl shadow-2xl" style={{ animationDelay: '-4.5s' }} />
-      </div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative" style={{ zIndex: 1 }}>
-        <div className="text-center mb-20 animate-fade-in">
-          <h2 className="text-5xl font-bold mb-6 text-secondary">
-            How It Works
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
+        <motion.div
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            How StorySwap Works
           </h2>
-          <p className="text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'hsl(215, 25%, 20%)' }}>
-            Join thousands of travelers and locals sharing authentic stories. 
-            Discover hidden gems and create meaningful connections through the art of storytelling.
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Three simple steps to connect with travelers worldwide and discover amazing stories
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+        {/* Steps Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {steps.map((step, index) => (
-            <div 
+            <motion.div
               key={index}
-              className="group card-tilt bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-700 overflow-hidden animate-slide-up border border-muted/20"
-              style={{ animationDelay: `${index * 0.3}s` }}
+              className="group relative"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
             >
-              {/* Beautiful Image Header with Parallax Effect */}
-              <div className="relative h-72 overflow-hidden">
-                <img 
-                  src={step.image} 
-                  alt={step.title}
-                  className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-1000 ease-out"
-                />
-                <div className={`absolute inset-0 bg-gradient-to-t ${step.gradient} opacity-70 group-hover:opacity-50 transition-opacity duration-500`} />
+              {/* Card */}
+              <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group-hover:border-transparent overflow-hidden">
+                {/* Gradient Border on Hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl`} />
                 
+                {/* Step Number */}
+                <div className="relative mb-6">
+                  <span className={`text-6xl font-bold bg-gradient-to-br ${step.color} bg-clip-text text-transparent opacity-20`}>
+                    {step.number}
+                  </span>
+                </div>
 
-                
-                {/* Enhanced Step Number */}
-                <div className="absolute top-6 left-6 w-14 h-14 glass-enhanced text-white rounded-2xl text-xl font-bold flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  {index + 1}
+                {/* Icon */}
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg`}>
+                  <step.icon className="w-8 h-8 text-white" />
                 </div>
                 
-                {/* Enhanced Icon */}
-                <div className="absolute bottom-6 right-6 w-16 h-16 glass-enhanced rounded-3xl flex items-center justify-center shadow-2xl group-hover:rotate-12 transition-transform duration-500">
-                  <step.icon className="h-8 w-8 text-white drop-shadow-lg" />
-                </div>
-              </div>
-              
-              {/* Content */}
-              <div className="p-8">
-                <h3 className="text-2xl font-bold mb-4 text-secondary">
+                {/* Title */}
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
                   {step.title}
                 </h3>
                 
-                <p className="leading-relaxed text-lg" style={{ color: 'hsl(215, 25%, 25%)' }}>
+                {/* Description */}
+                <p className="text-gray-600 leading-relaxed">
                   {step.description}
                 </p>
+
+                {/* Arrow Connector (hidden on last item and mobile) */}
+                {index < steps.length - 1 && (
+                  <div className="hidden md:block absolute top-1/2 -right-6 lg:-right-12 transform -translate-y-1/2 z-10">
+                    <ArrowRight className="w-8 h-8 lg:w-12 lg:h-12 text-gray-300" />
+                  </div>
+                )}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* Enhanced Call to Action */}
-        <div className="text-center mt-20">
-          <div className="inline-flex items-center px-8 py-4 glass-enhanced border border-primary/30 rounded-2xl text-primary font-semibold text-lg shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer">
-            <Sparkles className="mr-3 h-5 w-5 animate-pulse" />
-            Ready to start your story journey?
-            <ArrowRight className="ml-3 h-5 w-5 animate-bounce" style={{ animationDuration: '2s' }} />
-          </div>
-        </div>
+        {/* CTA */}
+        <motion.div
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <p className="text-lg text-gray-600 mb-6">
+            Ready to start your storytelling journey?
+          </p>
+          <button className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-2xl hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+            Get Started Free
+            <ArrowRight className="w-5 h-5" />
+          </button>
+        </motion.div>
       </div>
     </section>
   );

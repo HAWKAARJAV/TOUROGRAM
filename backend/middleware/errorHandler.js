@@ -22,6 +22,11 @@ class APIError extends Error {
 const handleError = (err) => {
   let error = err;
 
+  // If already an APIError, return it as-is
+  if (err instanceof APIError) {
+    return err;
+  }
+
   // Handle Mongoose validation errors
   if (err.name === 'ValidationError') {
     const errors = Object.values(err.errors).map(e => ({
@@ -39,7 +44,7 @@ const handleError = (err) => {
   }
 
   // Handle Mongoose cast errors (invalid ObjectId, etc.)
-  if (err.name === 'CastError') {
+  else if (err.name === 'CastError') {
     error = new APIError(
       `Invalid ${err.path}: ${err.value}`,
       400,
@@ -48,7 +53,7 @@ const handleError = (err) => {
   }
 
   // Handle Mongoose duplicate key errors
-  if (err.code === 11000) {
+  else if (err.code === 11000) {
     const field = Object.keys(err.keyValue)[0];
     const value = err.keyValue[field];
     
@@ -61,7 +66,7 @@ const handleError = (err) => {
   }
 
   // Handle JWT errors
-  if (err.name === 'JsonWebTokenError') {
+  else if (err.name === 'JsonWebTokenError') {
     error = new APIError(
       'Invalid token',
       401,
@@ -69,7 +74,7 @@ const handleError = (err) => {
     );
   }
 
-  if (err.name === 'TokenExpiredError') {
+  else if (err.name === 'TokenExpiredError') {
     error = new APIError(
       'Token expired',
       401,
@@ -78,7 +83,7 @@ const handleError = (err) => {
   }
 
   // Handle MongoDB connection errors
-  if (err.name === 'MongoError' || err.name === 'MongooseError') {
+  else if (err.name === 'MongoError' || err.name === 'MongooseError') {
     error = new APIError(
       'Database connection error',
       503,
@@ -87,7 +92,7 @@ const handleError = (err) => {
   }
 
   // Handle file upload errors
-  if (err.code === 'LIMIT_FILE_SIZE') {
+  else if (err.code === 'LIMIT_FILE_SIZE') {
     error = new APIError(
       'File size too large',
       413,
@@ -95,11 +100,20 @@ const handleError = (err) => {
     );
   }
 
-  if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+  else if (err.code === 'LIMIT_UNEXPECTED_FILE') {
     error = new APIError(
       'Unexpected file field',
       400,
       'INVALID_FILE_FIELD'
+    );
+  }
+
+  // Default case: wrap generic errors
+  else if (!(error instanceof APIError)) {
+    error = new APIError(
+      error.message || 'An unexpected error occurred',
+      500,
+      'INTERNAL_ERROR'
     );
   }
 

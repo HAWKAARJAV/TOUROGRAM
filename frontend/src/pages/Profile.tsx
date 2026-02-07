@@ -179,11 +179,15 @@ const Profile = () => {
                       </span>
                     </div>
                     <div className="flex gap-2">
-                      {story.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
+                      {story.tags.map((tag, index) => {
+                        const tagText = typeof tag === 'string' ? tag : (tag.displayName || tag.name || '');
+                        const tagKey = typeof tag === 'string' ? tag : tag._id;
+                        return (
+                          <Badge key={tagKey || index} variant="outline" className="text-xs">
+                            {tagText}
+                          </Badge>
+                        );
+                      })}
                     </div>
                   </div>
                 </CardContent>

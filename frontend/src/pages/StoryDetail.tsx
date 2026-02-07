@@ -57,7 +57,7 @@ const StoryDetail = () => {
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            
+
             {/* Story Title Overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-8">
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
@@ -65,7 +65,7 @@ const StoryDetail = () => {
               </h1>
               <div className="flex items-center text-white/90 gap-2">
                 <MapPin className="h-5 w-5" />
-                <span className="text-lg">{story.location}</span>
+                <span className="text-lg">{story.location?.address?.formatted || story.location || 'Unknown Location'}</span>
               </div>
             </div>
           </div>
@@ -76,15 +76,15 @@ const StoryDetail = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Avatar className="h-16 w-16 border-2 border-white/30">
-                <AvatarImage src={story.author.avatar || avatarPlaceholder} />
+                <AvatarImage src={story.author?.avatar?.url || story.author?.avatar || avatarPlaceholder} />
                 <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500 text-white text-xl">
-                  {story.author.name.split(' ').map((n: string) => n[0]).join('')}
+                  {(story.author?.displayName || story.author?.name || 'A').split(' ').map((n: string) => n[0]).join('')}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-xl font-semibold text-white">{story.author.name}</h3>
-                  {story.author.badge && (
+                  <h3 className="text-xl font-semibold text-white">{story.author?.displayName || story.author?.name || 'Anonymous'}</h3>
+                  {story.author?.badge && (
                     <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30">
                       {story.author.badge}
                     </Badge>
@@ -103,11 +103,11 @@ const StoryDetail = () => {
             <div className="flex items-center gap-4">
               <button className="flex items-center gap-2 text-white/80 hover:text-red-400 transition-colors">
                 <Heart className="h-5 w-5" />
-                <span>{story.likes}</span>
+                <span>{story.engagement?.likes || story.likes || 0}</span>
               </button>
               <button className="flex items-center gap-2 text-white/80 hover:text-blue-400 transition-colors">
                 <MessageCircle className="h-5 w-5" />
-                <span>{story.comments}</span>
+                <span>{story.engagement?.comments || story.comments || 0}</span>
               </button>
               <button className="flex items-center gap-2 text-white/80 hover:text-green-400 transition-colors">
                 <Share2 className="h-5 w-5" />
@@ -118,29 +118,33 @@ const StoryDetail = () => {
 
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-8">
-          {story.tags.map((tag: string, index: number) => (
-            <Badge
-              key={index}
-              variant="secondary"
-              className="text-sm bg-white/10 text-white border-white/20 hover:bg-white/20 transition-colors"
-            >
-              {tag}
-            </Badge>
-          ))}
+          {story.tags?.map((tag: any, index: number) => {
+            const tagText = typeof tag === 'string' ? tag : (tag.displayName || tag.name || '');
+            const tagKey = typeof tag === 'string' ? tag : tag._id;
+            return (
+              <Badge
+                key={tagKey || index}
+                variant="secondary"
+                className="text-sm bg-white/10 text-white border-white/20 hover:bg-white/20 transition-colors"
+              >
+                {tagText}
+              </Badge>
+            );
+          })}
         </div>
 
         {/* Story Content */}
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20">
           <div className="prose prose-lg prose-invert max-w-none">
-            {story.fullContent ? (
-              story.fullContent.split('\n\n').map((paragraph: string, index: number) => (
+            {story.content?.text?.body || story.fullContent ? (
+              (story.content?.text?.body || story.fullContent).split('\n\n').map((paragraph: string, index: number) => (
                 <p key={index} className="text-white/90 text-lg leading-relaxed mb-6">
                   {paragraph}
                 </p>
               ))
             ) : (
               <p className="text-white/90 text-lg leading-relaxed">
-                {story.excerpt}
+                {story.content?.snippet || story.excerpt || 'No content available.'}
               </p>
             )}
           </div>

@@ -41,6 +41,39 @@ const authenticate = async (req, res, next) => {
       });
     }
 
+    // Handle development dummy tokens (format: token-{userId})
+    if (token.startsWith('token-') && process.env.NODE_ENV !== 'production') {
+      const userId = token.substring(6); // Remove "token-" prefix
+      try {
+        const user = await User.findById(userId).select('-password');
+        if (user) {
+          req.user = user;
+          req.token = { raw: token, decoded: { id: userId } };
+          return next();
+        }
+      } catch (err) {
+        logger.warn('Failed to find user by ID from dummy token:', { userId, error: err.message });
+      }
+      // If user not found, try creating a default user for development
+      const dummyUser = new User({
+        _id: userId,
+        username: `user_${userId.substring(0, 8)}`,
+        displayName: `User ${userId.substring(0, 8)}`,
+        email: `user_${userId.substring(0, 8)}@example.com`,
+        password: 'dummy',
+        flags: { isActive: true, isBanned: false },
+        isLocked: false
+      });
+      try {
+        await dummyUser.save();
+        req.user = dummyUser;
+        req.token = { raw: token, decoded: { id: userId } };
+        return next();
+      } catch (saveErr) {
+        logger.error('Failed to create dummy user:', saveErr);
+      }
+    }
+
     // Verify the token
     const decoded = jwtService.verifyAccessToken(token);
     

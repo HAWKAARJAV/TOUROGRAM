@@ -158,7 +158,20 @@ const getStories = asyncHandler(async (req, res) => {
     }
 
     // Build query
-    let query = { status: 'published' };
+    // If user is requesting their own stories, show all statuses (draft + published)
+    // Otherwise, only show published stories
+    let query = {};
+    
+    // Check if this is a request for the authenticated user's own stories
+    const isOwnStories = req.user && (
+      (author && author === req.user._id?.toString()) ||
+      (authorEmail && authorEmail === req.user.email)
+    );
+    
+    // Only filter by published if it's a public query (not the user's own stories)
+    if (!isOwnStories) {
+      query.status = 'published';
+    }
 
     // Location-based filtering with validation
     if (lat && lng) {
@@ -206,17 +219,22 @@ const getStories = asyncHandler(async (req, res) => {
 
     // Author filtering
     if (author) {
+      logger.info(`[getStories] Filtering by author: ${author}`);
       query.author = author;
     } else if (authorEmail) {
       // Find user by email and filter by their ID
       const user = await User.findOne({ email: authorEmail }).select('_id');
       if (user) {
+        logger.info(`[getStories] Found user by email ${authorEmail}: ${user._id}`);
         query.author = user._id;
       } else {
+        logger.warn(`[getStories] No user found for email: ${authorEmail}`);
         // If no user found, return empty results
         query.author = null;
       }
     }
+    
+    logger.info(`[getStories] Final query:`, JSON.stringify(query));
 
     // Search filtering
     if (search) {
@@ -427,8 +445,8 @@ const createStory = asyncHandler(async (req, res) => {
     location: location._id,
     tags: storyTags,
     visibility,
-    status: 'published', // Auto-publish for now, can add moderation later
-    publishedAt: new Date()
+    status: 'published', // Auto-publish stories immediately
+    publishedAt: new Date()  // Set publish date on creation
   });
 
   // Auto-analyze emotion if text content exists
@@ -622,6 +640,57 @@ const getTrendingStories = asyncHandler(async (req, res) => {
 });
 
 /**
+ * Publish a draft story
+ * @route POST /api/v1/stories/:id/publish
+ * @access Private (author only)
+ */
+const publishStory = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const story = await Story.findById(id);
+
+  if (!story) {
+    throw notFoundError('Story');
+  }
+
+  // Check if user owns the story
+  if (story.author.toString() !== req.user._id.toString()) {
+    throw authorizationError('You can only publish your own stories');
+  }
+
+  // Check if story is in draft status
+  if (story.status !== 'draft') {
+    throw validationError('Only draft stories can be published', { currentStatus: story.status });
+  }
+
+  // Update story status to published
+  story.status = 'published';
+  story.publishedAt = new Date();
+  await story.save();
+
+  // Update user stats
+  await User.findByIdAndUpdate(req.user._id, {
+    $inc: { 'stats.storiesPublished': 1 }
+  });
+
+  const publishedStory = await Story.findById(story._id)
+    .populate('author', 'username displayName avatar')
+    .populate('location', 'coordinates address description')
+    .populate('tags', 'name displayName color');
+
+  logger.info('Story published successfully', {
+    storyId: story._id,
+    authorId: req.user._id,
+    title: story.title
+  });
+
+  res.json({
+    message: 'Story published successfully',
+    story: publishedStory
+  });
+});
+
+/**
  * Helper function to check if story is unlocked for user
  */
 async function checkStoryUnlocked(storyId, userId) {
@@ -657,5 +726,6 @@ module.exports = {
   updateStory,
   deleteStory,
   toggleLike,
-  getTrendingStories
+  getTrendingStories,
+  publishStory
 };

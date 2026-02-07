@@ -8,7 +8,8 @@ const {
   updateStory,
   deleteStory,
   toggleLike,
-  getTrendingStories
+  getTrendingStories,
+  publishStory
 } = require('../controllers/storyController');
 
 const router = express.Router();
@@ -231,5 +232,31 @@ router.delete('/:id', authenticate, deleteStory);
  *         $ref: '#/components/responses/NotFoundError'
  */
 router.post('/:id/like', authenticate, toggleLike);
+
+/**
+ * @swagger
+ * /stories/{id}/publish:
+ *   post:
+ *     summary: Publish a draft story
+ *     tags: [Stories]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Story published successfully
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ */
+router.post('/:id/publish', authenticate, publishStory);
 
 module.exports = router;

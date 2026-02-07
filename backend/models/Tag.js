@@ -65,6 +65,17 @@ tagSchema.methods.updateTrendingStatus = function () {
     this.trending.istrending = false; this.trending.trendingSince = null;
   }
 };
+
+tagSchema.methods.incrementUsage = function (metric, inc = 1) {
+  if (this.usage[metric] !== undefined) {
+    this.usage[metric] += inc;
+    this.usage.popularityScore = this.calculatePopularityScore();
+    this.updateTrendingStatus();
+    return this.save();
+  }
+  throw new Error(`Invalid usage metric: ${metric}`);
+};
+
 tagSchema.statics.findOrCreate = async function (name) {
   const norm = name.toLowerCase().trim();
   let tag = await this.findOne({ name: norm });

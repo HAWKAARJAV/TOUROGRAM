@@ -9,6 +9,7 @@ import { apiService, Story } from "@/lib/api";
 import { handleImageError, avatarPlaceholder, storyImages } from "@/utils/imageUtils";
 import Map from "@/components/Map";
 import { getLocationCoordinates, calculateCenter, calculateZoom, LocationCoordinates } from "@/utils/locationUtils";
+import { getTagText, getTagKey } from "@/utils/tagUtils";
 
 const Explore = () => {
   const [stories, setStories] = useState<Story[]>([]);
@@ -71,12 +72,12 @@ const Explore = () => {
       let coordinates = null;
 
       // API returns: { coordinates: { type: "Point", coordinates: [lng, lat] } }
-      if (story.location?.coordinates?.coordinates) {
+      if (story?.location?.coordinates?.coordinates) {
         coordinates = {
           lat: story.location.coordinates.coordinates[1], // GeoJSON format: [lng, lat]
           lng: story.location.coordinates.coordinates[0]
         };
-      } else if (story.location?.address?.formatted) {
+      } else if (story?.location?.address?.formatted) {
         coordinates = getLocationCoordinates(story.location.address.formatted);
       }
 
@@ -88,9 +89,9 @@ const Explore = () => {
           content: `
             <div class="p-2 max-w-xs">
               <h3 class="font-semibold text-sm mb-1">${story.title}</h3>
-              <p class="text-xs text-gray-600 mb-2">${story.content.snippet?.substring(0, 100) || 'No description available'}...</p>
+              <p class="text-xs text-gray-600 mb-2">${story.content?.snippet?.substring(0, 100) || 'No description available'}...</p>
               <div class="flex items-center justify-between text-xs text-gray-500">
-                <span>by ${story.author.displayName}</span>
+                <span>by ${story.author?.displayName || 'Unknown'}</span>
                 <div class="flex space-x-2">
                   <span>❤️ ${story.engagement?.likes || 0}</span>
                   <span>💬 ${story.engagement?.comments || 0}</span>
@@ -238,9 +239,9 @@ const Explore = () => {
                         <Badge variant="secondary" className="bg-primary text-white hover:bg-primary/90 shadow-sm">
                           {"Culture"}
                         </Badge>
-                        {story.tags?.slice(0, 1).map(tag => (
-                          <Badge key={tag} variant="outline" className="bg-black/30 text-white border-white/20 backdrop-blur-sm">
-                            {tag}
+                        {story.tags?.slice(0, 1).map((tag, index) => (
+                          <Badge key={getTagKey(tag, index)} variant="outline" className="bg-black/30 text-white border-white/20 backdrop-blur-sm">
+                            {getTagText(tag)}
                           </Badge>
                         ))}
                       </div>
@@ -274,13 +275,13 @@ const Explore = () => {
                       <div className="flex items-center space-x-2">
                         <div className="w-8 h-8 rounded-full overflow-hidden bg-muted ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
                           <img
-                            src={story.author.avatar?.url || avatarPlaceholder}
-                            alt={story.author.displayName}
+                            src={story.author?.avatar?.url || avatarPlaceholder}
+                            alt={story.author?.displayName || 'Author'}
                             className="w-full h-full object-cover"
                             onError={handleImageError}
                           />
                         </div>
-                        <span className="text-sm font-medium">{story.author.displayName}</span>
+                        <span className="text-sm font-medium">{story.author?.displayName || 'Anonymous'}</span>
                       </div>
 
                       <div className="flex items-center space-x-1 text-muted-foreground">

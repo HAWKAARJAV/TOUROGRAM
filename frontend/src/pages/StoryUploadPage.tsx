@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { 
   Camera, 
   Video, 
@@ -19,6 +20,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
+import { apiService } from '@/lib/api';
 
 interface UploadedFile {
   id: string;
@@ -95,22 +98,62 @@ const StoryUploadPage: React.FC = () => {
     
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setShowSuccess(true);
-    
-    // Reset form after success
-    setTimeout(() => {
-      setShowSuccess(false);
-      setTitle('');
-      setContent('');
-      setLocation('');
-      setSelectedMood('');
-      setSelectedTags([]);
-      setUploadedFiles([]);
-    }, 3000);
+    try {
+      // Prepare story data
+      const storyData = {
+        title: title.trim(),
+        content: {
+          type: 'text',
+          text: content.trim(),
+          media: [] // TODO: Handle media uploads
+        },
+        location: {
+          coordinates: [0, 0], // TODO: Get coordinates from geocoding
+          address: {
+            formatted: location.trim() || 'Unknown',
+            city: location.trim() || 'Unknown',
+            country: 'Unknown'
+          }
+        },
+        tags: selectedTags,
+        visibility: 'public'
+      };
+
+      // Call API to create story
+      const response = await apiService.createStory(storyData);
+
+      if (response.error) {
+        let errorMessage = response.error;
+        
+        // Parse validation errors if available
+        if (response.error.includes('Validation failed')) {
+          errorMessage = 'Please check your story:\n' +
+            '• Title must be 5-200 characters\n' +
+            '• Content must be 50-5000 characters\n' +
+            '• Location is required';
+        }
+        
+        throw new Error(errorMessage);
+      }
+
+      setShowSuccess(true);
+      
+      // Reset form after success
+      setTimeout(() => {
+        setShowSuccess(false);
+        setTitle('');
+        setContent('');
+        setLocation('');
+        setSelectedMood('');
+        setSelectedTags([]);
+        setUploadedFiles([]);
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting story:', error);
+      alert(`Error submitting story: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const formVariants = {

@@ -30,6 +30,13 @@ const getApiBaseUrl = () => {
 
 const API_BASE_URL = getApiBaseUrl();
 
+export interface Tag {
+  _id: string;
+  name: string;
+  displayName: string;
+  color?: string;
+}
+
 export interface Story {
   _id: string;
   title: string;
@@ -71,7 +78,7 @@ export interface Story {
       country: string;
     };
   };
-  tags: string[];
+  tags: (string | Tag)[];  // Support both string tags and populated tag objects
   status: string;
   visibility: string;
   swapSettings: {
@@ -370,6 +377,12 @@ class ApiService {
     return this.request('/stories', {
       method: 'POST',
       body: JSON.stringify(storyData),
+    });
+  }
+
+  async publishStory(storyId: string): Promise<ApiResponse<Story>> {
+    return this.request(`/stories/${storyId}/publish`, {
+      method: 'POST',
     });
   }
 

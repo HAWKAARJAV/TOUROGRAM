@@ -51,10 +51,28 @@ const FloatingChatBubble: React.FC = () => {
             timestamp: response.timestamp
           };
           setMessages(prev => [...prev, aiMessage]);
+        } else {
+          // Fallback message if no response
+          const fallbackMessage: ChatMessage = {
+            id: `fallback-${Date.now()}`,
+            content: "I'm here to help you plan your travels! Tell me about your dream destination.",
+            sender: 'ai',
+            timestamp: new Date().toISOString()
+          };
+          setMessages(prev => [...prev, fallbackMessage]);
         }
         setIsTyping(false);
       }, 1000);
     } catch (error) {
+      console.error('[FloatingChatBubble] Send message error:', error);
+      // Add error message to chat
+      const errorMessage: ChatMessage = {
+        id: `error-${Date.now()}`,
+        content: "Sorry, I'm having trouble connecting right now. Please try again later.",
+        sender: 'ai',
+        timestamp: new Date().toISOString()
+      };
+      setMessages(prev => [...prev, errorMessage]);
       setIsTyping(false);
     }
   };

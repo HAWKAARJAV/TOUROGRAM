@@ -81,11 +81,15 @@ const StoryDetailDialog = ({ story, isOpen, onClose }: StoryDetailDialogProps) =
         <div className="space-y-6">
           {/* Tags */}
           <div className="flex flex-wrap gap-2">
-            {story.tags.length > 0 ? story.tags.map((tag) => (
-              <Badge key={tag} variant="outline">
-                {tag}
-              </Badge>
-            )) : (
+            {story.tags.length > 0 ? story.tags.map((tag, index) => {
+              const tagText = typeof tag === 'string' ? tag : (tag.displayName || tag.name || '');
+              const tagKey = typeof tag === 'string' ? tag : tag._id;
+              return (
+                <Badge key={tagKey || index} variant="outline">
+                  {tagText}
+                </Badge>
+              );
+            }) : (
               <Badge variant="outline" className="opacity-50">
                 No tags
               </Badge>

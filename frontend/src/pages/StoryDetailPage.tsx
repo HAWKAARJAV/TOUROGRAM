@@ -496,21 +496,25 @@ The descent was bittersweet. While my legs welcomed the thicker air and easier b
             >
               <h3 className="text-xl font-semibold text-white mb-4">Tags</h3>
               <div className="flex flex-wrap gap-3">
-                {story.tags.map((tag, index) => (
-                  <motion.div
-                    key={tag}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Badge
-                      variant="secondary"
-                      className="bg-white/10 text-white border-white/20 hover:bg-white/20 transition-colors px-4 py-2 text-sm"
+                {story.tags.map((tag, index) => {
+                  const tagText = typeof tag === 'string' ? tag : (tag.displayName || tag.name || '');
+                  const tagKey = typeof tag === 'string' ? tag : tag._id;
+                  return (
+                    <motion.div
+                      key={tagKey || index}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.1 }}
                     >
-                      {tag}
-                    </Badge>
-                  </motion.div>
-                ))}
+                      <Badge
+                        variant="secondary"
+                        className="bg-white/10 text-white border-white/20 hover:bg-white/20 transition-colors px-4 py-2 text-sm"
+                      >
+                        {tagText}
+                      </Badge>
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
 

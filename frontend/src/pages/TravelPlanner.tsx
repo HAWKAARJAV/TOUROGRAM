@@ -53,11 +53,19 @@ const TravelPlanner = () => {
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
-    // Initialize AgentX service
+    // Initialize AgentX service with error handling
     const initializeAgentX = async () => {
-      const apiKey = import.meta.env.VITE_AGENTX_KEY || '68e364e6585958bf1781cff5dizVVs46LfZvd8oe11yUvw==|yFrngg+/wvLgTbN7EDiZgHOJcAQ7oWeq4BGxNb4HVug=';
-      await agentXService.initialize(apiKey);
-      setAgentXReady(agentXService.isReady());
+      try {
+        const apiKey = import.meta.env.VITE_AGENTX_KEY;
+        if (apiKey) {
+          await agentXService.initialize(apiKey);
+          setAgentXReady(agentXService.isReady());
+        } else {
+          console.warn('[TravelPlanner] AgentX API key not configured');
+        }
+      } catch (error) {
+        console.error('[TravelPlanner] Failed to initialize AgentX:', error);
+      }
     };
 
     initializeAgentX();

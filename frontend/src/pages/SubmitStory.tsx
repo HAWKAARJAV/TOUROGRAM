@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Camera, Mic, Type, Tag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { apiService } from "@/lib/api";
 
 const SubmitStory = () => {
   const [formData, setFormData] = useState({
@@ -48,15 +49,62 @@ const SubmitStory = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate submission
-    setTimeout(() => {
+    try {
+      // Prepare story data
+      const storyData = {
+        title: formData.title.trim(),
+        content: {
+          type: 'text',
+          text: formData.content.trim(),
+          media: []
+        },
+        location: {
+          coordinates: [0, 0], // TODO: Get coordinates from geocoding
+          address: {
+            formatted: formData.location.trim() || 'Unknown',
+            city: formData.location.trim() || 'Unknown',
+            country: 'Unknown'
+          }
+        },
+        tags: formData.tags,
+        visibility: 'public'
+      };
+
+      // Call API to create story
+      const response = await apiService.createStory(storyData);
+
+      if (response.error) {
+        // Check if it's a validation error with details
+        // The API returns the full error in response.error string
+        // Try to extract validation details
+        let errorMessage = response.error;
+        
+        // Parse validation errors if available
+        if (response.error.includes('Validation failed')) {
+          errorMessage = 'Please check your story:\n' +
+            '• Title must be 5-200 characters\n' +
+            '• Content must be 50-5000 characters\n' +
+            '• Location is required';
+        }
+        
+        throw new Error(errorMessage);
+      }
+
       toast({
-        title: "Story submitted successfully!",
-        description: "Your story has been added to the community.",
+        title: "Story published successfully!",
+        description: "Your story is now live and visible to everyone!",
       });
-      navigate("/explore");
+      navigate("/my-stories");
+    } catch (error) {
+      console.error('Error submitting story:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : 'Failed to submit story',
+        variant: "destructive"
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -95,6 +143,9 @@ const SubmitStory = () => {
                   onChange={(e) => updateFormData("title", e.target.value)}
                   required
                 />
+                <p className="text-sm text-muted-foreground">
+                  {formData.title.length}/200 characters (minimum 5 required)
+                </p>
               </div>
 
               {/* Location */}
@@ -128,7 +179,7 @@ const SubmitStory = () => {
                   required
                 />
                 <p className="text-sm text-muted-foreground">
-                  {formData.content.length}/1000 characters. Aim for 200-500 words for the best engagement.
+                  {formData.content.length}/5000 characters. Minimum 50 characters required (aim for 200-500 for best engagement).
                 </p>
               </div>
 
@@ -224,7 +275,7 @@ const SubmitStory = () => {
                 <Button 
                   type="submit" 
                   className="flex-1 btn-glow" 
-                  disabled={isSubmitting || !formData.title || !formData.content || !formData.location}
+                  disabled={isSubmitting || formData.title.length < 5 || formData.content.length < 50 || !formData.location}
                 >
                   {isSubmitting ? "Publishing Story..." : "Publish Story"}
                 </Button>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Trash2, Eye, Heart, MessageCircle, MapPin } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Heart, MessageCircle, MapPin, Upload } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import StoryDetailDialog from "@/components/StoryDetailDialog";
@@ -31,7 +31,7 @@ const MyStories = () => {
       setLoading(true);
       setError(null);
       const response = await apiService.getMyStories();
-      
+
       if (response.error) {
         setError(response.error);
       } else if (response.data) {
@@ -44,20 +44,20 @@ const MyStories = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
 
     if (user) {
       fetchMyStories();
     }
-    
+
     // Refetch when page becomes visible again
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible' && user) {
         fetchMyStories();
       }
     };
-    
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [user]);
@@ -90,6 +90,38 @@ const MyStories = () => {
     }
   };
 
+  const handlePublishStory = async (story: Story) => {
+    try {
+      const response = await apiService.publishStory(story._id);
+
+      if (response.error) {
+        throw new Error(response.error);
+      }
+
+      // Update the story in the list
+      setStories(stories.map(s =>
+        s._id === story._id ? { ...s, status: 'published', publishedAt: new Date().toISOString() } : s
+      ));
+
+      toast({
+        title: "Story Published",
+        description: `"${story.title}" is now live!`,
+      });
+
+      // Refetch from API after a moment to ensure consistency
+      setTimeout(() => {
+        fetchMyStories();
+      }, 500);
+    } catch (error) {
+      console.error('Error publishing story:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : 'Failed to publish story',
+        variant: "destructive"
+      });
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "published":
@@ -116,8 +148,8 @@ const MyStories = () => {
               </p>
             </div>
             <div className="flex gap-3">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 variant="outline"
                 className="border-white/30 text-white hover:bg-white/20 hover:text-white"
                 onClick={() => fetchMyStories()}
@@ -126,8 +158,8 @@ const MyStories = () => {
                 <Eye className="mr-2 h-5 w-5" />
                 {loading ? 'Refreshing...' : 'Refresh'}
               </Button>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-white text-primary hover:bg-white/90"
                 onClick={() => navigate('/submit')}
               >
@@ -153,7 +185,7 @@ const MyStories = () => {
           <Card>
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-orange-500 mb-2">
-                {stories.reduce((sum, story) => sum + story.engagement.likes, 0)}
+                {stories.reduce((sum, story) => sum + (story.engagement?.likes || 0), 0)}
               </div>
               <div className="text-sm text-muted-foreground">Total Likes</div>
             </CardContent>
@@ -161,7 +193,7 @@ const MyStories = () => {
           <Card>
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-blue-500 mb-2">
-                {stories.reduce((sum, story) => sum + story.engagement.views, 0)}
+                {stories.reduce((sum, story) => sum + (story.engagement?.views || 0), 0)}
               </div>
               <div className="text-sm text-muted-foreground">Total Views</div>
             </CardContent>
@@ -213,23 +245,34 @@ const MyStories = () => {
                     </Badge>
                   </div>
                 </div>
-                
+
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-lg line-clamp-2">{story.title}</CardTitle>
                     <div className="flex space-x-2 ml-2">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
+                      {story.status === "draft" && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="p-1 text-green-600 hover:text-green-700"
+                          onClick={() => handlePublishStory(story)}
+                          title="Publish story"
+                        >
+                          <Upload className="h-4 w-4" />
+                        </Button>
+                      )}
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         className="p-1"
                         onClick={() => handleEditStory(story)}
                         title="Edit story"
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         className="p-1 text-destructive hover:text-destructive"
                         onClick={() => handleDeleteStory(story)}
                         title="Delete story"
@@ -239,15 +282,15 @@ const MyStories = () => {
                     </div>
                   </div>
                   <CardDescription className="line-clamp-3">
-                    {story.content.snippet || story.content.text.body.substring(0, 150) + '...'}
+                    {story.content?.snippet || story.content?.text?.body?.substring(0, 150) + '...' || 'No description available'}
                   </CardDescription>
                 </CardHeader>
-                
+
                 <CardContent>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center text-sm text-muted-foreground">
                       <MapPin className="h-3 w-3 mr-1" />
-                      {story.location.address.city}, {story.location.address.state}
+                      {story.location?.address?.city || 'Unknown City'}, {story.location?.address?.state || ''}
                     </div>
                     <span className="text-xs text-muted-foreground">
                       {new Date(story.createdAt).toLocaleDateString()}
@@ -255,35 +298,40 @@ const MyStories = () => {
                   </div>
 
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {story.tags.length > 0 ? story.tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    )) : (
+                    {story.tags?.length > 0 ? story.tags.map((tag) => {
+                      // Handle both string tags and populated tag objects
+                      const tagText = typeof tag === 'string' ? tag : (tag.displayName || tag.name || 'Tag');
+                      const tagKey = typeof tag === 'string' ? tag : tag._id;
+                      return (
+                        <Badge key={tagKey} variant="outline" className="text-xs">
+                          {tagText}
+                        </Badge>
+                      );
+                    }) : (
                       <Badge variant="outline" className="text-xs opacity-50">
                         No tags
                       </Badge>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex space-x-4 text-sm text-muted-foreground">
                       <span className="flex items-center">
                         <Heart className="h-4 w-4 mr-1" />
-                        {story.engagement.likes}
+                        {story.engagement?.likes || 0}
                       </span>
                       <span className="flex items-center">
                         <MessageCircle className="h-4 w-4 mr-1" />
-                        {story.engagement.comments}
+                        {story.engagement?.comments || 0}
                       </span>
                       <span className="flex items-center">
                         <Eye className="h-4 w-4 mr-1" />
-                        {story.engagement.views}
+                        {story.engagement?.views || 0}
                       </span>
                     </div>
-                    
-                    <Button 
-                      size="sm" 
+
+                    <Button
+                      size="sm"
                       variant="outline"
                       onClick={() => handleViewStory(story)}
                     >
@@ -304,7 +352,7 @@ const MyStories = () => {
               <Plus className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <h3 className="text-xl font-semibold mb-2">No stories yet</h3>
               <p>
-                {user?.displayName === 'John Doe' || user?.displayName === 'New User' 
+                {user?.displayName === 'John Doe' || user?.displayName === 'New User'
                   ? 'You haven\'t uploaded any stories yet. Start sharing your adventures!'
                   : `${user?.displayName || 'You'} haven't uploaded any stories to this account yet.`
                 }

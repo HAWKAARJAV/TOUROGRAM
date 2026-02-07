@@ -5,6 +5,7 @@ import { MapPin, Heart, MessageCircle, Star, Sparkles, Map, BookOpen } from "luc
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { handleImageError, avatarPlaceholder } from "@/utils/imageUtils";
+import { getTagText, getTagKey, TagType } from "@/utils/tagUtils";
 
 interface StoryCardProps {
   story: {
@@ -17,7 +18,7 @@ interface StoryCardProps {
       avatar?: string;
       badge?: string;
     };
-    tags: string[];
+    tags: TagType[]; // Support both string and Tag object
     likes: number;
     comments: number;
     isLocked: boolean;
@@ -230,7 +231,7 @@ const StoryCard = ({
         >
           {story.tags.map((tag, index) => (
             <motion.div
-              key={index}
+              key={getTagKey(tag, index)}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 + index * 0.1 }}
@@ -239,7 +240,7 @@ const StoryCard = ({
                 variant="secondary" 
                 className="text-xs bg-white/10 text-white border-white/20 hover:bg-white/20 transition-colors duration-200"
               >
-                {tag}
+                {getTagText(tag)}
               </Badge>
             </motion.div>
           ))}

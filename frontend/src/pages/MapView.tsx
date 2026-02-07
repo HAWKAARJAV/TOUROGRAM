@@ -207,11 +207,15 @@ const MapView = () => {
                   </p>
                   
                   <div className="flex flex-wrap gap-1 mb-3">
-                    {story.tags.slice(0, 2).map(tag => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
+                    {story.tags.slice(0, 2).map((tag, index) => {
+                      const tagText = typeof tag === 'string' ? tag : (tag.displayName || tag.name || '');
+                      const tagKey = typeof tag === 'string' ? tag : tag._id;
+                      return (
+                        <Badge key={tagKey || index} variant="outline" className="text-xs">
+                          {tagText}
+                        </Badge>
+                      );
+                    })}
                     {story.tags.length > 2 && (
                       <Badge variant="outline" className="text-xs">
                         +{story.tags.length - 2}
@@ -262,11 +266,15 @@ const MapView = () => {
               <CardContent>
                 <p className="text-muted-foreground mb-4">{selectedStory.excerpt}</p>
                 <div className="flex flex-wrap gap-2">
-                  {selectedStory.tags.map(tag => (
-                    <Badge key={tag} variant="outline">
-                      {tag}
-                    </Badge>
-                  ))}
+                  {selectedStory.tags.map((tag, index) => {
+                    const tagText = typeof tag === 'string' ? tag : (tag.displayName || tag.name || '');
+                    const tagKey = typeof tag === 'string' ? tag : tag._id;
+                    return (
+                      <Badge key={tagKey || index} variant="outline">
+                        {tagText}
+                      </Badge>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>

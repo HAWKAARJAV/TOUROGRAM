@@ -109,42 +109,58 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   
   const navigate = useNavigate();
 
-  // Load mood state from localStorage
+  // Load mood state from localStorage with error handling
   React.useEffect(() => {
-    const savedMood = localStorage.getItem('userMood');
-    const savedPlan = localStorage.getItem('recentTripPlan');
-    const savedMoodHistory = localStorage.getItem('moodHistory');
-    
-    if (savedMood) setUserMood(savedMood);
-    if (savedPlan) {
-      try {
-        setRecentTripPlan(JSON.parse(savedPlan));
-      } catch (e) {
-        console.error('Failed to parse saved trip plan', e);
+    try {
+      const savedMood = localStorage.getItem('userMood');
+      const savedPlan = localStorage.getItem('recentTripPlan');
+      const savedMoodHistory = localStorage.getItem('moodHistory');
+      
+      if (savedMood) setUserMood(savedMood);
+      if (savedPlan) {
+        try {
+          setRecentTripPlan(JSON.parse(savedPlan));
+        } catch (e) {
+          console.error('[AuthContext] Failed to parse saved trip plan', e);
+        }
       }
-    }
-    if (savedMoodHistory) {
-      try {
-        setMoodHistory(JSON.parse(savedMoodHistory));
-      } catch (e) {
-        console.error('Failed to parse mood history', e);
+      if (savedMoodHistory) {
+        try {
+          setMoodHistory(JSON.parse(savedMoodHistory));
+        } catch (e) {
+          console.error('[AuthContext] Failed to parse mood history', e);
+        }
       }
+    } catch (error) {
+      console.error('[AuthContext] localStorage access failed:', error);
     }
   }, []);
 
-  // Save mood state to localStorage
+  // Save mood state to localStorage with error handling
   React.useEffect(() => {
-    localStorage.setItem('userMood', userMood);
+    try {
+      localStorage.setItem('userMood', userMood);
+    } catch (error) {
+      console.error('[AuthContext] Failed to save userMood to localStorage:', error);
+    }
   }, [userMood]);
 
   React.useEffect(() => {
-    if (recentTripPlan) {
-      localStorage.setItem('recentTripPlan', JSON.stringify(recentTripPlan));
+    try {
+      if (recentTripPlan) {
+        localStorage.setItem('recentTripPlan', JSON.stringify(recentTripPlan));
+      }
+    } catch (error) {
+      console.error('[AuthContext] Failed to save recentTripPlan to localStorage:', error);
     }
   }, [recentTripPlan]);
 
   React.useEffect(() => {
-    localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+    try {
+      localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+    } catch (error) {
+      console.error('[AuthContext] Failed to save moodHistory to localStorage:', error);
+    }
   }, [moodHistory]);
 
   // Function to add mood to history
@@ -158,30 +174,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUserMood(emotion);
   };
 
-  // Check for existing session on component mount
+  // Check for existing session on component mount with error handling
   React.useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    const userEmail = localStorage.getItem('currentUserEmail');
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    
-    if (token && userEmail && isLoggedIn === 'true') {
-      // Try to find existing user first
-      const existingUser = dummyUsers[userEmail];
+    try {
+      const token = localStorage.getItem('authToken');
+      const userEmail = localStorage.getItem('currentUserEmail');
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
       
-      if (existingUser) {
-        setUser(existingUser);
-      } else {
-        // Restore new user session
-        const newUser = {
-          ...defaultNewUser,
-          email: userEmail,
-          displayName: userEmail.split('@')[0].charAt(0).toUpperCase() + userEmail.split('@')[0].slice(1),
-          username: userEmail.split('@')[0]
-        };
-        setUser(newUser);
+      if (token && userEmail && isLoggedIn === 'true') {
+        // Try to find existing user first
+        const existingUser = dummyUsers[userEmail];
+        
+        if (existingUser) {
+          setUser(existingUser);
+        } else {
+          // Restore new user session
+          const newUser = {
+            ...defaultNewUser,
+            email: userEmail,
+            displayName: userEmail.split('@')[0].charAt(0).toUpperCase() + userEmail.split('@')[0].slice(1),
+            username: userEmail.split('@')[0]
+          };
+          setUser(newUser);
+        }
+        
+        setIsAuthenticated(true);
       }
-      
-      setIsAuthenticated(true);
+    } catch (error) {
+      console.error('[AuthContext] Failed to check existing session:', error);
     }
   }, []);
 

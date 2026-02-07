@@ -24,7 +24,8 @@ import { useAuth } from '../contexts/AuthContext';
 const Navigation: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, setShowLogoutConfirmation } = useAuth();
+  const auth = useAuth();
+  const { user, setShowLogoutConfirmation } = auth || {};
   const isSignedIn = !!user;
 
   // State management
@@ -246,7 +247,6 @@ const Navigation: React.FC = () => {
             >
               <div className="relative p-2 bg-blue-600 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
                 <MapPin className="h-5 w-5 text-white" />
-                <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               </div>
               <span className="text-lg font-bold text-white group-hover:scale-105 transition-transform duration-300 hidden sm:block">
                 LocaleLens

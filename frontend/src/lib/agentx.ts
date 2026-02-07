@@ -23,8 +23,10 @@ export class AgentXService {
       this.apiKey = apiKey || AGENTX_CONFIG.widgetKey;
       if (!this.apiKey) {
         console.warn('[AgentX] No widget key provided (VITE_AGENTX_KEY). Running in fallback mode.');
+        this.isInitialized = true; // Mark as initialized even in fallback mode
+        return true;
       }
-
+      
       if (!document.getElementById('chatBubbleRoot')) {
         const div = document.createElement('div');
         div.setAttribute('id', 'chatBubbleRoot');
@@ -35,12 +37,13 @@ export class AgentXService {
         (window as any).agx = this.apiKey;
         await this.loadAgentXScript();
       }
-
+      
       this.isInitialized = true;
       return true;
     } catch (error) {
-      console.error('Failed to initialize AgentX:', error);
-      return false;
+      console.error('[AgentX] Failed to initialize:', error);
+      this.isInitialized = true; // Still mark as initialized to prevent blocking
+      return true;
     }
   }
 
