@@ -62,7 +62,26 @@ locationSchema.methods.updateStats = function (inc = 1) {
 
 locationSchema.statics.findOrCreate = async function (data) {
   const { coordinates, address } = data;
-  let existing = await this.findOne({
+  const lng = coordinates?.coordinates?.[0];
+  const lat = coordinates?.coordinates?.[1];
+
+  if (lng === 0 && lat === 0) {
+    const formatted = (address?.formatted || '').trim();
+    const city = (address?.city || '').trim();
+    const country = (address?.country || '').trim();
+    if (formatted || city || country) {
+      const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const existingByAddress = await this.findOne({
+        'address.formatted': new RegExp(`^${escapeRegex(formatted)}$`, 'i'),
+        'address.city': new RegExp(`^${escapeRegex(city)}$`, 'i'),
+        'address.country': new RegExp(`^${escapeRegex(country)}$`, 'i')
+      });
+      if (existingByAddress) return existingByAddress;
+    }
+    return this.create(data);
+  }
+
+  const existing = await this.findOne({
     coordinates: {
       $near: { $geometry: { type: 'Point', coordinates: coordinates.coordinates }, $maxDistance: 50 }
     }
