@@ -9,6 +9,7 @@
   VITE_API_URL = "https://tourogram-tdp7.onrender.com"
   VITE_MAPTILER_API_KEY = "NSO8JuqWXOqh8UZs5tpY"
   VITE_CLERK_PUBLISHABLE_KEY = "pk_test_c2V0dGxpbmctZ29waGVyLTUyLmNsZXJrLmFjY291bnRzLmRldiQ"
+  VITE_AGENTX_KEY = "68e364e6585958bf1781cff5dizVVs46LfZvd8oe11yUvw==|yFrngg+/wvLgTbN7EDiZgHOJcAQ7oWeq4BGxNb4HVug="
 
 [[redirects]]
   from = "/*"
