@@ -162,6 +162,43 @@ const optionalAuth = async (req, res, next) => {
       return next();
     }
 
+    // Handle development dummy tokens (format: token-{userId})
+    if (token.startsWith('token-')) {
+      const userId = token.substring(6);
+      try {
+        const user = await User.findById(userId).select('-password');
+        if (user && user.flags?.isActive !== false && !user.flags?.isBanned && !user.isLocked) {
+          req.user = user;
+          req.token = { raw: token, decoded: { id: userId } };
+          return next();
+        }
+      } catch (err) {
+        logger.warn('Optional auth dummy token lookup failed:', { userId, error: err.message });
+      }
+
+      // Create a fallback dummy user if missing
+      const dummyUser = new User({
+        _id: userId,
+        username: `user_${userId.substring(0, 8)}`,
+        displayName: `User ${userId.substring(0, 8)}`,
+        email: `user_${userId.substring(0, 8)}@example.com`,
+        password: 'dummy',
+        flags: { isActive: true, isBanned: false },
+        isLocked: false
+      });
+      try {
+        await dummyUser.save();
+        req.user = dummyUser;
+        req.token = { raw: token, decoded: { id: userId } };
+        return next();
+      } catch (saveErr) {
+        logger.error('Optional auth failed to create dummy user:', saveErr);
+      }
+
+      req.user = null;
+      return next();
+    }
+
     // Try to verify token and get user
     const decoded = jwtService.verifyAccessToken(token);
     const user = await User.findById(decoded.id).select('-password');
