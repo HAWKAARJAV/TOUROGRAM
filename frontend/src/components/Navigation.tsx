@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin,
   User,
@@ -228,14 +227,8 @@ const Navigation: React.FC = () => {
       <nav className="fixed top-0 left-0 right-0 z-[9000]">
         {/* Dynamic Island Container */}
         <div
-          className={`dynamic-island-complete transition-all duration-500 ease-in-out ${isExpanded ? 'expanded' : 'collapsed'
-            }`}
+          className={`dynamic-island-complete transition-all duration-500 ease-in-out expanded`}
           style={{ overflow: 'visible' }}
-          onMouseEnter={() => setIsExpanded(true)}
-          onMouseLeave={() => {
-            setIsExpanded(false);
-            setHoveredItem(null);
-          }}
         >
           {/* Core Island Content */}
           <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
@@ -254,8 +247,7 @@ const Navigation: React.FC = () => {
             </Link>
 
             {/* Navigation Items */}
-            <div className={`flex items-center space-x-1 transition-all duration-500 ${isExpanded ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
-              }`}>
+            <div className="flex items-center space-x-1 opacity-100 scale-100">
 
               {/* Core Navigation */}
               <div className="flex items-center space-x-1">
