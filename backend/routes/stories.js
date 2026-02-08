@@ -129,8 +129,13 @@ router.post('/', authenticate, [
     .isArray({ min: 2, max: 2 })
     .withMessage('Location coordinates must be [longitude, latitude]'),
   body('location.address')
-    .notEmpty()
-    .withMessage('Location address is required'),
+    .custom((value) => {
+      // Accept both string and object formats
+      if (typeof value === 'string' && value.trim().length > 0) return true;
+      if (typeof value === 'object' && value.formatted && value.formatted.trim().length > 0) return true;
+      return false;
+    })
+    .withMessage('Location address is required (must be a string or object with formatted field)'),
   body('tags')
     .optional()
     .isArray({ max: 5 })
