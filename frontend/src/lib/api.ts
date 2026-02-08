@@ -231,13 +231,27 @@ class ApiService {
       });
 
       if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error('Unauthorized (401) – login required or token invalid');
+        let errorMessage = `HTTP error! status: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          if (errorData.error?.message) {
+            errorMessage = errorData.error.message;
+          } else if (errorData.message) {
+            errorMessage = errorData.message;
+          } else if (typeof errorData.error === 'string') {
+            errorMessage = errorData.error;
+          }
+          if (errorData.error?.details?.errors) {
+            const validationErrors = errorData.error.details.errors
+              .map((e: { msg: string; path: string }) => `${e.path}: ${e.msg}`)
+              .join(', ');
+            errorMessage = `Validation failed: ${validationErrors}`;
+          }
+        } catch {
+          if (response.status === 401) errorMessage = 'Login required';
+          else if (response.status === 403) errorMessage = 'Permission denied';
         }
-        if (response.status === 403) {
-          throw new Error('Forbidden (403) – insufficient permissions');
-        }
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();

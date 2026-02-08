@@ -123,8 +123,8 @@ router.post('/', authenticate, [
     .withMessage('Invalid content type'),
   body('content.text')
     .optional()
-    .isLength({ min: 50, max: 5000 })
-    .withMessage('Text content must be between 50 and 5000 characters'),
+    .isLength({ min: 20, max: 5000 })
+    .withMessage('Text content must be between 20 and 5000 characters'),
   body('location.coordinates')
     .isArray({ min: 2, max: 2 })
     .withMessage('Location coordinates must be [longitude, latitude]'),

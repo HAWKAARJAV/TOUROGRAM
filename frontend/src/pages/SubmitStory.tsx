@@ -103,6 +103,7 @@ const SubmitStory = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Submit clicked - starting publish...');
     setIsSubmitting(true);
 
     try {
@@ -134,8 +135,10 @@ const SubmitStory = () => {
         visibility: 'public'
       };
 
+      console.log('Sending story data:', storyData);
       // Call API to create story
       const response = await apiService.createStory(storyData);
+      console.log('API response:', response);
 
       if (response.error) {
         let errorMessage = response.error;
@@ -240,7 +243,7 @@ const SubmitStory = () => {
                   required
                 />
                 <p className="text-sm text-muted-foreground">
-                  {formData.content.length}/5000 characters. Minimum 50 characters required (aim for 200-500 for best engagement).
+                  {formData.content.length}/5000 characters. Minimum 20 characters required.
                 </p>
               </div>
 
@@ -367,21 +370,27 @@ const SubmitStory = () => {
               </Card>
 
               {/* Submit */}
-              <div className="flex gap-4">
-                <Button 
-                  type="submit" 
-                  className="flex-1 btn-glow" 
-                  disabled={isSubmitting || formData.title.length < 5 || formData.content.length < 50 || !formData.location}
-                >
-                  {isSubmitting ? "Publishing Story..." : "Publish Story"}
-                </Button>
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={() => navigate("/explore")}
-                >
-                  Cancel
-                </Button>
+              <div className="space-y-2">
+                {/* Debug info - shows why button might be disabled */}
+                <p className="text-xs text-muted-foreground">
+                  Title: {formData.title.length}/5 chars | Content: {formData.content.length}/20 chars | Location: {formData.location ? '✓' : '✗'}
+                </p>
+                <div className="flex gap-4">
+                  <Button 
+                    type="submit" 
+                    className="flex-1 btn-glow" 
+                    disabled={isSubmitting || formData.title.length < 5 || formData.content.length < 20 || !formData.location}
+                  >
+                    {isSubmitting ? "Publishing Story..." : "Publish Story"}
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={() => navigate("/explore")}
+                  >
+                    Cancel
+                  </Button>
+                </div>
               </div>
             </form>
           </CardContent>
