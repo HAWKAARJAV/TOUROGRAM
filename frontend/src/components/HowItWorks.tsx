@@ -42,7 +42,7 @@ const HowItWorks = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            How StorySwap Works
+            How LocaleLens Works
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Three simple steps to connect with travelers worldwide and discover amazing stories

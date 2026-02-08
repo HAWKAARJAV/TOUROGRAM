@@ -113,7 +113,7 @@ const Index = () => {
             {/* Brand */}
             <div className="col-span-1 md:col-span-2">
               <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-white to-primary bg-clip-text text-transparent">
-                StorySwap
+                LocaleLens
               </h3>
               <p className="text-white/60 mb-6 max-w-md">
                 Connecting travelers through authentic stories and AI-powered trip planning.
@@ -150,9 +150,9 @@ const Index = () => {
           {/* Bottom Bar */}
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-white/60 text-sm flex items-center gap-2">
-              Made with <Heart className="w-4 h-4 text-red-500 fill-current" /> by the StorySwap Team
+              Made with <Heart className="w-4 h-4 text-red-500 fill-current" /> by the LocaleLens Team
             </p>
-            <p className="text-white/40 text-sm">© 2026 StorySwap. All rights reserved.</p>
+            <p className="text-white/40 text-sm">© 2026 LocaleLens. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -73,7 +73,7 @@ const ContactUs = () => {
             </div>
             <h3 className="text-xl font-bold mb-2">Email Us</h3>
             <p className="text-gray-600 mb-4">Our team typically responds within 24 hours</p>
-            <a href="mailto:hello@storyswap.com" className="text-primary hover:text-primary-glow font-semibold">
+            <a href="mailto:hello@localelens.com" className="text-primary hover:text-primary-glow font-semibold">
               hello@localelens.com
             </a>
           </motion.div>
