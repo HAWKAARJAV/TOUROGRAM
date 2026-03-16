@@ -296,8 +296,24 @@ const getStories = asyncHandler(async (req, res) => {
     const pages = Math.ceil(total / parseInt(limit));
 
     // Process stories for response (check if unlocked for current user)
-    const processedStories = await Promise.all(stories.map(async (story) => {
-      const isUnlocked = await checkStoryUnlocked(story._id, req.user?._id);
+    // Optimization: single batch Swap query instead of N+1 per-story queries
+    let unlockedStoryIds = new Set();
+    if (req.user?._id && stories.length > 0) {
+      const storyIds = stories.map(s => s._id);
+      const completedSwaps = await Swap.find({
+        user: req.user._id,
+        storyToUnlock: { $in: storyIds },
+        status: 'completed'
+      }).select('storyToUnlock').lean();
+      unlockedStoryIds = new Set(completedSwaps.map(s => s.storyToUnlock.toString()));
+    }
+
+    const processedStories = stories.map((story) => {
+      const isAuthor = req.user && story.author?._id?.toString() === req.user._id.toString();
+      const noSwapRequired = !story.swapSettings?.requiresSwap || !story.swapSettings?.isLocked;
+      const isUnlocked = !req.user
+        ? false
+        : isAuthor || noSwapRequired || unlockedStoryIds.has(story._id.toString());
 
       return {
         ...story,
@@ -308,7 +324,7 @@ const getStories = asyncHandler(async (req, res) => {
           media: undefined // Hide media if locked
         }
       };
-    }));
+    });
 
     res.json({
       stories: processedStories,
@@ -712,11 +728,14 @@ const publishStory = asyncHandler(async (req, res) => {
 });
 
 /**
- * Helper function to check if story is unlocked for user
+ * Helper function to check if a single story is unlocked for a user.
+ * Accepts the already-fetched story object to avoid redundant DB lookups.
+ * Used by single-story endpoints (e.g. getStoryById).
  */
 async function checkStoryUnlocked(storyId, userId) {
   if (!userId) return false;
 
+  // Fetch the story (only called for single-story endpoints, so 1 query is fine)
   const story = await Story.findById(storyId);
   if (!story) return false;
 
